@@ -1,0 +1,60 @@
+.main-sidebar{
+    position: absolute; 
+    top: 0;
+    left: 0;
+    background-color: $dark-gray;
+    width: $sidebar-width;
+    max-height: 100vh;
+    overflow-y: auto;
+    a{
+        color: #c2c7d0;
+    }
+    .brand-link{
+        display: block;
+        padding: 14px;
+        .brand-text{
+            font-size: 1.29rem;
+        }
+    }
+    .user-panel{
+        padding: 10px 14px;
+        border-top: 1px solid #4f5962;
+        align-items: center;
+        .image{
+            div{
+                &:first-child{
+                    display: block !important;
+                }
+            }
+            .img-circle{
+                border-radius: 50%;
+                width: 35px !important;
+                height: 35px !important;
+                min-width: unset !important;
+                max-width: unset !important;
+                min-height: unset !important;
+                max-height: unset !important;
+            }
+        }
+        .info{
+            padding-left: 5px;
+        }
+    }
+    .nav-aside{
+        margin: 0 10px;
+        border-top: 1px solid #4f5962;
+        .nav-pills{
+            padding-top: 10px;
+        }
+        .nav{
+            .nav-item{
+                padding: 8px 14px;
+            }
+            .nav-header{
+                color: #c2c7d0;
+                font-weight: 500;
+                font-size: .9rem;
+            }
+        }
+    }
+}

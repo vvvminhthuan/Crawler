@@ -1,0 +1,13 @@
+@import './header';
+@import './footer';
+@import './aside';
+@import './chat';
+
+main{
+    min-height: calc(100vh - #{$height-header} - #{$height-footer});
+}
+@include responsive-min-width(768px){
+    header, main, footer{
+        margin-left: $sidebar-width;
+    }
+}

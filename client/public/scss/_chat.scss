@@ -1,0 +1,228 @@
+.chat{
+    position: fixed;
+    bottom: 60px;
+    right: 20px;
+    .content-horizontal{
+        .item-message{
+            position: relative;
+            width: 55px;
+            height: 55px;
+            margin-top: 10px;
+            
+            .action-close{
+                display: none;
+            }
+            &:hover{
+                .action-close{
+                    position: absolute;
+                    top: -10px;
+                    right: 0;
+                    display: flex;
+                    width: 16px;
+                    height: 16px;
+                    background-color: #e3e3e3;
+                    border-radius: 50%;
+                    .bi-x{
+                        margin: auto;
+                    }
+                }
+            }
+            
+            .count{
+                position: absolute;
+                bottom: 10px;
+                right: -10px;
+                display: block;
+                width: 16px;
+                height: 16px;
+                border-radius: 30%;
+                background-color: $orange_red;
+                color: #fff;
+                font-size: 12px;
+                line-height: 1.35;
+                text-align: center;
+                z-index: 1;
+            }
+            .img-circle{
+                border-radius: 50%;
+                width: 55px !important;
+                height: 55px !important;
+                min-width: unset !important;
+                max-width: unset !important;
+                min-height: unset !important;
+                max-height: unset !important;
+            }
+        }
+        .new-action{
+            display: flex;
+            margin: 10px 0;
+            background-color: #e3e3e3;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            svg{
+                margin: auto;
+            }
+        }
+    }
+    .content-vertical{
+        margin-top: auto;
+        .vertical-item{
+            margin: 0 10px 10px;
+            width: 320px;
+            box-shadow: $color_box_shadow;
+            border-top-right-radius: 5px;
+            border-top-left-radius: 5px;
+            .card-header{
+                background-color: transparent;
+                border-bottom: 1px solid rgba(0,0,0,.125);
+                padding: 12px 6px;
+                position: relative;
+                border-top-left-radius: 4px;
+                border-top-right-radius: 4px;
+                justify-content: space-between;
+                .bg-success{
+                    display: block;
+                    margin: auto;
+                    width: 16px;
+                    height: 16px;
+                    border-radius: 30%;
+                    background-color: $orange_red;
+                    text-align: center;
+                    font-size: 12px;
+                    line-height: 1.35;
+                    color: #fff;
+                }
+                .card-tools{
+                    button{
+                        background-color: unset;
+                        border: unset;
+                        display: flex;
+                        svg{
+                            margin: auto;
+                        }
+                        &:hover{
+                            svg{
+                                color: $orange_red;
+                            }
+                        }
+                    }
+                }
+            }
+            .card-body{
+                padding: 6px 12px;
+                max-height: 290px;
+                overflow-y: auto;
+                .chat-msg{
+                    .chat-infos{
+                        justify-content: space-between;
+                        .chat-name{
+                            font-weight: 600;
+                        }
+                        .chat-timestamp{
+                            font-size: 12px;
+                            line-height: 2;
+                            font-style: italic;;
+                        }
+                    }
+                    .chat-content{
+                        .img-circle{
+                            width: 45px !important;
+                            height: 45px !important;
+                            min-width: unset !important;
+                            max-width: unset !important;
+                            min-height: unset !important;
+                            max-height: unset !important;
+                            border-radius: 50%;
+                            margin: unset !important;
+                            margin-bottom: auto !important;
+                        }
+                        .chat-text{
+                            position: relative;
+                            margin-left: 10px;
+                            padding: 4px 6px;
+                            width: 75%;
+                            background-color: #d2d6de;
+                            border-radius: 5px;
+                            &::before{
+                                position: absolute;
+                                left: -12px;
+                                top: 15px;
+                                content: '';
+                                height: 0;
+                                width: 0;
+                                border: solid transparent;
+                                border-width: 6px;
+                                border-right: 6px solid #d2d6de;
+                            }
+                        }
+                    }
+                    &.right{
+                        .chat-content{
+                            flex-direction: row-reverse;
+                            .img-circle{
+                               
+                            }
+                            .chat-text{
+                                margin-right: 10px;
+                                margin-left: unset;
+                                width: 80%;
+                                background-color: #28a745;
+                                color: #fff;
+                                &::before{
+                                    position: absolute;
+                                    left: unset;
+                                    right: -12px;
+                                    top: 15px;
+                                    content: '';
+                                    height: 0;
+                                    width: 0;
+                                    border: solid transparent;
+                                    border-width: 6px;
+                                    border-left: 6px solid #28a745;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            .card-footer{
+                padding: 12px 8px;
+                background-color: rgba(0,0,0,.03);
+                border-top: 0 solid rgba(0,0,0,.125);
+                .input-group{
+                    width: 100%;
+                    .form-control{
+                        display: block;
+                        width: 100%;
+                        padding: 6px 12px;
+                        font-size: 16px;
+                        font-weight: 400;
+                        line-height: 1.5;
+                        color: #495057;
+                        background-color: #fff;
+                        background-clip: padding-box;
+                        border: 1px solid #ced4da;
+                        border-radius: 4px;
+                        box-shadow: inset 0 0 0 transparent;
+                        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+                        border-top-right-radius: unset;
+                        border-bottom-right-radius: unset;
+                        border-right: unset;
+                    }
+                    .btn-success{
+                        display: flex;
+                        border: unset;
+                        background-color: #28a745;
+                        border-top-right-radius: 10%;
+                        border-bottom-right-radius: 10%;
+                        svg{
+                            margin: auto;
+                            color: #fff;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

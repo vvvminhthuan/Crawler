@@ -1,0 +1,27 @@
+// display
+.flex-r{
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-c{
+    display: flex;
+    flex-direction: column;
+}
+// margin
+.ml-auto{
+    margin-left: auto;
+}
+.mr-auto{
+    margin-right: auto;
+}
+// dropdown
+.dropdown{
+    position: relative;
+    .dropdown-menu{
+        position: absolute;
+    }
+}
+.scroll-y{
+    overflow-y: auto;
+}

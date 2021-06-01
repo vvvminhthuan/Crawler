@@ -1,0 +1,17 @@
+@import './core';
+@import './layout';
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: $font-family;
+    font-size: $font-size-root;
+    font-weight: $font-weight;
+    line-height: $font-line-height;
+    color:$text-color;
+    text-align: left;
+    background-color: #fff;
+    #__next{
+        position: relative;
+    }
+}

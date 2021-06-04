@@ -18,7 +18,7 @@ if (config.MODEL_DEV) {
         key: fs.readFileSync('./ssl/key.pem', 'utf8'),
         cert: fs.readFileSync('./ssl/cert.pem', 'utf8'),
     }
-    server = https.Server(options, app)  
+    server = https.Server(options, app)
 }
 const _io = socket(server, {
     cors: {

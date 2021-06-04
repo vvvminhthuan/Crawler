@@ -7,7 +7,7 @@ const multer = require('multer')
 const upload = multer()
 
 const socket = require('socket.io')
-const SocketEvent = require('./src/socket-event')
+const SocketEvent = require('./src/SocketEvent')
 
 var server = null
 

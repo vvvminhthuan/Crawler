@@ -1,4 +1,4 @@
-const config = require('./src/config')
+const config = require('./src/Config')
 
 const express =  require('express')
 const app =  express()
@@ -49,7 +49,7 @@ app.use(express.static('stores'))
 app.use(bodyParser.json({limit: '1mb'}))
 app.use(bodyParser.urlencoded({ extended: true }))// for parsing application/x-www-form-urlencoded
 app.use(upload.array()) // for parsing multipart/form-data
-app.use('/api', require('./src/routers'))
+app.use('/api', require('./src/Routers'))
 app.use(function (req, res, next) {
     res.io = _io
     

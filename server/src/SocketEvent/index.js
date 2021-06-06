@@ -1,6 +1,6 @@
 "use strict"
 
-const { SOCKET_EVENT } = require('../config');
+const { SOCKET_EVENT } = require('../Config');
 const chats = require('./chats')
 const notifications = require('./notifications')
 

@@ -1,0 +1,71 @@
+.card-login{
+    margin: 200px auto;
+    width: 540px;
+    height: 340px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
+    .card-header{
+        padding: 16px;
+        background-color: #007bff;
+        color: #fff;
+    }
+    form{
+        padding: 0 16px;
+        .card-body{
+            .form-group{
+                padding: 16px 0 0;
+                position: relative;
+                .form-control{
+                    position: relative;
+                    padding: 16px 0 2px 0;
+                    border: none;
+                    border-bottom: 1px solid #e4e4e4;
+                    &:focus{
+                        &+label{
+                            top: 0px;
+                            color: #007bff;
+                        }
+                        border-bottom: 1px solid #007bff;
+                    }
+                    &:valid{
+                        &+label{
+                            top: 0px;
+                            color: #007bff;
+                        }
+                        border-bottom: 1px solid #007bff;
+                    }
+                }
+                label{
+                    position: absolute;
+                    top: 18px;
+                    left: 0;
+                    padding: 8px 0;
+                }
+                .error{
+                    display: none;
+                    font-size: .8rem;
+                    color: $maroon;
+                }
+            }
+        }
+        .card-footer{
+            margin-top: 16px;
+            .btn-sign{
+                margin: auto;
+                width: 100px;
+                padding: 10px;
+                color: #fff;
+                border-radius: 5px;
+                background-color: #007bff;
+                border-color: #007bff;
+                border: 1px solid transparent;
+            }
+            a{
+                display: block;
+                margin: auto;
+                color: #007bff;
+            }
+        }
+    }
+}

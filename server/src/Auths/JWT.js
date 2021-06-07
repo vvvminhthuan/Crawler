@@ -1,27 +1,26 @@
 'user strict'
-const config = require('../Config')
+const { SECRET, EXP, ALG } = require('../Config')
 const jwt = require('jsonwebtoken')
 
 const JWT = () => {
     var options = {
-        algorithm: config.ALG,
-        expiresIn: parseInt(config.EXP),
+        algorithm: ALG,
+        expiresIn: parseInt(EXP),
     }
-    var secret = config.SECRET
     return {
         signCode: (data, exp = 0) =>{
             if (exp > 0) {
-                options.expiresIn = parseInt(config.EXP) * exp
+                options.expiresIn = parseInt(EXP) * exp
             }
             try {
-                return jwt.sign(data, secret, options)
+                return jwt.sign(data, SECRET, options)
             } catch (error) {
                 throw error
             }
         },
         verifyCode: (data) =>{
             try {
-                return jwt.verify(data, secret)
+                return jwt.verify(data, SECRET)
             } catch (error) {
                 throw error
             }

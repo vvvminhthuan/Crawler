@@ -5,7 +5,7 @@ const { json } = require('body-parser')
 var routes = require('express').Router()
 
 // routes.use('/admin',require('./admin'));
-// routes.use('/client',require('./client'))
+routes.use(require('./client'))
 routes.use('/', function (req, res, next) {
     res.json({mese: 'goode jod'})
 })

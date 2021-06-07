@@ -1,10 +1,10 @@
 "use strict"
-const config = require('../Config')
+const { SALT } = require('../Config')
 const bcrypt = require('bcrypt')
 
 module.exports = {
     hashCode: async (value) => {
-        let saltRound = parseInt(config.SALT)
+        let saltRound = parseInt(SALT)
         let salt = await bcrypt.genSalt(saltRound)
         .then(salt =>{
             return salt

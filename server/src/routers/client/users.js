@@ -4,15 +4,10 @@ var routes = require('express').Router()
 
 // const { detectParams } = require('../..//middleware/RouterMiddleware')
 
-const { Sequelize } = require('../../Models/ModelBase')
+const { testConnect, sequelize } = require('../../Models/ModelBase')
 
-routes.get('/', async (req, res) => {
-    try {
-        await Sequelize.authenticate()
-        console.log('Connection has been established successfully.')
-    } catch (error) {
-        console.error('Unable to connect to the database:', error)
-    }
+routes.get('/', (req, res) => {
+    testConnect(Sequelize)
     res.end('Good Job')
     // ControllerUser.getItems(req, res)
 })

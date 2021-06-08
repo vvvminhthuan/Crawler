@@ -4,11 +4,19 @@ const { Sequelize, DataTypes, Model } = require('sequelize')
 const { PGUSER, PGHOST, PGPASSWORD, PGDATABASE, PGPORT, PGCONNETNAME } = require('../Config')
 
 module.exports = {
-    Sequelize: new Sequelize(PGDATABASE, PGUSER, PGPASSWORD, {
+    sequelize: new Sequelize(PGDATABASE, PGUSER, PGPASSWORD, {
         host: PGHOST,
         dialect: PGCONNETNAME,
         port: parseInt(PGPORT)
     }),
     DataTypes: DataTypes,
-    Model: Model
+    Model: Model,
+    testConnect: (sequelize) => {
+        try {
+            sequelize.authenticate()
+            console.log('Connection has been established successfully.')
+        } catch (error) {
+            console.error('Unable to connect to the database:', error)
+        }
+    }
 }

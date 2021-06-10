@@ -2,22 +2,15 @@
 
 const { sequelize, DataTypes, Model, Sequelize } = require('./ModelBase')
 
-const Roles = sequelize.define('Roles', {
+const ModelGroups = sequelize.define('groups', {
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         unique: true
     },
-    parentId: {
-        type: DataTypes.INTEGER,
-    },
     name: {
         type: DataTypes.STRING,
         allowNull: false
-    },
-    roleValidate: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
     },
     createdAt: {
         type: DataTypes.DATE,
@@ -33,4 +26,4 @@ const Roles = sequelize.define('Roles', {
     }
 })
 
-module.exports = Roles
+module.exports = ModelGroups

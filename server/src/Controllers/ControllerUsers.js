@@ -1,6 +1,6 @@
 "use strict"
-const ModelUsers = require('../models/ModelUsers')
-const BrcyptCode = require('../auth/BrcyptCode')
+const ModelUsers = require('../Models/ModelUsers')
+const BrcyptCode = require('../Auth/BrcyptCode')
 
 module.exports = {
     getItems: async (req, res) => {

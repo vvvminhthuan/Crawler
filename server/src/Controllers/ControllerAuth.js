@@ -1,7 +1,7 @@
 "use strict"
-const ModelUser = require('../models/ModelUsers')
-const JWT = require('../auth/JWT')
-const BrcyptCode = require('../auth/BrcyptCode')
+const ModelUser = require('../Models/ModelUsers')
+const JWT = require('../Auth/JWT')
+const BrcyptCode = require('../Auth/BrcyptCode')
 
 module.exports = {
     login: async (req, res) => {
@@ -31,16 +31,17 @@ module.exports = {
     },
     logout:(req, res)  => {
         let accessToken = req.headers.authorization.replace('Bearer ', '')
-        let isAccess = null
         try {
-            isAccess = JWT.verifyCode(accessToken)
+            if (JWT.verifyCode(accessToken)) {
+                res.status(200)
+                return res.json({status: 200, message: 'Logout complete', success: true})
+            }
         } catch (error) {
-            return res.json({status: 400, error: error + '', success: false})
+            res.status(403)
+            return res.json({status: false, message: 'Logout fails', error: error + ''})
         }
-        if (isAccess) {
-            return res.json({status: 200, message: 'Logout complete', success: true})
-        }
-        return res.json({status: 400, message: 'Logout fails', success: false})
+        
+        
     },
     refreshToken:(req, res) => {
         let refreshToken = req.headers.authorization.replace('Bearer ', '')

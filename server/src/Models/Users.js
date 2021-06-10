@@ -1,7 +1,6 @@
 "use strict"
 
-const { types } = require('pg')
-const { sequelize, DataTypes, Model } = require('./ModelBase')
+const { sequelize, DataTypes, Model, Sequelize } = require('./ModelBase')
 
 const Users = sequelize.define('Users', {
     id: {
@@ -17,13 +16,17 @@ const Users = sequelize.define('Users', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    fullName: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     email: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
     },
     phoneNumber: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull: false
     },
     numberId: {
@@ -36,20 +39,25 @@ const Users = sequelize.define('Users', {
     },
     roleId: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        defaultValue: 0
     },
     createdAt: {
         type: DataTypes.DATE,
-        allowNull: false
+        defaultValue: Sequelize.Now
+    },
+    updateAt: {
+        type: DataTypes.DATE,
+        defaultValue: Sequelize.Now
     },
     createdBy: {
-        type: DataTypes.DATE,
+        type: DataTypes.STRING,
         allowNull: false
     }
 })
 
-module.exports = {
-    createUser: (params) => {
-        
-    },
+Users.test = () => {
+    console.log('test')
 }
+
+module.exports = Users

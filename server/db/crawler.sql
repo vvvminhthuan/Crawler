@@ -1,7 +1,11 @@
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+
 CREATE TABLE "users" (
   "id" SERIAL PRIMARY KEY,
   "firstName" varchar,
   "lastName" varchar,
+  "fullName" varchar,
   "email" varchar UNIQUE NOT NULL,
   "phoneNumber" varchar,
   "numberId" varchar,
@@ -14,20 +18,29 @@ CREATE TABLE "users" (
 
 CREATE TABLE "roles" (
   "id" SERIAL PRIMARY KEY,
+  "parentId" int,
   "name" varchar,
   "roleValidate" int,
   "createdAt" timestamp,
   "updateAt" timestamp,
-  "createdAy" int
+  "createdBy" int
 );
 
 CREATE TABLE "groups" (
   "id" SERIAL PRIMARY KEY,
   "name" varchar,
+  "createdAt" timestamp,
+  "updateAt" timestamp,
+  "createdBy" int
+);
+
+CREATE TABLE "groupUsers" (
+  "id" SERIAL PRIMARY KEY,
+  "groupId" int,
   "userId" int,
   "createdAt" timestamp,
   "updateAt" timestamp,
-  "createdAy" int
+  "createdBy" int
 );
 
 CREATE TABLE "messages" (
@@ -38,7 +51,7 @@ CREATE TABLE "messages" (
   "type" int,
   "createdAt" timestamp,
   "updateAt" timestamp,
-  "createdAy" int
+  "createdBy" int
 );
 
 ALTER TABLE "users" ADD FOREIGN KEY ("roleId") REFERENCES "roles" ("id");

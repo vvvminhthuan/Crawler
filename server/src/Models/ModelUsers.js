@@ -6,7 +6,8 @@ const Users = sequelize.define('users', {
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        unique: true
+        unique: true,
+        primaryKey: true
     },
     firstName: {
         type: DataTypes.STRING,
@@ -16,7 +17,7 @@ const Users = sequelize.define('users', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    fullName: {
+    nickName: {
         type: DataTypes.STRING,
         allowNull: false
     },
@@ -24,6 +25,10 @@ const Users = sequelize.define('users', {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true
+    },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false
     },
     phoneNumber: {
         type: DataTypes.STRING,
@@ -42,11 +47,16 @@ const Users = sequelize.define('users', {
         allowNull: false,
         defaultValue: 0
     },
+    isDelete: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+    },
     createdAt: {
         type: DataTypes.DATE,
         defaultValue: Sequelize.Now
     },
-    updateAt: {
+    updatedAt: {
         type: DataTypes.DATE,
         defaultValue: Sequelize.Now
     },

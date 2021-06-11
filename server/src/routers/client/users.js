@@ -1,29 +1,20 @@
 "use strict"
 var routes = require('express').Router()
-// const ControllerUser =  require('../../controller/ControllerUser')
+const { getItems } = require('../../Controllers/ControllerUsers')
+const　{ Auth } = require('../../Middlewares/MiddlewareAuth')
+const　{ CREATE_USERS } = require('../../Middlewares/Validates/ValidateUsers')
+const { detectParams } = require('../../Middlewares/MiddlewareRouters')
 
-// const { detectParams } = require('../..//middleware/RouterMiddleware')
-
-const { testConnect, sequelize } = require('../../Models/ModelBase')
-
-routes.get('/', (req, res) => {
-    testConnect(Sequelize)
-    res.end('Good Job')
-    // ControllerUser.getItems(req, res)
+routes.get('/:id?', [detectParams, Auth],async(req, res, next) => {
+    let result = await getItems(req, res)
+    res.end(result)
 })
-routes.get('/update', async(req, res) => {
-    // let rs = await ControllerUser.updateItem(req)
-    // res.writeHead(200)
-    // res.end("hello world\n")
+routes.post('/', CREATE_USERS, (req, res) => {
+    res.end('post') 
 })
-routes.get('/insert', async(req, res) => {
-    // let rs = await ControllerUser.insertItem(req)
-    // res.writeHead(200)
-    // res.end("hello world\n")
+routes.put('/', Auth, (req, res) => {
 })
-routes.get('/user', async(req, res) => {
-    // res.writeHead(200)
-    // res.end("hello world\n")
+routes.delete('/', Auth, async(req, res) => {
 })
 
 module.exports = routes;

@@ -3,7 +3,7 @@ require('dotenv').config()
 
 module.exports= {
     PORT:  process.env.MODEL_DEV ? process.env.PORT : 443,
-    MODEL_DEV:  process.env.MODEL_DEV || true,
+    MODEL_DEV:  (process.env.MODEL_DEV === 'true'),
     CRT:  'Hoang Minh THuan',
     EXPREFRESH:  process.env.exprefresh || 30,
     EXP:  process.env.exp || 86400,

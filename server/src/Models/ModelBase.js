@@ -1,13 +1,14 @@
 "use strict"
 
 const { Sequelize, DataTypes, Model, Op } = require('sequelize') 
-const { PGUSER, PGHOST, PGPASSWORD, PGDATABASE, PGPORT, PGCONNETNAME } = require('../Config')
-
+const { PGUSER, PGHOST, PGPASSWORD, PGDATABASE, PGPORT, PGCONNETNAME, MODEL_DEV } = require('../Config')
 module.exports = {
     sequelize: new Sequelize(PGDATABASE, PGUSER, PGPASSWORD, {
         host: PGHOST,
         dialect: PGCONNETNAME,
-        port: parseInt(PGPORT)
+        port: parseInt(PGPORT),
+        logging: MODEL_DEV,
+        logging: MODEL_DEV ? console.log : null, 
     }),
     DataTypes: DataTypes,
     Model: Model,

@@ -14,8 +14,8 @@ module.exports = {
         next();
     },
     detectParams: function (req, res, next) {
-        let listParams = Object.keys(req.params)
         let params = req.params
+        let listParams = Object.keys(params)
         listParams.forEach(item => {
             if (!params[item]) {
                 delete req.params[item]

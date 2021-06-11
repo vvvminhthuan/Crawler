@@ -6,7 +6,8 @@ const ModelRoles = sequelize.define('roles', {
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        unique: true
+        unique: true,
+        primaryKey: true
     },
     parentId: {
         type: DataTypes.INTEGER,
@@ -18,12 +19,13 @@ const ModelRoles = sequelize.define('roles', {
     roleValidate: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        defaultValue: 0
     },
     createdAt: {
         type: DataTypes.DATE,
         defaultValue: Sequelize.Now
     },
-    updateAt: {
+    updatedAt: {
         type: DataTypes.DATE,
         defaultValue: Sequelize.Now
     },

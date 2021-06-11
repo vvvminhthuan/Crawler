@@ -6,7 +6,8 @@ const ModelGroupUsers = sequelize.define('groupUsers', {
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        unique: true
+        unique: true,
+        primaryKey: true
     },
     groupId: {
         type: DataTypes.INTEGER,
@@ -16,11 +17,16 @@ const ModelGroupUsers = sequelize.define('groupUsers', {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
+    isDelete: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+    },
     createdAt: {
         type: DataTypes.DATE,
         defaultValue: Sequelize.Now
     },
-    updateAt: {
+    updatedAt: {
         type: DataTypes.DATE,
         defaultValue: Sequelize.Now
     },

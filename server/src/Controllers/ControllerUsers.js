@@ -3,25 +3,32 @@ const ModelUsers = require('../Models/ModelUsers')
 const BrcyptCode = require('../Auth/BrcyptCode')
 
 module.exports = {
-    getItems: async (req, res) => {
-        let userParam = req.params
-        let condition = [
-            {AND: userParam}
-        ]
-        let result = await ModelUsers.getByCondition(condition)
-        if (result) {
-            return res.json({
-                result: result
-            })
-        } else {
-            return res.json({
-                "success": 0,
-                'message': `can't query` 
-            })
+    getItems: (req, res) => {
+        let params = req.params
+        let condition = {}
+        if (params) {
+            condition = {
+                where: params
+            }
         }
-        
+        return ModelUsers.findAll(condition)
+            .then(result => {
+                res.status(200)
+                res.json({
+                    "status": true,
+                    result: result
+                })
+            })
+            .catch (err => {
+                res.status(500)
+                res.json({
+                    "status": false,
+                    'message': `Can't query`,
+                    "error": err + ''
+                })
+            })
     },
-    updateUser: async (req, res) => {
+    update: async (req, res) => {
         let userData = req.body
         let condition = [
             {AND:{id: userData.id}},
@@ -45,7 +52,7 @@ module.exports = {
             })
         })
     },
-    deleteUser: async (req, res) => {
+    delete: async (req, res) => {
         let userData = req.body
         let condition = [
             {AND:{id: userData.id}},
@@ -69,7 +76,7 @@ module.exports = {
             })
         })
     },
-    createUser: async (req, res) => {
+    create: async (req, res) => {
         let userData = req.body
         let condition = [
             {AND: { email: userData.email}}

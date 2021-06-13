@@ -5,7 +5,7 @@ const { sequelize, DataTypes, Model, Sequelize } = require('./ModelBase')
 const ModelRoles = sequelize.define('roles', {
     id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        autoIncrement: true,
         unique: true,
         primaryKey: true
     },
@@ -17,6 +17,11 @@ const ModelRoles = sequelize.define('roles', {
         allowNull: false
     },
     roleValidate: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+    },
+    isDelete: {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0

@@ -5,9 +5,9 @@ const { sequelize, DataTypes, Model, Sequelize } = require('./ModelBase')
 const Users = sequelize.define('users', {
     id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        primaryKey: true,
         unique: true,
-        primaryKey: true
+        autoIncrement: true,
     },
     firstName: {
         type: DataTypes.STRING,
@@ -62,7 +62,8 @@ const Users = sequelize.define('users', {
     },
     createdBy: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        defaultValue: -1
     }
 })
 

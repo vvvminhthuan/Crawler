@@ -1,0 +1,2 @@
+ALTER TABLE roles
+ADD COLUMN "isDelete" INT DEFAULT 0;

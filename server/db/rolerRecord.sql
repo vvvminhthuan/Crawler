@@ -1,7 +1,7 @@
-INSERT INTO public.roles(name, "roleValidate")
-VALUES  ('admin', 31),
-        ('view', 1),
-        ('add', 2),
-        ('edit', 4),
-        ('delete', 8),
-        ('approves', 16);
+INSERT INTO public.roles("parentId" , name, "roleValidate")
+VALUES  (-1, 'admin', 31),
+        (-1, 'view', 1),
+        (-1, 'add', 2),
+        (-1, 'edit', 4),
+        (-1, 'delete', 8),
+        (-1, 'approves', 16);

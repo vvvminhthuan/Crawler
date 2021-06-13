@@ -5,7 +5,7 @@ const { sequelize, DataTypes, Model, Sequelize } = require('./ModelBase')
 const ModelGroupUsers = sequelize.define('groupUsers', {
     id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        autoIncrement: true,
         unique: true,
         primaryKey: true
     },

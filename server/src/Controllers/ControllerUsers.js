@@ -3,20 +3,22 @@ const ModelUsers = require('../Models/ModelUsers')
 const BrcyptCode = require('../Auth/BrcyptCode')
 
 module.exports = {
-    getItems: (req, res) => {
+    getUsers: (req, res) => {
         let params = req.params
-        let condition = {}
-        if (params) {
-            condition = {
-                where: params
+        let condition = {
+            where: {
+                isDelete: 0
             }
+        }
+        if (params) {
+            Object.assign(condition.where, params)
         }
         return ModelUsers.findAll(condition)
             .then(result => {
                 res.status(200)
                 res.json({
                     "status": true,
-                    result: result
+                    "result": result
                 })
             })
             .catch (err => {
@@ -28,81 +30,73 @@ module.exports = {
                 })
             })
     },
-    update: async (req, res) => {
-        let userData = req.body
-        let condition = [
-            {AND:{id: userData.id}},
-        ]
-        if (userData.password) {
-            userData.password =  await BrcyptCode.hashCode(userData.password)
+    updateUsers: async (req, res) => {
+        let params = req.body
+        let condition = req.params
+        if (params.password) {
+            params.password = await BrcyptCode.hashCode(params.password)
         }
-        ModelUsers.updateById(userData, condition)
+        return ModelUsers.update(params, {
+            where: condition
+        }) 
         .then(result =>{
+            res.status(200)
             res.json({
-                "success": 1,
-                "message": "Update success",
-                "record": result
+                "status": true,
+                "result": result
             })
         })
-        .catch(err => {
-            es.json({
-                "success": 0,
-                "message": "Update not success",
-                "detail": err
+        .catch(err =>{
+            res.status(500)
+            res.json({
+                "status": false,
+                "message": "Insert fails",
+                "error": err + ''
             })
-        })
+        }) 
     },
-    delete: async (req, res) => {
-        let userData = req.body
-        let condition = [
-            {AND:{id: userData.id}},
-        ]
-        let param = {
-            is_delete: 0
+    deleteUers: (req, res) => {
+        let params = {
+            isDelete: 1
         }
-        ModelUsers.deleteItem(param, condition)
+        let condition = req.params
+        return ModelUsers.update(params, {
+            where: condition
+        }) 
         .then(result =>{
+            res.status(200)
             res.json({
-                "success": 1,
-                "message": "Update success",
-                "record": result
+                "status": true,
+                "result": result
             })
         })
-        .catch(err => {
-            es.json({
-                "success": 0,
-                "message": "Update not success",
-                "detail": err
+        .catch(err =>{
+            res.status(500)
+            res.json({
+                "status": false,
+                "message": "Insert fails",
+                "error": err + ''
             })
-        })
+        }) 
     },
-    create: async (req, res) => {
-        let userData = req.body
-        let condition = [
-            {AND: { email: userData.email}}
-        ]
-        let hasEmail = await ModelUsers.getByCondition(condition)
-        if (!hasEmail) {
-            userData.password = await BrcyptCode.hashCode(userData.password)
-            ModelUsers.insertItem(userData) 
-            .then(result =>{
-                res.json({
-                    "success": 1,
-                    "message": "Insert success",
-                    "record": result
-                })
-            })
-            .catch(err =>{
-                res.json({
-                    "success": 0,
-                    "message": "Insert not success"
-                })
-            })  
-        }else {
+    createUsers: async (req, res) => {
+        let params = req.body
+        params.password = await BrcyptCode.hashCode(params.password)
+        return ModelUsers.create(params) 
+        .then(result =>{
+            res.status(201)
             res.json({
-                "success": 0,
-                "message": "Email is exits"
+                "status": true,
+                "result": result
+            }) 
+        })
+        .catch(err =>{
+            res.status(500)
+            res.json({
+                "status": false,
+                "message": "Insert fails",
+                "error": err + ''
             })
-        }
+        }) 
     }
 }

@@ -1,12 +1,11 @@
 "use strict"
 var routes = require('express').Router()
-const { getItems } = require('../../Controllers/ControllerRoles')
+const { getRoles } = require('../../Controllers/ControllerRoles')
 const { CREATE_ROLES } = require('../../Middlewares/Validates/ValidateRoles')
 const { detectParams } = require('../../Middlewares/MiddlewareRouters')
-const　{ Auth } = require('../../Middlewares/MiddlewareAuth')
 
-routes.get('/:id?', [detectParams, Auth], async(req, res) => {
-    let result = await getItems(req, res)
+routes.get('/:id?', detectParams, async(req, res) => {
+    let result = await getRoles(req, res)
     res.end(result)
 })
 routes.put('/', (req, res) => {

@@ -40,4 +40,23 @@ const ModelRoles = sequelize.define('roles', {
     }
 })
 
+ModelRoles.createRoles = async (newRole, newAdmin, oldAdmin) => {
+    const transaction = await sequelize.transaction()
+    try {
+        const role = await ModelRoles.findOne({
+            where: oldAdmin
+        }, {transaction})
+        console.log(role)
+        // await ModelRoles.create(newRole, {transaction})
+        // await ModelRoles.update(newAdmin,{
+        //     where: oldAdmin
+        // }, {transaction})
+        // await transaction.commit()
+        return true
+    } catch (error) {
+        await transaction.rollback()
+        return false
+    }
+}
+
 module.exports = ModelRoles

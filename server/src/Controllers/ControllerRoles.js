@@ -69,44 +69,27 @@ module.exports = {
             return maxValue
         })
         // Set lai quyen admin
-        let adminRole = {
-            roleValiate: roleMax.roleValidate + params.roleValidate
+        let newAdmin = {
+            roleValidate: roleMax.roleValidate + params.roleValidate
         }
-        console.log(listRoles)
-        // let isUpdate = await ModelRoles.update(adminRole, {
-        //     where: {
-        //         roleValidate: roleMax.roleValidate
-        //     }
-        // })
-        // if (isUpdate) {
-        //     return ModelRoles.create(params) 
-        //     .then(insert =>{
-        //         res.status(201)
-        //         res.json({
-        //             "status": true,
-        //             "result": insert
-        //         }) 
-        //     })
-        //     .catch(err =>{
-        //         ModelRoles.update(roleMax, {
-        //             where: {
-        //                 roleValidate: adminRole.roleValidate
-        //             }
-        //         })
-        //         res.status(500)
-        //         res.json({
-        //             "status": false,
-        //             "message": "Insert fails",
-        //             "error": err + ''
-        //         })
-        //     })
-        // }else {
-        //     res.status(500)
-        //     res.json({
-        //         "status": false,
-        //         "message": "Insert fails",
-        //     })
-        // }
+        let oldAdmin = {
+            roleValidate: roleMax.roleValidate
+        }
+        console.log(roleMax.roleValidate, newAdmin, oldAdmin) 
+        const result = await ModelRoles.createRoles(params, newAdmin, oldAdmin)
+        if (result) {
+            res.status(201)
+            res.json({
+                "status": true,
+                "result": result
+            }) 
+        } else {
+            res.status(500)
+            res.json({
+                "status": false,
+                "message": "Insert fails",
+            })
+        }
     },
     deleteRoles: (req, res) => {
         let params = {

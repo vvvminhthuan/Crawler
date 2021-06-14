@@ -18,6 +18,11 @@ module.exports= {
     PGCONNETNAME:  process.env.PGCONNETNAME || 'postgres',
     PGIDLETIMEOUT:  process.env.PGIDLETIMEOUT || 1000,
     PGMAX:  process.env.PGMAX || 30,
+    ROW_DELETE: {
+        NOT_DELETE: 0,
+        IS_DELETE: 1,
+        IS_DRAFT: 2,
+    },
     SOCKET_EVENT:  {
         CONNECT: 'connection',
         DISCONNECT: 'disconnect',

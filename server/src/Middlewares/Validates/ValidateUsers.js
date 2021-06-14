@@ -1,12 +1,14 @@
 "use strict"
 const VALIDATOR = require('node-input-validator')
 const ModelUsers = require('../../Models/ModelUsers')
+const { ROW_DELETE } = require('../../Config')
 
 VALIDATOR.extend('unique', async({ value, args }) => {
     let field = args[0] || 'email'
     let condition = {
         where: {
-            [field]: value
+            [field]: value,
+            isDelete: ROW_DELETE.NOT_DELETE
         }
     }
     let result = await ModelUsers.findAll(condition)
@@ -14,16 +16,17 @@ VALIDATOR.extend('unique', async({ value, args }) => {
     return !(result.length > 0)
 })
 module.exports = {
-    CREATE_USERS: function (req, res, next) {
+    CREATE_UPADTE_USERS: function (req, res, next) {
         let validate = new VALIDATOR.Validator(req.body, {
-            firstName: 'required',
-            lastName: 'required',
-            nickName: 'required',
-            email: 'required|email|unique:email',
-            password: 'required',
-            phoneNumber: 'required|decimal',
-            numberId: 'required|decimal',
-            address: 'required',
+            firstName: 'required|sometimes',
+            lastName: 'required|sometimes',
+            nickName: 'required|sometimes',
+            email: 'required|email|unique:email|sometimes',
+            password: 'required|sometimes',
+            passwordComfirm: 'required|same:password|sometimes',
+            phoneNumber: 'required|phoneNumber|decimal|sometimes',
+            numberId: 'required|decimal|sometimes',
+            address: 'required|sometimes',
         },{
             // 'firstName.required': 'firstName là trường bắt buộc',
             // 'lastName.required': 'lastName là trường bắt buộc',

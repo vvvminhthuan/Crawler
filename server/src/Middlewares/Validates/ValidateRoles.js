@@ -2,9 +2,11 @@
 const { Validator } = require('node-input-validator')
 
 module.exports = {
-    CREATE_ROLES: function (req, res, next) {
+    CREATE_UPDATE_ROLES: function (req, res, next) {
         let validate = new Validator(req.body, {
-            name: 'required',
+            name: 'required|sometimes',
+            roleValidate: 'required|sometimes',
+            createdBy: 'required'
         })
         return validate.check()
         .then(matched =>{

@@ -1,13 +1,14 @@
 "use strict"
 const ModelUsers = require('../Models/ModelUsers')
 const BrcyptCode = require('../Auth/BrcyptCode')
+const {ROW_DELETE} = require('../Config')
 
 module.exports = {
     getUsers: (req, res) => {
         let params = req.params
         let condition = {
             where: {
-                isDelete: 0
+                isDelete: ROW_DELETE.NOT_DELETE
             }
         }
         if (params) {
@@ -57,7 +58,7 @@ module.exports = {
     },
     deleteUers: (req, res) => {
         let params = {
-            isDelete: 1
+            isDelete: ROW_DELETE.IS_DELETE
         }
         let condition = req.params
         return ModelUsers.update(params, {

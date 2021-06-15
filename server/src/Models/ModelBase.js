@@ -13,6 +13,7 @@ module.exports = {
     DataTypes: DataTypes,
     Model: Model,
     Sequelize: Sequelize,
+    Op: Op,
     testConnect: (sequelize) => {
         try {
             sequelize.authenticate()

@@ -23,6 +23,10 @@ module.exports= {
         IS_DELETE: 1,
         IS_DRAFT: 2,
     },
+    TYPE_MESSAGE: {
+        TEXT: 1,
+        JSON: 2,
+    },
     SOCKET_EVENT:  {
         CONNECT: 'connection',
         DISCONNECT: 'disconnect',

@@ -1,7 +1,7 @@
 "use strict"
 
-const { sequelize, DataTypes, Model, Sequelize } = require('./ModelBase')
-
+const { sequelize, DataTypes, Op, Sequelize } = require('./ModelBase')
+const {ROW_DELETE} = require('../Config')
 const ModelRoles = sequelize.define('roles', {
     id: {
         type: DataTypes.INTEGER,
@@ -11,12 +11,18 @@ const ModelRoles = sequelize.define('roles', {
     },
     parentId: {
         type: DataTypes.INTEGER,
+        defaultValue: 0
     },
     name: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    roleValidate: {
+    role: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0
+    },
+    roleChild: {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0
@@ -43,15 +49,62 @@ const ModelRoles = sequelize.define('roles', {
 ModelRoles.createRoles = async (newRole, newAdmin, oldAdmin) => {
     const transaction = await sequelize.transaction()
     try {
-        const role = await ModelRoles.findOne({
+        await ModelRoles.create(newRole, {transaction})
+        await ModelRoles.update(newAdmin,{
             where: oldAdmin
         }, {transaction})
-        console.log(role)
-        // await ModelRoles.create(newRole, {transaction})
-        // await ModelRoles.update(newAdmin,{
-        //     where: oldAdmin
-        // }, {transaction})
-        // await transaction.commit()
+        await transaction.commit()
+        return true
+    } catch (error) {
+        await transaction.rollback()
+        return false
+    }
+}
+
+ModelRoles.findAllRoles = async (condition = {}) => {
+    let unShowAdmin = {
+        roleChild: {
+            [Op.ne]: sequelize.col('role')
+        }
+    }
+    condition.order = [
+        ['role', 'DESC']
+    ]
+    if (condition.where) {
+        Object.assign(condition.where, unShowAdmin)
+    }
+    return await ModelRoles.findAll(condition)
+}
+
+ModelRoles.findOneRoles = async (condition = {}) => {
+    let unShowAdmin = {
+        roleChild: {
+            [Op.ne]: sequelize.col('role')
+        }
+    }
+    if (condition.where) {
+        Object.assign(condition.where, unShowAdmin)
+    }
+    return await ModelRoles.findOne(condition)
+}
+
+ModelRoles.updateRoles = async (condition, newRole, roleChange = 0) => {
+    const roleAdmin = await ModelRoles.findOne({
+        where:{
+            roleChild: {
+                [Op.eq]: sequelize.col('role')
+            }
+        }
+    })
+    let newRoleAdmin = {
+        role: roleAdmin.role + roleChange,
+        roleChild: roleAdmin.roleChild + roleChange,
+    }
+    const transaction = await sequelize.transaction()
+    try {
+        await ModelRoles.update(newRole, condition, {transaction: transaction})
+        await roleAdmin.update(RoleAdmin, {transaction: transaction})
+        await transaction.commit()
         return true
     } catch (error) {
         await transaction.rollback()

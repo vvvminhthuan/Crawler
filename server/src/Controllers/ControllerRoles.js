@@ -1,6 +1,6 @@
 "use strict"
 const ModelRoles = require('../Models/ModelRoles')
-const { signRole } = require('../Auth/Roles')
+const { signRole, signRoleChild, renderRole } = require('../Auth/Roles')
 const {ROW_DELETE} = require('../Config')
 
 module.exports = {
@@ -14,7 +14,7 @@ module.exports = {
         if (params) {
             Object.assign(condition.where, params)
         }
-        return ModelRoles.findAll(condition)
+        return ModelRoles.findAllRoles(condition)
             .then(result => {
                 res.status(200)
                 res.json({
@@ -33,49 +33,68 @@ module.exports = {
     },
     updateRoles: async (req, res) => {
         let params = req.body
-        let condition = req.params
-        return ModelRoles.update(params, {
-            where: condition
-        }) 
-        .then(result =>{
-            res.status(200)
-            res.json({
-                "status": true,
-                "result": result
-            })
-        })
-        .catch(err =>{
+        let condition = {
+            where: {
+                isDelete: ROW_DELETE.NOT_DELETE
+            }
+        }
+        if (req.params) {
+            Object.assign(condition.where, req.params)
+        }
+        const role = await ModelRoles.findOneRoles(condition)
+        if ( role.id ) {
+            var roleChange
+            if (params.roleChild) {
+                roleChange = renderRole(role.roleChild, params.roleChild)
+                params.role = role.role + roleChange
+                params.roleChild = signRoleChild(params.roleChild)
+            }
+            const result = await ModelRoles.updateRoles(condition, params, roleChange)
+            if (result) {
+                res.status(200)
+                res.json({
+                    "status": true,
+                    "result": result
+                })
+            } else {
+                res.status(500)
+                res.json({
+                    "status": false,
+                    "message": "Insert fails",
+                    "error": err + ''
+                })
+            }
+        } else {
             res.status(500)
             res.json({
                 "status": false,
-                "message": "Insert fails",
-                "error": err + ''
+                "message": "Insert fails"
             })
-        }) 
+        }
     },
     createRoles: async (req, res) => {
         let params = req.body
         let listRoles = await ModelRoles.findAll({
             where: {
                 isDelete: ROW_DELETE.NOT_DELETE
-            }
+            },
+            order: [
+                ['role', 'DESC']
+            ]
         })
-        params.roleValidate = signRole(listRoles.length, params.roleValidate)
+        params.role = signRole(listRoles.length, params.roleChild)
+        params.roleChild = signRoleChild(params.roleChild)
         // lay quyen cao nhat
-        let roleMax = listRoles.reduce((maxValue, currentValue) => {
-            if (currentValue.roleValidate > maxValue) {
-                maxValue = currentValue
-            }
-            return maxValue
-        })
-        // Set lai quyen admin
+        let roleMax = listRoles[0].role
+
+        // Set lai quyen admin khi tao mot role moi
         let newAdmin = {
-            roleValidate: roleMax.roleValidate + params.roleValidate
+            role: roleMax + params.role,            
+            roleChild: roleMax + params.role
         }
         let oldAdmin = {
-            roleValidate: roleMax.roleValidate
+            role: roleMax
         }
-        console.log(roleMax.roleValidate, newAdmin, oldAdmin) 
         const result = await ModelRoles.createRoles(params, newAdmin, oldAdmin)
         if (result) {
             res.status(201)
@@ -94,7 +113,8 @@ module.exports = {
     deleteRoles: (req, res) => {
         let params = {
             isDelete: ROW_DELETE.IS_DELETE,
-            roleValidate: 0
+            role: 0,
+            roleChild: 0
         }
         let condition = req.params
         return ModelRoles.update(params, {

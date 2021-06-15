@@ -9,7 +9,7 @@ routes.get('/:id?', detectParams, async(req, res) => {
     res.end(result)
 })
 routes.put('/:id?', [detectParams, CREATE_UPDATE_ROLES], async (req, res, next) => {
-    let result = await createRoles(req, res)
+    let result = await updateRoles(req, res)
     res.end(result)
 })
 routes.post('/', CREATE_UPDATE_ROLES, async (req, res, next) => {

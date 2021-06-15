@@ -22,7 +22,9 @@ CREATE TABLE "roles" (
   "id" SERIAL PRIMARY KEY,
   "parentId" int,
   "name" varchar,
-  "roleValidate" int,
+  "role" int,
+  "roleChild" int,
+  "isDelete" int,
   "createdAt" timestamp,
   "updatedAt" timestamp,
   "createdBy" int

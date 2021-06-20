@@ -1,5 +1,5 @@
 "use strict"
-const { Validator } = require('node-input-validator')
+const { Validator } = require('./ValidateBasic')
 
 module.exports = {
     CREATE_UPDATE_MESSAGE: function (req, res, next) {

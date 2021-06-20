@@ -88,28 +88,31 @@ ModelRoles.findOneRoles = async (condition = {}) => {
     return await ModelRoles.findOne(condition)
 }
 
-ModelRoles.updateRoles = async (condition, newRole, roleChange = 0) => {
-    const roleAdmin = await ModelRoles.findOne({
-        where:{
-            roleChild: {
-                [Op.eq]: sequelize.col('role')
-            }
-        }
-    })
-    let newRoleAdmin = {
-        role: roleAdmin.role + roleChange,
-        roleChild: roleAdmin.roleChild + roleChange,
-    }
-    const transaction = await sequelize.transaction()
+ModelRoles.updateRoles = async (condition, newRole, roleChange = 0) => {    
     try {
-        await ModelRoles.update(newRole, condition, {transaction: transaction})
-        await roleAdmin.update(RoleAdmin, {transaction: transaction})
-        await transaction.commit()
+        await sequelize.transaction( async t =>{
+            const roleAdmin = await ModelRoles.findOne({
+                where:{
+                    roleChild: {
+                        [Op.eq]: sequelize.col('role')
+                    }
+                }
+            },t)
+            let newRoleAdmin = {
+                role: roleAdmin.role + roleChange,
+                roleChild: roleAdmin.roleChild + roleChange,
+            }
+            let role = await ModelRoles.update(newRole, condition, t)
+            if (roleChange != 0 && role) {
+                await roleAdmin.update(newRoleAdmin, t)
+            }
+        })  
         return true
     } catch (error) {
-        await transaction.rollback()
+        console.log(error)
         return false
     }
+        
 }
 
 module.exports = ModelRoles

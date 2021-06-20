@@ -38,11 +38,9 @@ module.exports = {
                 isDelete: ROW_DELETE.NOT_DELETE
             }
         }
-        if (req.params) {
-            Object.assign(condition.where, req.params)
-        }
+        Object.assign(condition.where, req.params)
         const role = await ModelRoles.findOneRoles(condition)
-        if ( role.id ) {
+        if ( role ) {
             var roleChange
             if (params.roleChild) {
                 roleChange = renderRole(role.roleChild, params.roleChild)
@@ -60,15 +58,14 @@ module.exports = {
                 res.status(500)
                 res.json({
                     "status": false,
-                    "message": "Insert fails",
-                    "error": err + ''
+                    "message": "Insert fails.",
                 })
             }
         } else {
-            res.status(500)
+            res.status(404)
             res.json({
                 "status": false,
-                "message": "Insert fails"
+                "message": "Request Not Found."
             })
         }
     },
@@ -112,28 +109,29 @@ module.exports = {
     },
     deleteRoles: (req, res) => {
         let params = {
-            isDelete: ROW_DELETE.IS_DELETE,
-            role: 0,
-            roleChild: 0
+            isDelete: ROW_DELETE.IS_DELETE
         }
-        let condition = req.params
-        return ModelRoles.update(params, {
-            where: condition
-        }) 
-        .then(result =>{
+        let condition = {
+            where: {
+                isDelete: ROW_DELETE.NOT_DELETE
+            }
+        }
+        Object.assign(condition.where, req.params)
+
+        return ModelRoles.update(params, condition)
+        .then(result => {
             res.status(200)
             res.json({
                 "status": true,
                 "result": result
             })
         })
-        .catch(err =>{
+        .catch(err => {
             res.status(500)
             res.json({
                 "status": false,
-                "message": "Insert fails",
-                "error": err + ''
+                "message": "Insert fails.",
             })
-        }) 
+        })
     },
 }

@@ -22,5 +22,16 @@ module.exports = {
             }
         })
         next();
+    },
+    validateParams: function (req, res, next) {
+        if (Object.keys(req.params).length == 0) {
+            res.status(404)
+            res.json({
+                "status": false,
+                "message": "Request Not Found."
+            })
+            return res.end()
+        }
+        next();
     }
 }

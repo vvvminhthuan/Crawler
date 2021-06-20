@@ -1,27 +1,14 @@
 "use strict"
-const VALIDATOR = require('node-input-validator')
-const ModelUsers = require('../../Models/ModelUsers')
-const { ROW_DELETE } = require('../../Config')
 
-VALIDATOR.extend('unique', async({ value, args }) => {
-    let field = args[0] || 'email'
-    let condition = {
-        where: {
-            [field]: value,
-            isDelete: ROW_DELETE.NOT_DELETE
-        }
-    }
-    let result = await ModelUsers.findAll(condition)
-    
-    return !(result.length > 0)
-})
+const {VALIDATOR} = require('./ValidateBasic')
+
 module.exports = {
     CREATE_UPADTE_USERS: function (req, res, next) {
         let validate = new VALIDATOR.Validator(req.body, {
             firstName: 'required|sometimes',
             lastName: 'required|sometimes',
             nickName: 'required|sometimes',
-            email: 'required|email|unique:email|sometimes',
+            email: 'required|email|uniqueUsers:email|sometimes',
             password: 'required|sometimes',
             passwordComfirm: 'required|same:password|sometimes',
             phoneNumber: 'required|phoneNumber|decimal|sometimes',
@@ -37,7 +24,7 @@ module.exports = {
             // 'phoneNumber.required': 'phoneNumber là trường bắt buộc',
             // 'numberId.required': 'numberId là trường bắt buộc',
             // 'address.required': 'address là trường bắt buộc',
-            'email.unique': 'The email must be a already exists address.',
+            'email.uniqueUsers': 'The email must be a already exists address.',
         })
         return validate.check()
         .then(matched =>{

@@ -61,6 +61,15 @@ CREATE TABLE "messages" (
   "createdBy" int
 );
 
+CREATE TABLE "refreshTokens" (
+  "id" SERIAL PRIMARY KEY,
+  "userId" int,
+  "token" varchar,
+  "createdAt" timestamp,
+  "updatedAt" timestamp,
+  "createdBy" int
+);
+
 ALTER TABLE "users" ADD FOREIGN KEY ("roleId") REFERENCES "roles" ("id");
 
 ALTER TABLE "roles" ADD FOREIGN KEY ("id") REFERENCES "roles" ("parentId");

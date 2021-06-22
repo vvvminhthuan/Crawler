@@ -1,17 +1,19 @@
 "use strict"
-const ModelUser = require('../Models/ModelUsers')
+const ModelUsers = require('../Models/ModelUsers')
 const JWT = require('../Auth/JWT')
 const BrcyptCode = require('../Auth/BrcyptCode')
 
 module.exports = {
     login: async (req, res) => {
-        let userData = req.body;
-        let condition = [
-            {AND: {email: userData.email}}
-        ]
-        let userResult = await ModelUser.getByCondition(condition)
-        let hash = userResult.length ? userResult[0].password : '';
-        BrcyptCode.compareCode(userData.password, hash)
+        let userData = req.body
+        let condition = {
+            where: {
+                email: userData.email
+            }
+        }
+        let userResult = await ModelUsers.findOne(condition)
+        let hash = userResult.length ? userResult.password : '';
+        return BrcyptCode.compareCode(userData.password, hash)
         .then(value => {
             if (value) {
                 let dataJwt = {
@@ -21,9 +23,18 @@ module.exports = {
                 let accessToken = JWT.signCode(dataJwt);
                 let expre = parseInt(process.env.exprefresh);
                 let refreshToken = JWT.signCode(dataJwt, expre);
-                return res.json({status: 200, accessToken: accessToken, refreshToken: refreshToken, success: value})
+                res.status(200)
+                return res.json({
+                    accessToken: accessToken, 
+                    refreshToken: refreshToken, //???
+                    success: true
+                })
             }
-            return res.json({status: 400, error: 'Login fails', success: value});
+            res.status(400)
+            return res.json({
+                error: 'Login fails', 
+                success: false
+            });
         })
         .catch(err => {
             console.log(err + '');
@@ -34,32 +45,45 @@ module.exports = {
         try {
             if (JWT.verifyCode(accessToken)) {
                 res.status(200)
-                return res.json({status: 200, message: 'Logout complete', success: true})
+                return res.json({
+                    success: true,
+                    message: 'Logout complete', 
+                })
             }
         } catch (error) {
-            res.status(403)
+            res.status(400)
             return res.json({status: false, message: 'Logout fails', error: error + ''})
         }
-        
-        
     },
     refreshToken:(req, res) => {
-        let refreshToken = req.headers.authorization.replace('Bearer ', '')
-        let refresh = null
         try {
-            console.log(refreshToken);
+            let refreshToken = req.headers.authorization.replace('Bearer ', '')
+            let refresh = null
             refresh = JWT.verifyCode(refreshToken)
-        } catch (error) {
-            return res.json({status: 400, error: error + '', success: false})
-        }
-        if (refresh) {
-            let dataJwt = {
-                name: refresh.name,
-                email: refresh.email
+            if (refresh) {
+                let dataJwt = {
+                    name: refresh.name,
+                    email: refresh.email
+                }
+                let accessToken = JWT.signCode(dataJwt)
+                res.status(200)
+                return res.json({
+                    accessToken: accessToken, 
+                    success: true
+                })
             }
-            let accessToken = JWT.signCode(dataJwt);
-            return res.json({status: 200, accessToken: accessToken, success: true})
+            res.status(400)
+            return res.json({
+                message: 'Get refresh token fails.', 
+                success: false
+            })
+        } catch (error) {
+            res.status(400)
+            return res.json({
+                error: error + '', 
+                message: 'Get refresh token fails.', 
+                success: false
+            })
         }
-        return res.json({status: 400, error: error + '', success: false});
     }
 }

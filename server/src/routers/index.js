@@ -18,7 +18,12 @@ routes.post('/singout', async (req, res) => {
 })
 routes.use(function (req, res) {
     res.status(404).json({status: false, error: 'Not found 404' })
+<<<<<<< HEAD
     // chi test thoi
+=======
+    // home edit thu choi
+    // utao test conflict
+>>>>>>> bcd352c... update merge conflict
 })
 
 module.exports = routes;

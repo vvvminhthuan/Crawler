@@ -1,8 +1,9 @@
 "use strict"
 
-const { sequelize, DataTypes, Model, Sequelize } = require('./ModelBase')
+const ModelRoles = require('./ModelRoles')
+const { sequelize, DataTypes, Op, Sequelize } = require('./ModelBase')
 
-const Users = sequelize.define('users', {
+const ModelUsers = sequelize.define('users', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -45,7 +46,11 @@ const Users = sequelize.define('users', {
     roleId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: 0
+        defaultValue: 0,
+        references: {
+            model: ModelRoles,
+            key: 'id'
+        }
     },
     isDelete: {
         type: DataTypes.INTEGER,
@@ -67,8 +72,24 @@ const Users = sequelize.define('users', {
     }
 })
 
-Users.test = () => {
-    console.log('test')
+ModelUsers.belongsTo(ModelRoles, {
+    foreignKey: 'roleId',
+})
+
+ModelUsers.findAllUsers = async (condition = {}) => {
+    let include = {
+        model: ModelRoles,
+        attributes: ['id', "name", "role"],
+        where: {
+            roleChild: {
+                [Op.ne]: sequelize.col('role')
+            }
+        }
+    }
+    return await ModelUsers.findAll({
+        condition, 
+        include
+    })
 }
 
-module.exports = Users
+module.exports = ModelUsers

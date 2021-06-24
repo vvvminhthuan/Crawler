@@ -2,6 +2,7 @@
 const ModelUsers = require('../Models/ModelUsers')
 const JWT = require('../Auth/JWT')
 const BrcyptCode = require('../Auth/BrcyptCode')
+const { TOKEN_ACCESS, TOKEN_REFRESH, EXPREFRESH, MODEL_DEV } = require('../Config')
 
 module.exports = {
     login: async (req, res) => {
@@ -12,47 +13,48 @@ module.exports = {
             }
         }
         let userResult = await ModelUsers.findOne(condition)
-        let hash = userResult.length ? userResult.password : '';
+        let hash = userResult.password ? userResult.password : ''
         return BrcyptCode.compareCode(userData.password, hash)
         .then(value => {
             if (value) {
                 let dataJwt = {
-                    name: userResult[0].first_name + ' ' + userResult[0].last_name,
-                    email: userResult[0].email
+                    name: userResult.firstName + ' ' + userResult.lastName,
+                    email: userResult.email
                 }
-                let accessToken = JWT.signCode(dataJwt);
-                let expre = parseInt(process.env.exprefresh);
-                let refreshToken = JWT.signCode(dataJwt, expre);
+                let accessToken = JWT.signCode(dataJwt)
+                let refreshToken = JWT.signCode(dataJwt, parseInt(EXPREFRESH))
+                res.cookie( TOKEN_ACCESS, accessToken, { maxAge: 24*60*60, secure: !MODEL_DEV, httpOnly: true })
+                res.cookie( TOKEN_REFRESH , refreshToken, { maxAge: 30*24*60*60, secure: !MODEL_DEV, httpOnly: true })
                 res.status(200)
-                return res.json({
+                res.json({
                     accessToken: accessToken, 
                     refreshToken: refreshToken, //???
                     success: true
                 })
             }
             res.status(400)
-            return res.json({
+            res.json({
                 error: 'Login fails', 
                 success: false
-            });
+            })
         })
         .catch(err => {
-            console.log(err + '');
-        });
+            console.log(err + '')
+        })
     },
     logout:(req, res)  => {
         let accessToken = req.headers.authorization.replace('Bearer ', '')
         try {
             if (JWT.verifyCode(accessToken)) {
                 res.status(200)
-                return res.json({
+                res.json({
                     success: true,
                     message: 'Logout complete', 
                 })
             }
         } catch (error) {
             res.status(400)
-            return res.json({status: false, message: 'Logout fails', error: error + ''})
+            res.json({status: false, message: 'Logout fails', error: error + ''})
         }
     },
     refreshToken:(req, res) => {
@@ -67,19 +69,19 @@ module.exports = {
                 }
                 let accessToken = JWT.signCode(dataJwt)
                 res.status(200)
-                return res.json({
+                res.json({
                     accessToken: accessToken, 
                     success: true
                 })
             }
             res.status(400)
-            return res.json({
+            res.json({
                 message: 'Get refresh token fails.', 
                 success: false
             })
         } catch (error) {
             res.status(400)
-            return res.json({
+            res.json({
                 error: error + '', 
                 message: 'Get refresh token fails.', 
                 success: false

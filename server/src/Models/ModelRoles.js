@@ -2,6 +2,7 @@
 
 const { sequelize, DataTypes, Op, Sequelize } = require('./ModelBase')
 const {ROW_DELETE} = require('../Config')
+
 const ModelRoles = sequelize.define('roles', {
     id: {
         type: DataTypes.INTEGER,
@@ -65,7 +66,8 @@ ModelRoles.findAllRoles = async (condition = {}) => {
     let unShowAdmin = {
         roleChild: {
             [Op.ne]: sequelize.col('role')
-        }
+        },
+        isDelete: ROW_DELETE.NOT_DELETE
     }
     condition.order = [
         ['role', 'DESC']

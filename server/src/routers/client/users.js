@@ -5,7 +5,7 @@ const　{ Auth } = require('../../Middlewares/MiddlewareAuth')
 const　{ CREATE_UPADTE_USERS } = require('../../Middlewares/Validates/ValidateUsers')
 const { detectParams, validateParams } = require('../../Middlewares/MiddlewareRouters')
 
-routes.get('/:id?', [detectParams, validateParams, Auth],async(req, res, next) => {
+routes.get('/:id?', [detectParams, Auth],async(req, res, next) => {
     let result = await getUsers(req, res)
     res.end(result)
 })

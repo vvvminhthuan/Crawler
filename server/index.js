@@ -44,6 +44,7 @@ app.use((req, res, next)=>{
     // Pass to next layer of middleware
     return next()
 })
+app.disable('x-powered-by') // disable nguon cung cap api
 
 app.use(express.static('stores'))
 app.use(bodyParser.json({limit: '1mb'}))

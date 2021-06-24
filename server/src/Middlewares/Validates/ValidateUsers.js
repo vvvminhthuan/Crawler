@@ -5,15 +5,15 @@ const {VALIDATOR} = require('./ValidateBasic')
 module.exports = {
     CREATE_UPADTE_USERS: function (req, res, next) {
         let validate = new VALIDATOR.Validator(req.body, {
-            firstName: 'required|sometimes',
-            lastName: 'required|sometimes',
-            nickName: 'required|sometimes',
+            firstName: 'required|sometimes|string',
+            lastName: 'required|sometimes|string',
+            nickName: 'required|sometimes|string',
             email: 'required|email|uniqueUsers:email|sometimes',
             password: 'required|sometimes',
             passwordComfirm: 'required|same:password|sometimes',
             phoneNumber: 'required|phoneNumber|decimal|sometimes',
             numberId: 'required|decimal|sometimes',
-            address: 'required|sometimes',
+            address: 'required|sometimes|string',
         },{
             // 'firstName.required': 'firstName là trường bắt buộc',
             // 'lastName.required': 'lastName là trường bắt buộc',

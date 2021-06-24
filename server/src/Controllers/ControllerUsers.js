@@ -14,7 +14,7 @@ module.exports = {
         if (params) {
             Object.assign(condition.where, params)
         }
-        return ModelUsers.findAll(condition)
+        return ModelUsers.findAllUsers(condition)
             .then(result => {
                 res.status(200)
                 res.json({

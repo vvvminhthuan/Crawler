@@ -10,8 +10,8 @@ module.exports= {
     SECRET:  process.env.secret || 'W7fCTtanmTX9UDE',
     ALG:  process.env.alg || 'HS384',
     SALT:  process.env.SALT || 8,
-    TOKEN_REFRESH: '_PEx',
-    TOKEN_ACCESS: '_23T',
+    TOKEN_REFRESH: '_PEx', // tam thoi kong can
+    TOKEN_ACCESS: '_23T', // luu vao db
     PGUSER:  process.env.PGUSER || 'postgres',
     PGHOST:  process.env.PGHOST || 'localhost',
     PGPASSWORD:  process.env.PGPASSWORD || '1',

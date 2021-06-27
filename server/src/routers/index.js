@@ -21,8 +21,6 @@ routes.get('/signout', async (req, res) => {
 })
 routes.use(function (req, res) {
     res.status(404).json({status: false, error: 'Not found 404' })
-    // home edit thu choi
-    // utao test conflict
 })
 
 module.exports = routes;

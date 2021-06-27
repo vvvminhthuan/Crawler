@@ -7,6 +7,21 @@ const JWT = () => {
         algorithm: ALG,
         expiresIn: parseInt(EXP),
     }
+    const getToken = (req) => {
+        let tonken = ''
+        if (req.headers.cookie) {
+            let arrCookies = req.headers.cookie.split(';')
+            arrCookies.forEach(item => {
+                if (item.indexOf(TOKEN_ACCESS)) {
+                    tonken = item.replace(TOKEN_ACCESS+'=', '')
+                }
+            });
+        }
+        if (tonken == '' && req.headers.authorization) {
+            tonken = req.headers.authorization.replace('Bearer ', '')
+        }
+        return tonken
+    }
     return {
         signCode: (data, exp = 0) =>{
             if (exp > 0) {
@@ -20,17 +35,7 @@ const JWT = () => {
         },
         verifyCode: (req) =>{
             try {
-                let accessToken = null
-                if (req.headers.cookie) {
-                    let arrCookies = req.headers.cookie.split(';')
-                    arrCookies.forEach(item => {
-                        if (item.indexOf(TOKEN_ACCESS)) {
-                            accessToken = item.replace(TOKEN_ACCESS+'=')
-                        }
-                    });
-                }
-                accessToken = req.headers.authorization.replace('Bearer ', '')
-                return jwt.verify(data, SECRET)
+                return jwt.verify(getToken(req), SECRET)
             } catch (error) {
                 throw error
             }

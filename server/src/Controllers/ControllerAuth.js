@@ -13,7 +13,15 @@ module.exports = {
             }
         }
         let userResult = await ModelUsers.findOne(condition)
-        let hash = userResult.password ? userResult.password : ''
+        if (!userResult) {
+            res.status(400)
+            return res.json({
+                error: 'Login fails', 
+                message: 'The email not exits!',
+                success: false
+            })
+        }
+        let hash = userResult ? userResult.password : ''
         return BrcyptCode.compareCode(userData.password, hash)
         .then(value => {
             if (value) {
@@ -22,19 +30,21 @@ module.exports = {
                     email: userResult.email
                 }
                 let accessToken = JWT.signCode(dataJwt)
-                let refreshToken = JWT.signCode(dataJwt, parseInt(EXPREFRESH))
+                // let refreshToken = JWT.signCode(dataJwt, parseInt(EXPREFRESH))
                 res.cookie( TOKEN_ACCESS, accessToken, { maxAge: 24*60*60, secure: !MODEL_DEV, httpOnly: true })
-                res.cookie( TOKEN_REFRESH , refreshToken, { maxAge: 30*24*60*60, secure: !MODEL_DEV, httpOnly: true })
+                // tam thoi chua can
+                // res.cookie( TOKEN_REFRESH , refreshToken, { maxAge: 30*24*60*60, secure: !MODEL_DEV, httpOnly: true })
                 res.status(200)
                 res.json({
                     accessToken: accessToken, 
-                    refreshToken: refreshToken, //???
+                    // refreshToken: refreshToken, //???
                     success: true
                 })
             }
             res.status(400)
             res.json({
                 error: 'Login fails', 
+                message: 'The email or password not correct!',
                 success: false
             })
         })
@@ -43,9 +53,9 @@ module.exports = {
         })
     },
     logout:(req, res)  => {
-        let accessToken = req.headers.authorization.replace('Bearer ', '')
         try {
-            if (JWT.verifyCode(accessToken)) {
+            if (JWT.verifyCode(req)) {
+                res.cookie( TOKEN_ACCESS, '', { maxAge: 0, secure: !MODEL_DEV, httpOnly: true })
                 res.status(200)
                 res.json({
                     success: true,
@@ -79,7 +89,7 @@ module.exports = {
                 message: 'Get refresh token fails.', 
                 success: false
             })
-        } catch (error) {
+        } catch (error) { 
             res.status(400)
             res.json({
                 error: error + '', 

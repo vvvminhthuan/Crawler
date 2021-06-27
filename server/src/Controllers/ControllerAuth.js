@@ -1,8 +1,9 @@
 "use strict"
+
 const ModelUsers = require('../Models/ModelUsers')
 const JWT = require('../Auth/JWT')
 const BrcyptCode = require('../Auth/BrcyptCode')
-const { TOKEN_ACCESS, TOKEN_REFRESH, EXPREFRESH, MODEL_DEV } = require('../Config')
+const { TOKEN_ACCESS, TOKEN_REFRESH, EXPREFRESH, MODEL_DEV, OPTION_COKIE } = require('../Config')
 
 module.exports = {
     login: async (req, res) => {
@@ -21,8 +22,7 @@ module.exports = {
                 success: false
             })
         }
-        let hash = userResult ? userResult.password : ''
-        return BrcyptCode.compareCode(userData.password, hash)
+        return BrcyptCode.compareCode(userData.password, userResult.password)
         .then(value => {
             if (value) {
                 let dataJwt = {
@@ -31,11 +31,11 @@ module.exports = {
                 }
                 let accessToken = JWT.signCode(dataJwt)
                 // let refreshToken = JWT.signCode(dataJwt, parseInt(EXPREFRESH))
-                res.cookie( TOKEN_ACCESS, accessToken, { maxAge: 24*60*60, secure: !MODEL_DEV, httpOnly: true })
+                res.cookie( TOKEN_ACCESS, accessToken, OPTION_COKIE)
                 // tam thoi chua can
                 // res.cookie( TOKEN_REFRESH , refreshToken, { maxAge: 30*24*60*60, secure: !MODEL_DEV, httpOnly: true })
                 res.status(200)
-                res.json({
+                return res.json({
                     accessToken: accessToken, 
                     // refreshToken: refreshToken, //???
                     success: true

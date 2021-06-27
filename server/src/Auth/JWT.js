@@ -1,6 +1,8 @@
 'user strict'
+
 const { SECRET, EXP, ALG, TOKEN_REFRESH, TOKEN_ACCESS } = require('../Config')
 const jwt = require('jsonwebtoken')
+const { compareSync } = require('bcrypt')
 
 const JWT = () => {
     var options = {
@@ -8,19 +10,19 @@ const JWT = () => {
         expiresIn: parseInt(EXP),
     }
     const getToken = (req) => {
-        let tonken = ''
+        let token = ''
         if (req.headers.cookie) {
             let arrCookies = req.headers.cookie.split(';')
             arrCookies.forEach(item => {
-                if (item.indexOf(TOKEN_ACCESS)) {
-                    tonken = item.replace(TOKEN_ACCESS+'=', '')
+                if (item.indexOf(TOKEN_ACCESS) > -1) {
+                    token = item.replace(TOKEN_ACCESS+'=', '')
                 }
-            });
+            })
         }
-        if (tonken == '' && req.headers.authorization) {
-            tonken = req.headers.authorization.replace('Bearer ', '')
+        if (token == '' && req.headers.authorization) {
+            token = req.headers.authorization.replace('Bearer ', '')
         }
-        return tonken
+        return token
     }
     return {
         signCode: (data, exp = 0) =>{
@@ -35,8 +37,13 @@ const JWT = () => {
         },
         verifyCode: (req) =>{
             try {
-                return jwt.verify(getToken(req), SECRET)
+                let token = getToken(req)
+                if (token) {
+                    return jwt.verify(getToken(req), SECRET)
+                }
+                return false
             } catch (error) {
+                return false
                 throw error
             }
         }

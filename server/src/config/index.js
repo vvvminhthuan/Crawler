@@ -12,6 +12,11 @@ module.exports= {
     SALT:  process.env.SALT || 8,
     TOKEN_REFRESH: '_PEx', // tam thoi kong can
     TOKEN_ACCESS: '_23T', // luu vao db
+    OPTION_COKIE: {
+        maxAge: 24*60*60*1000, 
+        secure: !(process.env.MODEL_DEV === 'true'), 
+        httpOnly: true 
+    },
     PGUSER:  process.env.PGUSER || 'postgres',
     PGHOST:  process.env.PGHOST || 'localhost',
     PGPASSWORD:  process.env.PGPASSWORD || '1',

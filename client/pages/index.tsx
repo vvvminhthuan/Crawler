@@ -8,7 +8,7 @@ const Login = () => {
             </div>
             {/* /.card-header */}
             {/* form start */}
-            <form>
+            <form action='' method='POST'>
                 <div className="card-body">
                     <div className="form-group flex-c">
                         <input type="text" name="email" className="form-control" required/>

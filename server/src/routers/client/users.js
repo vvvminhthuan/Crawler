@@ -5,21 +5,17 @@ const　{ Auth } = require('../../Middlewares/MiddlewareAuth')
 const　{ CREATE_UPADTE_USERS } = require('../../Middlewares/Validates/ValidateUsers')
 const { detectParams, validateParams } = require('../../Middlewares/MiddlewareRouters')
 
-routes.get('/:id?', [detectParams, Auth],async(req, res, next) => {
-    let result = await getUsers(req, res)
-    res.end(result)
+routes.get('/:id?', [detectParams, Auth], (req, res, next) => {
+    getUsers(req, res)
 })
-routes.post('/', CREATE_UPADTE_USERS, async(req, res) => {
-    let result = await createUsers(req, res)
-    res.end(result)
+routes.post('/', CREATE_UPADTE_USERS, (req, res) => {
+    createUsers(req, res)
 })
-routes.put('/:id?', [detectParams, validateParams, Auth, CREATE_UPADTE_USERS], async(req, res) => {
-    let result = await updateUsers(req, res)
-    res.end(result)
+routes.put('/:id?', [detectParams, validateParams, Auth, CREATE_UPADTE_USERS], (req, res) => {
+    updateUsers(req, res)
 })
-routes.delete('/:id?', [detectParams, validateParams, Auth], async(req, res) => {
-    let result = await deleteUers(req, res)
-    res.end(result)
+routes.delete('/:id?', [detectParams, validateParams, Auth], (req, res) => {
+    deleteUers(req, res)
 })
 
 module.exports = routes;

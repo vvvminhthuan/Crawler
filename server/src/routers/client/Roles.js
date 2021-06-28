@@ -3,22 +3,19 @@ var routes = require('express').Router()
 const { getRoles, createRoles, updateRoles, deleteRoles } = require('../../Controllers/ControllerRoles')
 const { CREATE_UPDATE_ROLES } = require('../../Middlewares/Validates/ValidateRoles')
 const { detectParams, validateParams } = require('../../Middlewares/MiddlewareRouters')
+const　{ Auth } = require('../../Middlewares/MiddlewareAuth')
 
-routes.get('/:id?', [detectParams], async(req, res) => {
-    let result = await getRoles(req, res)
-    res.end(result)
+routes.get('/:id?', [detectParams, Auth], (req, res) => {
+    getRoles(req, res)
 })
-routes.put('/:id?', [detectParams, validateParams, CREATE_UPDATE_ROLES], async (req, res, next) => {
-    let result = await updateRoles(req, res)
-    res.end(result)
+routes.put('/:id?', [detectParams, validateParams, CREATE_UPDATE_ROLES, Auth], (req, res, next) => {
+    updateRoles(req, res)
 })
-routes.post('/', CREATE_UPDATE_ROLES, async (req, res, next) => {
-    let result = await createRoles(req, res)
-    res.end(result)
+routes.post('/', [CREATE_UPDATE_ROLES, Auth], (req, res, next) => {
+    createRoles(req, res)
 })
-routes.delete('/:id?', [detectParams, validateParams], async (req, res, next) => {
-    let result = await deleteRoles(req, res)
-    res.end(result)
+routes.delete('/:id?', [detectParams, validateParams, Auth], (req, res, next) => {
+    deleteRoles(req, res)
 })
 
 module.exports = routes;

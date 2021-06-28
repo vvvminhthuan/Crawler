@@ -50,6 +50,12 @@ module.exports = {
         })
         .catch(err => {
             console.log(err + '')
+            res.status(404)
+            res.json({
+                error: 'Login fails', 
+                message: 'The authorizing not correct!',
+                success: false
+            })
         })
     },
     logout:(req, res)  => {
@@ -64,9 +70,13 @@ module.exports = {
             }
         } catch (error) {
             res.status(400)
-            res.json({status: false, message: 'Logout fails', error: error + ''})
+            res.json({
+                status: false, 
+                message: 'Logout fails'
+            })
         }
     },
+    // Tam Thoi khong su dung, token 1d thi bi mat hieu luc
     refreshToken:(req, res) => {
         try {
             let refreshToken = req.headers.authorization.replace('Bearer ', '')

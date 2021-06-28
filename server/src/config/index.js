@@ -13,7 +13,7 @@ module.exports= {
     TOKEN_REFRESH: '_PEx', // tam thoi kong can
     TOKEN_ACCESS: '_23T', // luu vao db
     OPTION_COKIE: {
-        maxAge: 24*60*60*1000, 
+        maxAge: 24*60*60*1000, // 1 ngay
         secure: !(process.env.MODEL_DEV === 'true'), 
         httpOnly: true 
     },

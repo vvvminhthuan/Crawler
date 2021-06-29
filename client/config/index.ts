@@ -1,7 +1,12 @@
 const config = {
-    APP_NAME: process.env.NEXT_PUBLIC_URL_SDN,
-    APP_URL_API: process.env.NEXT_PUBLIC_URL_SDN,
-    CATEGORIE_DISABLE: [198494, 204064, 257503]
+    APP_NAME: process.env.NEXT_PUBLIC_APP_NAME,
+    CATEGORIE_DISABLE: [198494, 204064, 257503],
+    API_URL: process.env.NEXT_PUBLIC_URL_API,
+    API_KEYS_MAPS: process.env.NEXT_PUBLIC_KEY_MAPS ?? 'AIzaSyAvgLJRdxhHzB5Sf1mdQrQNqkBw-n1RISo',
+    SORT_NAME_DESC: 'NAME_DESC',
+    SORT_NAME_ASC: 'NAME_ASC',
+    SORT_AMOUT_DESC: 'AMOUT_DESC',
+    SORT_AMOUT_ASC: 'AMOUT_ASC',
 }
 
 export default config

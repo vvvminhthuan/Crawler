@@ -1,5 +1,6 @@
 import { URL_SEARCH, PRODUCTS_SORT } from '../actions/ActionTypes'
-import config from '../config'
+import config from 'config'
+console.log(config)
 const initialState = {
     urlSearch: '?',
     urlCategory: '?',

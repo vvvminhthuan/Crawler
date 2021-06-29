@@ -1,6 +1,14 @@
 import Link from 'next/link'
 
-const Login = () => {
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as SignIn from 'redux/actions/SignIn'
+
+const Login = (signIn, actions) => {
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        console.log('signIn', actions)
+    }
     return (
         <div className="card-login">
             <div className="card-header">
@@ -8,15 +16,15 @@ const Login = () => {
             </div>
             {/* /.card-header */}
             {/* form start */}
-            <form action='' method='POST'>
+            <form onSubmit = {(e) => handleSubmit(e)}>
                 <div className="card-body">
                     <div className="form-group flex-c">
-                        <input type="text" name="email" className="form-control" required/>
+                        <input type="text" name="email" className="form-control"/>
                         <label htmlFor="email">Email address</label>
                         <span className="error">Please enter a email address</span>
                     </div>
                     <div className="form-group flex-c">
-                        <input type="password" name="password" className="form-control" required/>
+                        <input type="password" name="password" className="form-control"/>
                         <label htmlFor="password">Password</label>
                         <span className="error">Please provide a password</span>
                     </div>
@@ -30,5 +38,19 @@ const Login = () => {
         </div>
     )
 }
-  
-export default Login
+
+
+
+function mapStateToProps(state) {
+    return {
+        signIn: state.signIn
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(SignIn, dispatch)
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

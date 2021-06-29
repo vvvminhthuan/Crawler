@@ -1,12 +1,12 @@
 import { SIGN_IN, SIGN_OUT } from '../actions/ActionTypes'
-const loggedReducer = (state = false, action) => {
+const signInReducer = (state = false, action) => {
     switch (action.type) {
         case SIGN_IN:
-            return true;
+            return true
         case SIGN_OUT:
-            return false;
+            return false
         default:
-            return state;
+            return state
     }
 }
-export default loggedReducer
+export default signInReducer

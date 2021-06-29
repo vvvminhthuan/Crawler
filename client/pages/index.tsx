@@ -2,12 +2,13 @@ import Link from 'next/link'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as SignIn from 'redux/actions/SignIn'
+import { signIn } from 'redux/actions/SignIn'
 
-const Login = (signIn, actions) => {
+const Login = (signIn) => {
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log('signIn', actions)
+        signIn.actionSignIn.signIn()
+        console.log('signIn', signIn)
     }
     return (
         <div className="card-login">
@@ -49,7 +50,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(SignIn, dispatch)
+        actionSignIn: bindActionCreators({signIn}, dispatch)
     };
 }
 

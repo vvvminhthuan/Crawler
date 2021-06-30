@@ -4,43 +4,45 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { signIn } from 'redux/actions/SignIn'
 
-const Login = (signIn) => {
+const Login = ({signIn, actionSignIn}) => {
     const handleSubmit = (e) => {
         e.preventDefault()
-        signIn.actionSignIn.signIn()
+        actionSignIn.signIn()
         console.log('signIn', signIn)
     }
     return (
-        <div className="card-login">
-            <div className="card-header">
-                <h3 className="card-title">Crawler systems</h3>
+        <div className="login-page">
+            <div className="card-login">
+                <div className="card-header">
+                    <h3 className="card-title">Crawler systems</h3>
+                </div>
+                {/* /.card-header */}
+                {/* form start */}
+                <form method='POST' onSubmit = {(e) => handleSubmit(e)}>
+                    <div className="card-body">
+                        <div className="form-group flex-c">
+                            <input type="text" name="email" className="form-control" required/>
+                            <span className="form-line"></span>
+                            <label htmlFor="email">Email</label>
+                            <span className="error">Please enter a email address</span>
+                        </div>
+                        <div className="form-group flex-c">
+                            <input type="password" name="password" className="form-control" required/>
+                            <span className="form-line"></span>
+                            <label htmlFor="password">Password</label>
+                            <span className="error">Please provide a password</span>
+                        </div>
+                    </div>
+                    <div className="card-footer flex-c">
+                        <Link href="#"><a className="link-register">Forgot Password</a></Link>
+                        <button type="submit" className="btn-sign">Sign in</button>
+                        <Link href="#"><a className="link-register">Signup</a></Link>
+                    </div>
+                </form>
             </div>
-            {/* /.card-header */}
-            {/* form start */}
-            <form onSubmit = {(e) => handleSubmit(e)}>
-                <div className="card-body">
-                    <div className="form-group flex-c">
-                        <input type="text" name="email" className="form-control"/>
-                        <label htmlFor="email">Email address</label>
-                        <span className="error">Please enter a email address</span>
-                    </div>
-                    <div className="form-group flex-c">
-                        <input type="password" name="password" className="form-control"/>
-                        <label htmlFor="password">Password</label>
-                        <span className="error">Please provide a password</span>
-                    </div>
-                </div>
-                <div className="card-footer flex-c">
-                    <button type="submit" className="btn-sign">Sign in</button>
-                    <Link href="#"><a className="link-register">Forgot Password</a></Link>
-                    <Link href="#"><a className="link-register">Register</a></Link>
-                </div>
-            </form>
         </div>
     )
 }
-
-
 
 function mapStateToProps(state) {
     return {

@@ -1,70 +1,98 @@
-.card-login{
-    margin: 200px auto;
-    width: 400px;
-    height: 270px;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
-    .card-header{
-        padding: 16px;
-        background-color: #007bff;
-        color: #fff;
-    }
-    form{
-        padding: 0 16px;
-        .card-body{
-            .form-group{
-                padding: 16px 0 0;
-                position: relative;
-                .form-control{
-                    position: relative;
-                    padding: 16px 0 2px 0;
-                    border: none;
-                    border-bottom: 1px solid #e4e4e4;
-                    &:focus{
-                        &+label{
-                            top: 0px;
-                            color: #007bff;
-                        }
-                        border-bottom: 1px solid #007bff;
-                    }
-                    &:valid{
-                        &+label{
-                            top: 0px;
-                            color: #007bff;
-                        }
-                        border-bottom: 1px solid #007bff;
-                    }
-                }
-                label{
-                    position: absolute;
-                    top: 18px;
-                    left: 0;
-                    padding: 8px 0;
-                }
-                .error{
-                    display: none;
-                    font-size: .8rem;
-                    color: $maroon;
-                }
-            }
+.login-page{
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(125deg, $lightblue, $gray-x-light);
+    .card-login{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        min-height: 300px;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
+        background-color: #fff;
+        .card-header{
+            padding: 16px;
+            background-color: #007bff;
+            color: #fff;
         }
-        .card-footer{
-            margin-top: 16px;
-            .btn-sign{
-                margin: auto;
-                width: 100px;
-                padding: 10px;
-                color: #fff;
-                border-radius: 5px;
-                background-color: #007bff;
-                border-color: #007bff;
-                border: 1px solid transparent;
+        form{
+            padding: 0 16px;
+            .card-body{
+                .form-group{
+                    margin-top: 20px;
+                    position: relative;
+                    border-bottom: 1px solid #e4e4e4;
+                    .form-control{
+                        padding: 0 5px;
+                        width: 100%;
+                        height: 32px;
+                        border: none;
+                        background: none;
+                        outline: none;
+                        &:focus ~ label{
+                            top: -5px;
+                            color: #007bff;
+                        }
+                        &:valid ~ label{
+                            top: -5px;
+                            color: #007bff;
+                        }
+                        &:focus ~ .form-line::before{
+                            width: 100%;
+                        }
+                        &:valid ~ .form-line::before{
+                            width: 100%;
+                        }
+                    }
+                    .form-line{
+                        &::before{
+                            content: '';
+                            position: absolute;
+                            left: 0;
+                            width: 0;
+                            height: 2px;
+                            background: #007bff;
+                            transition: 0.5s;
+                        }
+                    }
+                    label{
+                        position: absolute;
+                        top: 50%;
+                        left: 5px;
+                        transform: translateY(-50%);
+                        padding: 0;
+                        pointer-events: none;
+                        color: #a29d9d;
+                        transition: 0.5s;
+                    }
+                    .error{
+                        display: none;
+                        font-size: .8rem;
+                        color: $maroon;
+                    }
+                }
             }
-            a{
-                display: block;
-                margin: auto;
-                color: #007bff;
+            .card-footer{
+                margin-top: 16px;
+                .btn-sign{
+                    margin: auto;
+                    width: 100px;
+                    padding: 10px;
+                    color: #fff;
+                    border-radius: 5px;
+                    background-color: #007bff;
+                    border-color: #007bff;
+                    border: 1px solid transparent;
+                }
+                a{
+                    display: block;
+                    margin: 10px auto;
+                    color: $gray-light;
+                }
             }
         }
     }

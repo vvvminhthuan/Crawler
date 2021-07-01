@@ -1,10 +1,5 @@
-import axios from 'axios'
-import config from '../config'
+import * as Auth from './Auth'
 
-export default axios.create({
-    baseURL: config.API_URL,
-    timeout: 10000,
-    headers: {
-        "Content-Type":"application/x-www-form-urlencoded"
-    },
-});
+export default {
+    Auth: Auth
+}

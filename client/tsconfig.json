@@ -24,7 +24,7 @@
         "next-env.d.ts",
         "**/*.ts",
         "**/*.tsx", 
-        "next.config.js", "redux/index.js"
+        "next.config.js", "redux/index.ts"
     ],
     "exclude": [
         "node_modules"

@@ -1,13 +1,14 @@
 import Head from 'next/head'
 import React, {useEffect, useState} from 'react'
-import Router from 'next/router'
+import { useRouter } from 'next/router'
 
 import Header from './header'
 import Footer from './footer'
 import Aside from './aside'
-import LoadingPage from 'componets/Widgets/LoadingPage'
 import Chats from 'componets/Chats'
 import config from 'config'
+
+import { useSelector } from 'react-redux'
 
 import SocketClient from 'socket.io-client'
 
@@ -16,8 +17,11 @@ type LayoutProps = {
     description?: string
     categoriesMenu?: any
 }
+
 const Layout : React.FC<LayoutProps> = ({children, title, description, categoriesMenu}) =>{
-    const [isLoading, setIsLoading] = useState(false)
+    const signIn = useSelector((state:any) => state.signIn)
+    const router = useRouter()
+    
     let socket = SocketClient('//localhost:8484/chat')
     socket.on('connect', function () {
         console.log('da ket noi duoc server chats nhe!')
@@ -29,27 +33,11 @@ const Layout : React.FC<LayoutProps> = ({children, title, description, categorie
     useEffect(()=>{
         let arrElement = ['dropdown', 'nav-menu']
         windownEvent(arrElement)
-        Router.events.on('routeChangeStart', (url)=>{
-            setIsLoading(true)
-        })
-        Router.events.on('routeChangeComplete', () => {
-            setIsLoading(false)
-        })
-        Router.events.on('routeChangeError', () => {
-            setIsLoading(false)
-        })
-        return () =>{
-            setIsLoading(false)
+        if (!signIn) {
+            console.log(signIn)
+            router.push('./login')
         }
-        
     }, [])
-    const rawLoading = () => {
-        if (isLoading) {
-            return (
-                <LoadingPage />
-            )
-        }
-    }
     const windownEvent = (listElement: string[]) => {
         window.addEventListener('click', function(element) {
             setEmptyClass('expand')
@@ -104,7 +92,6 @@ const Layout : React.FC<LayoutProps> = ({children, title, description, categorie
             <main>
                 <div className="content">
                     {children}
-                    {rawLoading()}
                     <Chats />
 			    </div>
             </main>

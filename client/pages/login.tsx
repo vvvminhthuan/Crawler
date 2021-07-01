@@ -4,12 +4,21 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { signIn } from 'redux/actions/SignIn'
 
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+
 const Login = ({signIn, actionSignIn}) => {
+    const router = useRouter()
+
     const handleSubmit = (e) => {
         e.preventDefault()
         actionSignIn.signIn()
-        console.log('signIn', signIn)
     }
+    useEffect(()=>{
+        if (signIn) {
+            router.push('/')
+        }
+    }, [signIn])
     return (
         <div className="login-page">
             <div className="card-login">

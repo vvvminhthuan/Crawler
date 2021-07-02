@@ -3,6 +3,7 @@
 const ModelUsers = require('../Models/ModelUsers')
 const JWT = require('../Auth/JWT')
 const BrcyptCode = require('../Auth/BrcyptCode')
+const { setRes } = require('../Helpers/Response')
 const { TOKEN_ACCESS, TOKEN_REFRESH, EXPREFRESH, MODEL_DEV, OPTION_COKIE } = require('../Config')
 
 module.exports = {
@@ -15,17 +16,13 @@ module.exports = {
         }
         let userResult = await ModelUsers.findOne(condition)
         if (!userResult) {
-            res.status(400)
-            return res.json({
-                error: 'Login fails', 
-                message: 'The email not exits!',
-                success: false
-            })
+            setRes(res, 400, false, 'The email not exits!')
         }
         return BrcyptCode.compareCode(userData.password, userResult.password)
         .then(value => {
             if (value) {
                 let dataJwt = {
+                    id: userResult.id,
                     name: userResult.firstName + ' ' + userResult.lastName,
                     email: userResult.email
                 }
@@ -34,46 +31,27 @@ module.exports = {
                 res.cookie( TOKEN_ACCESS, accessToken, OPTION_COKIE)
                 // tam thoi chua can
                 // res.cookie( TOKEN_REFRESH , refreshToken, { maxAge: 30*24*60*60, secure: !MODEL_DEV, httpOnly: true })
-                res.status(200)
-                return res.json({
+                setRes(res, 200, true, 'Login complete!', {
                     accessToken: accessToken, 
                     // refreshToken: refreshToken, //???
                     success: true
                 })
+            }else{
+                setRes(res, 400, false, 'The email or password not correct!')
             }
-            res.status(400)
-            res.json({
-                error: 'Login fails', 
-                message: 'The email or password not correct!',
-                success: false
-            })
         })
         .catch(err => {
-            console.log(err + '')
-            res.status(404)
-            res.json({
-                error: 'Login fails', 
-                message: 'The authorizing not correct!',
-                success: false
-            })
+            setRes(res, 400, false, 'The authorizing not correct!')
         })
     },
     logout:(req, res)  => {
         try {
             if (JWT.verifyCode(req)) {
                 res.cookie( TOKEN_ACCESS, '', { maxAge: 0, secure: !MODEL_DEV, httpOnly: true })
-                res.status(200)
-                res.json({
-                    success: true,
-                    message: 'Logout complete', 
-                })
+                setRes(res, 200, true, 'Logout complete!')
             }
         } catch (error) {
-            res.status(400)
-            res.json({
-                status: false, 
-                message: 'Logout fails'
-            })
+            setRes(res, 400, false, 'Logout fails!')
         }
     },
     // Tam Thoi khong su dung, token 1d thi bi mat hieu luc
@@ -88,24 +66,14 @@ module.exports = {
                     email: refresh.email
                 }
                 let accessToken = JWT.signCode(dataJwt)
-                res.status(200)
-                res.json({
+                setRes(res, 200, true, 'Logout complete!', {
                     accessToken: accessToken, 
-                    success: true
                 })
+            }else{
+                setRes(res, 200, false, 'Get refresh token fails.')
             }
-            res.status(400)
-            res.json({
-                message: 'Get refresh token fails.', 
-                success: false
-            })
         } catch (error) { 
-            res.status(400)
-            res.json({
-                error: error + '', 
-                message: 'Get refresh token fails.', 
-                success: false
-            })
+            setRes(res, 400, false, 'Get refresh token fails.')
         }
     }
 }

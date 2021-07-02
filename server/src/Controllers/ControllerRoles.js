@@ -2,6 +2,7 @@
 const ModelRoles = require('../Models/ModelRoles')
 const { signRole, signRoleChild, renderRole } = require('../Auth/Roles')
 const {ROW_DELETE} = require('../Config')
+const { setRes } = require('../Helpers/Response')
 
 module.exports = {
     getRoles: (req, res) => {
@@ -16,19 +17,10 @@ module.exports = {
         }
         return ModelRoles.findAllRoles(condition)
             .then(result => {
-                res.status(200)
-                res.json({
-                    "status": true,
-                    "result": result
-                })
+                setRes(res, 200, true, 'Get role complete!', result)
             })
             .catch (err => {
-                res.status(500)
-                res.json({
-                    "status": false,
-                    'message': `Can't query`,
-                    "error": err + ''
-                })
+                setRes(res, 500, false, 'Get role fail!')
             })
     },
     updateRoles: async (req, res) => {
@@ -49,24 +41,12 @@ module.exports = {
             }
             const result = await ModelRoles.updateRoles(condition, params, roleChange)
             if (result) {
-                res.status(200)
-                res.json({
-                    "status": true,
-                    "result": result
-                })
+                setRes(res, 200, true, 'Update role complete!', result)
             } else {
-                res.status(500)
-                res.json({
-                    "status": false,
-                    "message": "Insert fails.",
-                })
+                setRes(res, 500, true, 'Update role fails!', result)
             }
         } else {
-            res.status(404)
-            res.json({
-                "status": false,
-                "message": "Request Not Found."
-            })
+            setRes(res, 404, true, 'Request Not Found.', result)
         }
     },
     createRoles: async (req, res) => {
@@ -94,17 +74,9 @@ module.exports = {
         }
         const result = await ModelRoles.createRoles(params, newAdmin, oldAdmin)
         if (result) {
-            res.status(201)
-            res.json({
-                "status": true,
-                "result": result
-            }) 
+            setRes(res, 201, true, 'Create role complete!', result)
         } else {
-            res.status(500)
-            res.json({
-                "status": false,
-                "message": "Insert fails",
-            })
+            setRes(res, 500, true, 'Create role fails!')
         }
     },
     deleteRoles: (req, res) => {
@@ -120,18 +92,10 @@ module.exports = {
 
         return ModelRoles.update(params, condition)
         .then(result => {
-            res.status(200)
-            res.json({
-                "status": true,
-                "result": result
-            })
+            setRes(res, 200, true, 'Delete role complete!', result)
         })
         .catch(err => {
-            res.status(500)
-            res.json({
-                "status": false,
-                "message": "Insert fails.",
-            })
+            setRes(res, 500, true, 'Delete role fails!')
         })
     },
 }

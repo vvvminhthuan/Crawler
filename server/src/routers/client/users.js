@@ -17,5 +17,8 @@ routes.put('/:id?', [detectParams, validateParams, Auth, CREATE_UPADTE_USERS], (
 routes.delete('/:id?', [detectParams, validateParams, Auth], (req, res) => {
     deleteUers(req, res)
 })
+routes.get('/user-info', [Auth], (req, res) => {
+    getUsersByAuth(req, res)
+})
 
 module.exports = routes;

@@ -8,7 +8,6 @@ const upload = multer()
 
 const socket = require('socket.io')
 const SocketEvent = require('./src/SocketEvent')
-
 var server = null
 
 if (config.MODEL_DEV) {

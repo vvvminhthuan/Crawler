@@ -2,9 +2,10 @@
 
 var routes = require('express').Router()
 const { login, logout } = require('../Controllers/ControllerAuth')
-const { USER_SIGNIN } = require('../Middlewares/Validates/ValidateAuth');
+const { USER_SIGNIN } = require('../Middlewares/Validates/ValidateAuth')
 
-// routes.use('/admin',require('./admin'));
+// routes.use('/admin',require('./admin'))
+
 routes.use(require('./client'))
 
 routes.use('/test', function (req, res, next) {

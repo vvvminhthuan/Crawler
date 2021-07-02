@@ -1,26 +1,19 @@
 "use strict"
 
 const JWT = require('../Auth/JWT')
+const { setRes }= require('../Helpers/Response')
 
 module.exports = {
     Auth: function (req, res, next) {
         try {
-            if (JWT.verifyCode(req)) {
+            let info = JWT.verifyCode(req)
+            if (account) {
+                req.infor = infor
                 return next()
             }
-            res.status(403)
-            return res.json({
-                success: false,
-                authention: false,
-                message: 'User is not allowed to access', 
-            })
+            setRes(res, 401, false, 'User not allowed to access', [], false)
         } catch (error) {
-            res.status(403)
-            res.json({
-                status: false, 
-                authention: false,
-                message: 'User is not allowed to access' 
-            })
+            setRes(res, 401, false, 'User not allowed to access', [], false)
         }
     }
 }

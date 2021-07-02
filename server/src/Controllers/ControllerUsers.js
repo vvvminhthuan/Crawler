@@ -2,6 +2,7 @@
 const ModelUsers = require('../Models/ModelUsers')
 const BrcyptCode = require('../Auth/BrcyptCode')
 const {ROW_DELETE} = require('../Config')
+const { setRes } = require('../Helpers/Response')
 
 module.exports = {
     getUsers: (req, res) => {
@@ -16,19 +17,10 @@ module.exports = {
         }
         return ModelUsers.findAllUsers(condition)
             .then(result => {
-                res.status(200)
-                res.json({
-                    "status": true,
-                    "result": result
-                })
+                setRes(res, 200, true, 'Get user complete!', result)
             })
             .catch (err => {
-                res.status(500)
-                res.json({
-                    "status": false,
-                    'message': `Can't query`,
-                    "error": err + ''
-                })
+                setRes(res, 500, false, 'Get user fail!')
             })
     },
     updateUsers: async (req, res) => {
@@ -41,19 +33,10 @@ module.exports = {
             where: condition
         }) 
         .then(result =>{
-            res.status(200)
-            res.json({
-                "status": true,
-                "result": result
-            })
+            setRes(res, 200, true, 'Update user complete!', result)
         })
         .catch(err =>{
-            res.status(500)
-            res.json({
-                "status": false,
-                "message": "Insert fails",
-                "error": err + ''
-            })
+            setRes(res, 500, false, 'Update user fails!')
         }) 
     },
     deleteUers: (req, res) => {
@@ -65,19 +48,10 @@ module.exports = {
             where: condition
         }) 
         .then(result =>{
-            res.status(200)
-            res.json({
-                "status": true,
-                "result": result
-            })
+            setRes(res, 200, true, 'Delete user complete!', result)
         })
         .catch(err =>{
-            res.status(500)
-            res.json({
-                "status": false,
-                "message": "Insert fails",
-                "error": err + ''
-            })
+            setRes(res, 500, false, 'Delete user fails!')
         }) 
     },
     createUsers: async (req, res) => {
@@ -85,19 +59,28 @@ module.exports = {
         params.password = await BrcyptCode.hashCode(params.password)
         return ModelUsers.create(params) 
         .then(result =>{
-            res.status(201)
-            res.json({
-                "status": true,
-                "result": result
-            }) 
+            setRes(res, 201, true, 'Create user complete!', result)
         })
         .catch(err =>{
-            res.status(500)
-            res.json({
-                "status": false,
-                "message": "Insert fails",
-                "error": err + ''
-            })
+            setRes(res, 500, false, 'Create user fails!')
         }) 
-    }
+    },
+    getUsersByAuth: (req, res) => {
+        let infor = req.infor
+        let condition = {
+            where: {
+                isDelete: ROW_DELETE.NOT_DELETE
+            }
+        }
+        if (params) {
+            Object.assign(condition.where, params)
+        }
+        return ModelUsers.findAllUsers(condition)
+            .then(result => {
+                setRes(res, 200, true, 'Get user complete!', result)
+            })
+            .catch (err => {
+                setRes(res, 500, false, 'Get user fail!')
+            })
+    },
 }

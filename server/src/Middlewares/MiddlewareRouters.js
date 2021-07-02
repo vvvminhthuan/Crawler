@@ -1,14 +1,14 @@
 "use strict"
 
+const { setRes }= require('../Helpers/Response')
+
 module.exports = {
     validateParams: function (req, res, next) {
         let id = req.params.id;
         let reg = new RegExp('^\\d+$');
         if (id !== undefined) {
             if (!reg.test(id)) {
-                return res.json({
-                    error: "Params query must is number"
-                });
+                setRes(res, 404, false, 'Params query must is number')
             }
         }
         next();
@@ -21,17 +21,12 @@ module.exports = {
                 delete req.params[item]
             }
         })
-        next();
+        next()
     },
     validateParams: function (req, res, next) {
         if (Object.keys(req.params).length == 0) {
-            res.status(404)
-            res.json({
-                "status": false,
-                "message": "Request Not Found."
-            })
-            return res.end()
+            setRes(res, 404, false, 'The params is required.')
         }
-        next();
+        next()
     }
 }

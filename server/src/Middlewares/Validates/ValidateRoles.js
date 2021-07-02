@@ -1,5 +1,6 @@
 "use strict"
 const {VALIDATOR} = require('./ValidateBasic')
+const { setRes }= require('../../Helpers/Response')
 
 module.exports = {
     CREATE_UPDATE_ROLES: function (req, res, next) {
@@ -13,8 +14,7 @@ module.exports = {
         return validate.check()
         .then(matched =>{
             if (!matched) {
-                res.status(400)
-                res.json({
+                setRes(res, 400, false, 'Validate fails', {
                     oldParams: req.body,
                     error: validate.errors
                 })
@@ -23,11 +23,10 @@ module.exports = {
             }
         })
         .catch(err => {
-            res.status(500)
-                res.json({
-                    params: req.body,
-                    error: err + ''
-                })
+            setRes(res, 500, false, 'Validate fails', {
+                params: req.body,
+                error: err + ''
+            })
         })
     }
 }

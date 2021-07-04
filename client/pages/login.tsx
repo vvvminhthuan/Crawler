@@ -4,21 +4,29 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { signIn } from 'redux/actions/SignIn'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+
+import { SignIn as apiSignIn } from 'api/Auth'
+import useForm from 'helpers/useForm'
 
 const Login = ({signIn, actionSignIn}) => {
     const router = useRouter()
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        actionSignIn.signIn()
+    const initalValues = {
+        email: '',
+        password: '',
     }
+    const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useForm({initalValues, onEvent: value => onSubmit(value)}) 
+
     useEffect(()=>{
         if (signIn) {
             router.push('/')
         }
-    }, [signIn])
+    }, [])
+    const onSubmit = (value) =>{
+        console.log(value)
+    }
     return (
         <div className="login-page">
             <div className="card-login">
@@ -27,16 +35,16 @@ const Login = ({signIn, actionSignIn}) => {
                 </div>
                 {/* /.card-header */}
                 {/* form start */}
-                <form method='POST' onSubmit = {(e) => handleSubmit(e)}>
+                <form method='POST' onSubmit = {handleSubmit}>
                     <div className="card-body">
                         <div className="form-group flex-c">
-                            <input type="text" name="email" className="form-control" required/>
+                            <input type="text" name="email" className="form-control" onChange = {handleChange} value={values.email} onBlur={handleBlur} required/>
                             <span className="form-line"></span>
                             <label htmlFor="email">Email</label>
-                            <span className="error">Please enter a email address</span>
+                            <span className="error">Please enter a email address {values.email}</span>
                         </div>
                         <div className="form-group flex-c">
-                            <input type="password" name="password" className="form-control" required/>
+                            <input type="password" name="password" className="form-control" onChange = {handleChange} value={values.password} onBlur={handleBlur} required/>
                             <span className="form-line"></span>
                             <label htmlFor="password">Password</label>
                             <span className="error">Please provide a password</span>

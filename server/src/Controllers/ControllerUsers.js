@@ -72,9 +72,10 @@ module.exports = {
                 isDelete: ROW_DELETE.NOT_DELETE
             }
         }
-        if (params) {
-            Object.assign(condition.where, params)
+        if (infor) {
+            Object.assign(condition.where, {id: infor.id})
         }
+
         return ModelUsers.findAllUsers(condition)
             .then(result => {
                 setRes(res, 200, true, 'Get user complete!', result)

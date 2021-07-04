@@ -6,8 +6,8 @@ const { setRes }= require('../Helpers/Response')
 module.exports = {
     Auth: function (req, res, next) {
         try {
-            let info = JWT.verifyCode(req)
-            if (account) {
+            let infor = JWT.verifyCode(req)
+            if (infor) {
                 req.infor = infor
                 return next()
             }

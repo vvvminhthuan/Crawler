@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux'
 import useStore from '../redux'
 
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import { useRouter } from 'next/router'
 
 import NProgress from 'nprogress'

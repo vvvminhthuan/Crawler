@@ -28,13 +28,12 @@ const Layout : React.FC<LayoutProps> = ({children, title, description, categorie
     })
     socket.on('send', function(fullname, objPersont) {
         console.log(fullname, objPersont)
-    });
+    })
     socket.emit('receives', 'Client da nhan dc thong tin')
     useEffect(()=>{
         let arrElement = ['dropdown', 'nav-menu']
         windownEvent(arrElement)
         if (!signIn) {
-            console.log(signIn)
             router.push('./login')
         }
     }, [])
@@ -76,30 +75,33 @@ const Layout : React.FC<LayoutProps> = ({children, title, description, categorie
             item.classList.remove(strClass)
         })
     }
-    return(
-        <>
-            <Head>
-                <title>{title||config.APP_NAME}</title>
-                <meta charSet="utf-8" />
-                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-                <meta name="description" content={description || ''} />
-            </Head>
-            <header>
-                <Header/>
-            </header>
-            {/* Main Sidebar Container */}
-            <Aside />
-            <main>
-                <div className="content">
-                    {children}
-                    <Chats />
-			    </div>
-            </main>
-            <footer>
-                <Footer />
-            </footer>
-        </>
-    )
+    if (signIn) {
+        return(
+            <>
+                <Head>
+                    <title>{title||config.APP_NAME}</title>
+                    <meta charSet="utf-8" />
+                    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                    <meta name="description" content={description || ''} />
+                </Head>
+                <header>
+                    <Header/>
+                </header>
+                {/* Main Sidebar Container */}
+                <Aside />
+                <main>
+                    <div className="content">
+                        {children}
+                        <Chats />
+                    </div>
+                </main>
+                <footer>
+                    <Footer />
+                </footer>
+            </>
+        )
+    }
+   return null
 }
 
 export default Layout

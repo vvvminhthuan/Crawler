@@ -25,3 +25,10 @@
 .scroll-y{
     overflow-y: auto;
 }
+.error{
+    font-size: .8rem;
+    color: $maroon;
+    &::first-letter {
+        text-transform: uppercase;
+    }
+}

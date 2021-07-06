@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import { SignIn as apiSignIn } from 'api/Auth'
-import useForm from 'helpers/useForm'
+import {useCustomForm, JOI} from 'helpers/useCustomForm'
 
 const Login = ({signIn, actionSignIn}) => {
     const router = useRouter()
@@ -17,15 +17,27 @@ const Login = ({signIn, actionSignIn}) => {
         email: '',
         password: '',
     }
-    const { values, errors, touched, handleBlur, handleChange, handleSubmit } = useForm({initalValues, onEvent: value => onSubmit(value)}) 
-
+    const initalValidates = {
+        email: JOI.string().email({tlds: false}).required(),
+        password: JOI.string().min(6).max(32).required()
+    }
+    const { 
+        values, 
+        errors, 
+        touched, 
+        handleBlur,
+        handleChange, 
+        handleSubmit 
+    } = useCustomForm({initalValues, initalValidates, onEvent: value => onSubmit(value)}) 
+    
     useEffect(()=>{
         if (signIn) {
             router.push('/')
         }
-    }, [])
+    },[signIn])
     const onSubmit = (value) =>{
-        console.log(value)
+        // console.log(value)
+        actionSignIn.signIn()
     }
     return (
         <div className="login-page">
@@ -35,19 +47,20 @@ const Login = ({signIn, actionSignIn}) => {
                 </div>
                 {/* /.card-header */}
                 {/* form start */}
-                <form method='POST' onSubmit = {handleSubmit}>
+                <form method='POST' onSubmit = {handleSubmit} noValidate>
                     <div className="card-body">
                         <div className="form-group flex-c">
                             <input type="text" name="email" className="form-control" onChange = {handleChange} value={values.email} onBlur={handleBlur} required/>
                             <span className="form-line"></span>
                             <label htmlFor="email">Email</label>
-                            <span className="error">Please enter a email address {values.email}</span>
+                            {errors.email ? <span className="error">{errors.email}</span> : null}
+                            
                         </div>
                         <div className="form-group flex-c">
                             <input type="password" name="password" className="form-control" onChange = {handleChange} value={values.password} onBlur={handleBlur} required/>
                             <span className="form-line"></span>
                             <label htmlFor="password">Password</label>
-                            <span className="error">Please provide a password</span>
+                            {errors.password ? <span className="error">{errors.password}</span> : null}
                         </div>
                     </div>
                     <div className="card-footer flex-c">
@@ -64,13 +77,13 @@ const Login = ({signIn, actionSignIn}) => {
 function mapStateToProps(state) {
     return {
         signIn: state.signIn
-    };
+    }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         actionSignIn: bindActionCreators({signIn}, dispatch)
-    };
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

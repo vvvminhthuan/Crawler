@@ -4,13 +4,13 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { signIn } from 'redux/actions/SignIn'
 
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-import { SignIn as apiSignIn } from 'api/Auth'
+import { apiSignIn } from 'api/Auth'
 import {useCustomForm, JOI} from 'helpers/useCustomForm'
 
-const Login = ({signIn, actionSignIn}) => {
+const Login = ({signIn, action}) => {
     const router = useRouter()
 
     const initalValues = {
@@ -35,9 +35,16 @@ const Login = ({signIn, actionSignIn}) => {
             router.push('/')
         }
     },[signIn])
-    const onSubmit = (value) =>{
-        // console.log(value)
-        actionSignIn.signIn()
+    const onSubmit = (values) =>{
+        apiSignIn(values)
+        .then((result:any) => {
+            console.log(result)
+            if(result.success){
+                action.signIn()
+            }
+        }).catch((err) => {
+            
+        })
     }
     return (
         <div className="login-page">
@@ -50,16 +57,19 @@ const Login = ({signIn, actionSignIn}) => {
                 <form method='POST' onSubmit = {handleSubmit} noValidate>
                     <div className="card-body">
                         <div className="form-group flex-c">
-                            <input type="text" name="email" className="form-control" onChange = {handleChange} value={values.email} onBlur={handleBlur} required/>
-                            <span className="form-line"></span>
-                            <label htmlFor="email">Email</label>
+                            <div className={`group-input ${errors.email ? 'line-error' : ''}`}>
+                                <input type="text" name="email" className="form-control" onChange = {handleChange} value={values.email} onBlur={handleBlur} required/>
+                                <label htmlFor="email">Email</label>
+                                <span className={`form-line ${errors.email ? 'line-error' : ''}`}></span>
+                            </div>
                             {errors.email ? <span className="error">{errors.email}</span> : null}
-                            
                         </div>
                         <div className="form-group flex-c">
-                            <input type="password" name="password" className="form-control" onChange = {handleChange} value={values.password} onBlur={handleBlur} required/>
-                            <span className="form-line"></span>
-                            <label htmlFor="password">Password</label>
+                            <div className={`group-input ${errors.password ? 'line-error' : ''}`}>
+                                <input type="password" name="password" className="form-control" onChange = {handleChange} value={values.password} onBlur={handleBlur} required/>
+                                <label htmlFor="password">Password</label>
+                                <span className={`form-line ${errors.password ? 'line-error' : ''}`}></span>
+                            </div>
                             {errors.password ? <span className="error">{errors.password}</span> : null}
                         </div>
                     </div>
@@ -82,7 +92,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actionSignIn: bindActionCreators({signIn}, dispatch)
+        action: bindActionCreators({signIn}, dispatch)
     }
 }
 

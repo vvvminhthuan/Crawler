@@ -1,16 +1,21 @@
-import ApiBase from './ApiBase'
+import api from './ApiBase'
 import { SIGN_IN, SIGN_OUT } from './RouteBase'
 
-export const SignIn = (body) => {
-    return ApiBase.post(SIGN_IN, body)
+export const apiSignIn = (body) => {
+    body = JSON.stringify(body)
+    console.log(api, body)
+    return api.get('/users', body)
     .then(result => result)
     .catch((err) => {
-        
+        console.log(err + '')
     })
 }
-export const SignOut = () => {
+export const apiSignOut = () => {
     return ApiBase.get(SIGN_OUT)
-    .then((result) => result)
+    .then((result) => {
+        console.log(result)
+        return result
+    })
     .catch((err) => {
         
     })

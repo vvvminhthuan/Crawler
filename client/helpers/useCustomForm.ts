@@ -1,6 +1,5 @@
-import React, {ChangeEventHandler, useEffect, useRef, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import joi from 'joi'
-import { error } from 'console'
 
 export const useCustomForm = ({initalValues, initalValidates, onEvent}) =>{
     const [values, setValues]: any  = useState(initalValues || {})
@@ -61,15 +60,16 @@ export const useCustomForm = ({initalValues, initalValidates, onEvent}) =>{
         })
         if (valueValidate.error) {
             let {details} = valueValidate.error
+            let listError = {}
             details.map(item => {
                 let errorCurrent = {
                     [item.path[0]]: item.message.replaceAll('\"','')
                 }
-                setErrors({...errors, ...errorCurrent})
+                listError = {...listError, ...errorCurrent}
             })
-            console.log(errors)
+            setErrors({...errors, ...listError})
         }else{
-            onEvent({values, errors})
+            onEvent({...values})
         }
     }
 

@@ -114,7 +114,6 @@ ModelRoles.updateRoles = async (condition, newRole, roleChange = 0) => {
         console.log(error)
         return false
     }
-        
 }
 
 module.exports = ModelRoles

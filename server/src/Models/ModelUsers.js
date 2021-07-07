@@ -76,19 +76,38 @@ ModelUsers.belongsTo(ModelRoles, {
     foreignKey: 'roleId',
 })
 
-ModelUsers.findAllUsers = async (condition = {}) => {
+ModelUsers.findAllUsers = async (condition = {}, isIncludeAdmin = false) => {
+    let attributes = ['id', 
+        "firstName", 
+        "lastName", 
+        "nickName", 
+        "email", 
+        "phoneNumber", 
+        "numberId", 
+        "address", 
+        "roleId", 
+        "createdAt", 
+        "firstName", 
+        "firstName", 
+        "firstName", 
+        "firstName"
+    ]
     let include = {
         model: ModelRoles,
         attributes: ['id', "name", "role"],
-        where: {
+        required: true
+    }
+    if (!isIncludeAdmin) {
+        include.where = {
             roleChild: {
                 [Op.ne]: sequelize.col('role')
             }
         }
     }
     return await ModelUsers.findAll({
-        condition, 
-        include
+        where: condition.where, 
+        include,
+        attributes
     })
 }
 

@@ -36,10 +36,11 @@ const Layout : React.FC<LayoutProps> = ({children, title, description, categorie
         if (!signIn) {
             router.push('./login')
         }
-    }, [])
+    }, [signIn])
     const windownEvent = (listElement: string[]) => {
         window.addEventListener('click', function(element) {
             setEmptyClass('expand')
+            console.log('o day ne')
             let elParent = getParent('dropdown', element.target)
             let children = getChildren('dropdown-menu', elParent)
             if (children) {
@@ -48,7 +49,7 @@ const Layout : React.FC<LayoutProps> = ({children, title, description, categorie
         })
     }
     const getParent = (elementName : string, tagElement: any): any =>{
-        let strClassName = tagElement.className
+        let strClassName = tagElement ? tagElement.className : ''
         if (strClassName == null || strClassName == '') {
             return null
         }

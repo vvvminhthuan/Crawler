@@ -34,7 +34,7 @@ module.exports = {
                 setRes(res, 200, true, 'Login complete!', {
                     accessToken: accessToken, 
                     // refreshToken: refreshToken, //???
-                    success: true
+                    // success: true
                 })
             }else{
                 setRes(res, 400, false, 'The email or password not correct!')

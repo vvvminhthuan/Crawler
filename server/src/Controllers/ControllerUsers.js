@@ -74,9 +74,10 @@ module.exports = {
         }
         if (infor) {
             Object.assign(condition.where, {id: infor.id})
+        }else{
+            setRes(res, 500, false, 'Get user fail!')
         }
-
-        return ModelUsers.findAllUsers(condition)
+        return ModelUsers.findAllUsers(condition, true)
             .then(result => {
                 setRes(res, 200, true, 'Get user complete!', result)
             })

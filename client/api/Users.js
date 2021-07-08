@@ -1,50 +1,52 @@
-import ApiBase from './ApiBase'
-import { USERS } from './RouteBase'
+import api from './ApiBase'
+import { USERS, USERS_INFO } from './RouteBase'
 
-export const getById = (params) => {
-    return ApiBase.get(`${USERS}/${params}`)
+const {POST, GET, PUT, DELETE} = api()
+
+export const getUserById = (params) => {
+    return GET(`${USERS}/${params}`)
     .then((result) => {
-        
+        return result
     }).catch((err) => {
         
     })
 }
-export const getAll = () => {
-    return ApiBase.get(`${USERS}/${params}`)
+export const getAllUser = () => {
+    return GET(USERS)
     .then((result) => {
-        
+        return result
     }).catch((err) => {
         
     })
 }
-export const create = (body) => {
-    return ApiBase.post(USERS, body)
+export const createUser = (body) => {
+    return POST(USERS, body)
     .then((result) => {
-        
+        return result
     }).catch((err) => {
         
     })
 }
-export const update = (body, params) => {
-    return ApiBase.put(`${USERS}/${params}`, body)
+export const updateUser = (body, params) => {
+    return PUT(`${USERS}/${params}`, body)
     .then((result) => {
-        
+        return result
     }).catch((err) => {
         
     })
 }
-export const deleteById = (body, params) => {
-    return ApiBase.get(`${USERS}/${params}`, body)
+export const deleteUserById = (params) => {
+    return DELETE(`${USERS}/${params}`)
     .then((result) => {
-        
+        return result
     }).catch((err) => {
         
     })
 }
-export const getInfoByAuth = () => {
-    return ApiBase.get(USERS)
+export const getInfoUserByAuth = () => {
+    return GET(USERS_INFO)
     .then((result) => {
-        
+        return result
     }).catch((err) => {
         
     })

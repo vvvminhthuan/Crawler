@@ -4,7 +4,7 @@ const ModelUsers = require('../Models/ModelUsers')
 const JWT = require('../Auth/JWT')
 const BrcyptCode = require('../Auth/BrcyptCode')
 const { setRes } = require('../Helpers/Response')
-const { TOKEN_ACCESS, TOKEN_REFRESH, EXPREFRESH, MODEL_DEV, OPTION_COKIE } = require('../Config')
+const { TOKEN_ACCESS, MODEL_DEV, OPTION_COKIE } = require('../Config')
 
 module.exports = {
     login: async (req, res) => {
@@ -18,7 +18,7 @@ module.exports = {
         if (!userResult) {
             setRes(res, 400, false, 'The email not exits!')
         }
-        return BrcyptCode.compareCode(userData.password, userResult.password)
+        return BrcyptCode.compareCode(userData.password, userResult.password) 
         .then(value => {
             if (value) {
                 let dataJwt = {

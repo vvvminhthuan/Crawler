@@ -13,9 +13,9 @@ const JWT = () => {
         let token = ''
         if (req.headers.cookie) {
             let arrCookies = req.headers.cookie.split(';')
-            arrCookies.forEach(item => {
+            arrCookies.forEach((item, index) => {
                 if (item.indexOf(TOKEN_ACCESS) > -1) {
-                    token = item.replace(TOKEN_ACCESS+'=', '')
+                    token = item.replace(TOKEN_ACCESS+'=', '').trim()
                 }
             })
         }
@@ -39,7 +39,7 @@ const JWT = () => {
             try {
                 let token = getToken(req)
                 if (token) {
-                    return jwt.verify(getToken(req), SECRET)
+                    return jwt.verify(token, SECRET)
                 }
                 return false
             } catch (error) {

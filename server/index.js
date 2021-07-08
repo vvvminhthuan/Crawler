@@ -28,8 +28,11 @@ const _io = socket(server, {
 
 app.use((req, res, next)=>{
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8088')
 
+    res.setHeader('Content-Type', 'application/json')
+
+    res.setHeader('Access-Control-Allow-Credentials', true)
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
 
@@ -39,6 +42,12 @@ app.use((req, res, next)=>{
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
     // res.setHeader('Access-Control-Allow-Credentials', true)
+    
+    // when client user method OPTIONS
+    if (req.method === 'OPTIONS') {
+        res.status(200).end()
+        return
+    }
 
     // Pass to next layer of middleware
     return next()
@@ -47,7 +56,7 @@ app.disable('x-powered-by') // disable nguon cung cap api
 
 app.use(express.static('stores'))
 app.use(bodyParser.json({limit: '1mb'}))
-app.use(bodyParser.urlencoded({ extended: true }))// for parsing application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))// for parsing application/x-www-form-urlencoded
 app.use(upload.array()) // for parsing multipart/form-data
 app.use('/api', require('./src/Routers'))
 app.use(function (req, res, next) {

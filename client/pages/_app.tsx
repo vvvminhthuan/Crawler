@@ -1,5 +1,6 @@
 import { Provider } from 'react-redux'
 import useStore from '../redux'
+import {getInfoUser} from 'redux/middleware/User'
 
 import React, {useEffect} from 'react'
 import { useRouter } from 'next/router'
@@ -18,6 +19,8 @@ const nProgresDone = () => {
 
 export default function App({Component, pageProps}){
     const store = useStore(pageProps.initialReduxState)
+    store.dispatch(getInfoUser())
+    
     const router = useRouter()
     useEffect(() =>{
         router.events.on('routeChangeStart', (url)=>{

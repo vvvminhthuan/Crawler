@@ -1,13 +1,8 @@
 import * as types from './ActionTypes'
 
-export const signIn = (payload) => {
+export const setUserInfo = (info) => {
     return {
-        type: types.SIGN_IN,
-        payload: payload
-    }
-}
-export const signOut = () => {
-    return {
-        type: types.SIGN_OUT,
+        type: types.USER_INFO,
+        payload: info
     }
 }

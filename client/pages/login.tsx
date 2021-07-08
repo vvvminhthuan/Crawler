@@ -38,7 +38,6 @@ const Login = ({signIn, action}) => {
     const onSubmit = (values) =>{
         apiSignIn(values)
         .then((result:any) => {
-            console.log(result)
             if(result.success){
                 action.signIn()
             }

@@ -9,8 +9,7 @@ export const apiSignIn = (body) => {
     .then((result) => {
         return result
     }).catch((err) => {
-        console.log(err + '')
-    });
+    })
 }
 export const apiSignOut = () => {
     return GET(SIGN_OUT)

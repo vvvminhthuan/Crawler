@@ -1,18 +1,21 @@
 import Link from 'next/link'
 
-import { connect } from 'react-redux'
+import { connect , useDispatch} from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { signIn } from 'redux/actions/SignIn'
+import { getInfoUser } from 'redux/middleware/User'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import { apiSignIn } from 'api/Auth'
 import {useCustomForm, JOI} from 'helpers/useCustomForm'
+import {setMessageErros} from 'helpers/common'
 
 const Login = ({signIn, action}) => {
     const router = useRouter()
-
+    const dispatch = useDispatch()
+    const [isRendering, setIsRendering] = useState(false)
     const initalValues = {
         email: '',
         password: '',
@@ -27,23 +30,27 @@ const Login = ({signIn, action}) => {
         touched, 
         handleBlur,
         handleChange, 
-        handleSubmit 
+        handleSubmit,
+        setErrorsByAttach
     } = useCustomForm({initalValues, initalValidates, onEvent: value => onSubmit(value)}) 
     
     useEffect(()=>{
         if (signIn) {
             router.push('/')
         }
+        setIsRendering(true)
     },[signIn])
-    const onSubmit = (values) =>{
-        apiSignIn(values)
-        .then((result:any) => {
-            if(result.success){
-                action.signIn()
-            }
-        }).catch((err) => {
-            
-        })
+    const onSubmit = async (values) =>{
+        let result = await apiSignIn(values)
+        if(result.success){
+            dispatch(getInfoUser())
+        }else{
+            let err = setMessageErros(result)
+            setErrorsByAttach(err)
+        }
+    }
+    if (!isRendering) {
+        return null
     }
     return (
         <div className="login-page">
@@ -70,6 +77,7 @@ const Login = ({signIn, action}) => {
                                 <span className={`form-line ${errors.password ? 'line-error' : ''}`}></span>
                             </div>
                             {errors.password ? <span className="error">{errors.password}</span> : null}
+                            {errors.message ? <span className="error">{errors.message}</span> : null}
                         </div>
                     </div>
                     <div className="card-footer flex-c">

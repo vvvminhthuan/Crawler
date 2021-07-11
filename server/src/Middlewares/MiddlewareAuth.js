@@ -15,5 +15,16 @@ module.exports = {
         } catch (error) {
             setRes(res, 401, false, 'User not allowed to access', [], false)
         }
-    }
+    },
+    detectAuth: function (req, res, next) {
+        try {
+            let infor = JWT.verifyCode(req)
+            if (infor) {
+                req.infor = infor 
+            }
+            return next()
+        } catch (error) {
+            setRes(res, 401, false, 'User not allowed to access', [], false)
+        }
+    },
 }

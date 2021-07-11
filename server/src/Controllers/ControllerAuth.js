@@ -16,8 +16,9 @@ module.exports = {
         }
         let userResult = await ModelUsers.findOne(condition)
         if (!userResult) {
-            setRes(res, 400, false, 'The email not exits!')
+            return setRes(res, 400, false, 'The email not exits!')
         }
+        
         return BrcyptCode.compareCode(userData.password, userResult.password) 
         .then(value => {
             if (value) {

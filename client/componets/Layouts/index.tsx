@@ -1,6 +1,5 @@
 import Head from 'next/head'
-import React, {useEffect, useState} from 'react'
-import { useRouter } from 'next/router'
+import React, {useEffect} from 'react'
 
 import Header from './header'
 import Footer from './footer'
@@ -8,9 +7,7 @@ import Aside from './aside'
 import Chats from 'componets/Chats'
 import config from 'config'
 
-import { useSelector, useDispatch } from 'react-redux'
-
-import {getInfoUser} from 'redux/middleware/User'
+import { useSelector} from 'react-redux'
 
 import SocketClient from 'socket.io-client'
 
@@ -22,9 +19,6 @@ type LayoutProps = {
 
 const Layout : React.FC<LayoutProps> = ({children, title, description, categoriesMenu}) =>{
     const signIn = useSelector((state:any) => state.signIn)
-    const router = useRouter()
-    const dispatch = useDispatch()
-    
     let socket = SocketClient('//localhost:8484/chat')
     socket.on('connect', function () {
         console.log('da ket noi duoc server chats nhe!')
@@ -33,15 +27,11 @@ const Layout : React.FC<LayoutProps> = ({children, title, description, categorie
         console.log(fullname, objPersont)
     })
     socket.emit('receives', 'Client da nhan dc thong tin')
-
+    
     useEffect(()=>{
         let arrElement = ['dropdown', 'nav-menu', 'dropdown-menu']
         windownEvent(arrElement)
-        dispatch(getInfoUser())
-        if (!signIn) {
-            router.push('./login')
-        }
-    }, [signIn])
+    }, [])
 
     const windownEvent = (listElement: string[]) => {
         window.addEventListener('click', function(element) {

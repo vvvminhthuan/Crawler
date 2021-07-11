@@ -10,5 +10,4 @@ const signInReducer = (state = false, action) => {
     }
 }
 
-
 export default signInReducer

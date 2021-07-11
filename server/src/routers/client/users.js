@@ -1,11 +1,11 @@
 "use strict"
 var routes = require('express').Router()
 const { getUsers, createUsers, updateUsers, deleteUers, getUsersByAuth } = require('../../Controllers/ControllerUsers')
-const　{ Auth } = require('../../Middlewares/MiddlewareAuth')
+const　{ Auth, detectAuth } = require('../../Middlewares/MiddlewareAuth')
 const　{ CREATE_UPADTE_USERS } = require('../../Middlewares/Validates/ValidateUsers')
 const { detectParams, validateParams } = require('../../Middlewares/MiddlewareRouters')
 
-routes.get('/user-info', [Auth], (req, res) => {
+routes.get('/user-info', [detectAuth], (req, res) => {
     getUsersByAuth(req, res)
 })
 routes.get('/:id?', [detectParams, Auth], (req, res, next) => {

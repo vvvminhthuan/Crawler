@@ -28,7 +28,7 @@ const api = () =>{
         .then((result) => {
             return result.json()
         }).catch((err) => {
-            
+            console.log(err + '')
         });
          
     }
@@ -36,6 +36,7 @@ const api = () =>{
         url = getURL(url)
         setMethod('GET')
         setConfig(config)
+        delete defaults.body 
         return useFetch(url)
     }
     const POST = (url, body, config = {}) => {

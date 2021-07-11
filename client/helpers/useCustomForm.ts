@@ -72,6 +72,9 @@ export const useCustomForm = ({initalValues, initalValidates, onEvent}) =>{
             onEvent({...values})
         }
     }
+    const setErrorsByAttach = (obj: any) => {
+        setErrors({...obj})
+    }
 
     return {
         values,
@@ -79,7 +82,8 @@ export const useCustomForm = ({initalValues, initalValidates, onEvent}) =>{
         touched,
         handleChange,
         handleBlur,
-        handleSubmit
+        handleSubmit,
+        setErrorsByAttach
     }
 }
 

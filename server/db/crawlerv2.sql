@@ -6,6 +6,8 @@ CREATE TABLE "users" (
   "firstName" varchar,
   "lastName" varchar,
   "nickName" varchar,
+  "birthDate" date,
+  "gender" int,
   "email" varchar UNIQUE NOT NULL,
   "password" varchar,
   "phoneNumber" varchar,

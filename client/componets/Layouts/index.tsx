@@ -8,6 +8,7 @@ import Chats from 'componets/Chats'
 import config from 'config'
 
 import { useSelector} from 'react-redux'
+import { useRouter } from 'next/router'
 
 import SocketClient from 'socket.io-client'
 
@@ -19,6 +20,8 @@ type LayoutProps = {
 
 const Layout : React.FC<LayoutProps> = ({children, title, description, categoriesMenu}) =>{
     const signIn = useSelector((state:any) => state.signIn)
+    const useInfo = useSelector((state:any) => state.useInfo)
+    const router = useRouter()
     let socket = SocketClient('//localhost:8484/chat')
     socket.on('connect', function () {
         console.log('da ket noi duoc server chats nhe!')
@@ -29,11 +32,13 @@ const Layout : React.FC<LayoutProps> = ({children, title, description, categorie
     socket.emit('receives', 'Client da nhan dc thong tin')
     
     useEffect(()=>{
-        let arrElement = ['dropdown', 'nav-menu', 'dropdown-menu']
-        windownEvent(arrElement)
-    }, [])
+        windownEvent()
+        if (signIn!=null&&!signIn&&useInfo!=null) {
+            router.push('/login')
+        }
+    }, [signIn, useInfo])
 
-    const windownEvent = (listElement: string[]) => {
+    const windownEvent = () => {
         window.addEventListener('click', function(element) {
             setEmptyClass('expand')
             let elParent = getParent('dropdown', element.target)
@@ -88,7 +93,7 @@ const Layout : React.FC<LayoutProps> = ({children, title, description, categorie
                 <main>
                     <div className="content">
                         {children}
-                        <Chats />
+                        {/* <Chats /> */}
                     </div>
                 </main>
                 <footer>

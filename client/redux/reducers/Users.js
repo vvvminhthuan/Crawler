@@ -1,7 +1,6 @@
 import { USER_INFO } from '../actions/ActionTypes'
 
-const initialState = {
-}
+const initialState = null
 
 const userReducer = (state = initialState, action) => {
     switch (action.type) {

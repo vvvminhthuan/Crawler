@@ -22,6 +22,14 @@ const ModelUsers = sequelize.define('users', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    birthDate: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
+    gender: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
     email: {
         type: DataTypes.STRING,
         allowNull: false,

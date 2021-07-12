@@ -2,21 +2,21 @@ import Layout from 'componets/Layouts'
 
 import { useEffect } from 'react'
 
-import { connect, useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { signOut } from 'redux/actions/SignIn'
-import { getInfoUser } from 'redux/middleware/User'
+import { setUserInfo } from 'redux/actions/Users'
 import {apiSignOut} from 'api/Auth'
 import { useRouter } from 'next/router'
 
 const LogoutPage = ({signIn, action}) => {
     const router = useRouter()
-    const dispatch = useDispatch()
     useEffect(() => {
         apiSignOut()
         .then((result) => {
             if (result.success) {
-                dispatch(getInfoUser())
+                action.signOut()
+                action.setUserInfo(null)
                 router.push('./login')
             }
         }).catch((err) => {
@@ -39,7 +39,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        action: bindActionCreators({signOut}, dispatch)
+        action: bindActionCreators({signOut, setUserInfo}, dispatch)
     }
 }
 

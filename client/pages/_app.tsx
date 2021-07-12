@@ -19,29 +19,25 @@ const nProgresDone = () => {
 
 export default function App({Component, pageProps}){
     const store = useStore(pageProps.initialReduxState)
-    const {signIn} = store.getState()
     const router = useRouter()
-    
+    store.dispatch(getInfoUser())
     useEffect(() =>{
-        store.dispatch(getInfoUser())
-        if (signIn!=null&&!signIn) {
-            router.push('/login')
-        }else{
-            router.events.on('routeChangeStart', (url)=>{
-                nProgresStart()
-            })
-            router.events.on('routeChangeComplete', (url) => {
-                setTimeout(() =>{
-                    nProgresDone()
-                }, 500)
-            })
-            router.events.on('routeChangeError', (url) => {
-                setTimeout(() =>{
-                    nProgresDone()
-                }, 500)
-            })
-        }
+        router.events.on('routeChangeStart', (url)=>{
+            nProgresStart()
+        })
+        router.events.on('routeChangeComplete', (url) => {
+            setTimeout(() =>{
+                nProgresDone()
+            }, 500)
+        })
+        router.events.on('routeChangeError', (url) => {
+            setTimeout(() =>{
+                nProgresDone()
+            }, 500)
+        })
         
+        
+
         return () =>{
             router.events.off('routeChangeStart', (url)=>{
                 nProgresStart()
@@ -53,7 +49,7 @@ export default function App({Component, pageProps}){
                 nProgresDone()
             })
         }
-    },[signIn])
+    },[])
     return (
         <Provider store = { store }>
             <Component {...pageProps}/>

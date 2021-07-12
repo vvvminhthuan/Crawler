@@ -1,0 +1,4 @@
+ALTER TABLE users
+ADD COLUMN "gender" INT DEFAULT 0;
+ALTER TABLE users
+ADD COLUMN "birthDate" date DEFAULT null;

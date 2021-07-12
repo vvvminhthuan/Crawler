@@ -38,6 +38,7 @@ const Login = ({signIn, action}) => {
         if (signIn) {
             router.push('/')
         }
+        router.prefetch('/') 
         setIsRendering(true)
     },[signIn])
     const onSubmit = async (values) =>{
@@ -64,7 +65,7 @@ const Login = ({signIn, action}) => {
                     <div className="card-body">
                         <div className="form-group flex-c">
                             <div className={`group-input ${errors.email ? 'line-error' : ''}`}>
-                                <input type="text" name="email" className="form-control" onChange = {handleChange} value={values.email} onBlur={handleBlur} required/>
+                                <input type="text" name="email" id="email" className="form-control" onChange = {handleChange} value={values.email} onBlur={handleBlur} required/>
                                 <label htmlFor="email">Email</label>
                                 <span className={`form-line ${errors.email ? 'line-error' : ''}`}></span>
                             </div>
@@ -72,7 +73,7 @@ const Login = ({signIn, action}) => {
                         </div>
                         <div className="form-group flex-c">
                             <div className={`group-input ${errors.password ? 'line-error' : ''}`}>
-                                <input type="password" name="password" className="form-control" onChange = {handleChange} value={values.password} onBlur={handleBlur} required/>
+                                <input type="password" name="password" id="password" className="form-control" onChange = {handleChange} value={values.password} onBlur={handleBlur} required/>
                                 <label htmlFor="password">Password</label>
                                 <span className={`form-line ${errors.password ? 'line-error' : ''}`}></span>
                             </div>
@@ -83,7 +84,7 @@ const Login = ({signIn, action}) => {
                     <div className="card-footer flex-c">
                         <Link href="#"><a className="link-register">Forgot Password</a></Link>
                         <button type="submit" className="btn-sign">Sign in</button>
-                        <Link href="#"><a className="link-register">Signup</a></Link>
+                        <Link href="/signup"><a className="link-register">Signup</a></Link>
                     </div>
                 </form>
             </div>

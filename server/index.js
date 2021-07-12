@@ -61,7 +61,6 @@ app.use(upload.array()) // for parsing multipart/form-data
 app.use('/api', require('./src/Routers'))
 app.use(function (req, res, next) {
     res.io = _io
-    
 })
 
 server.listen(config.PORT, function () {

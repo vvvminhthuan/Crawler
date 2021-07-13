@@ -88,6 +88,7 @@
                     width: 100px;
                     padding: 10px;
                     color: #fff;
+                    font-weight: 700;
                     border-radius: 5px;
                     background-color: #007bff;
                     border-color: #007bff;
@@ -96,7 +97,9 @@
                 a{
                     display: block;
                     margin: 10px auto;
-                    color: $gray-light;
+                    color: #6c757d;
+                    font-weight: 500;
+                    text-decoration: revert;
                 }
             }
         }

@@ -48,7 +48,7 @@
                 }
             }
             .step-line{
-                flex: 1 0 32px;
+                flex: 1 0;
                 min-width: 1px;
                 min-height: 1px;
                 margin: auto;
@@ -60,9 +60,10 @@
             .card-body{
                 .step{
                     .form-group{
-                        
+                        margin-bottom: 20px;
                         label{
                             font-weight: 700;
+                            margin-bottom: 3px;
                         }
                         input{
                             box-sizing: border-box;
@@ -70,7 +71,53 @@
                             height: 32px;
                             padding: 4px 10px;
                             background-clip: padding-box;
-                            border: 1px solid #ced4da;
+                            border: none;
+                            border-bottom: 1px solid #ced4da;
+                            &:focus{
+                                border-bottom: 1px solid #007bff;
+                            }
+                        }
+                    }
+                    .form-action{
+                        .group{
+                            margin: auto;
+                            button{
+                                margin: auto 10px;
+                            }
+                        }
+                        button{
+                            margin: auto;
+                            min-width: 100px;
+                            padding: 10px;
+                            color: #fff;
+                            font-weight: 700;
+                            border-radius: 5px;
+                            background-color: #007bff;
+                            border-color: #007bff;
+                            border: 1px solid transparent;
+                            &.btn-privice{
+                                background-color: #8f98a0;
+                                &:hover{
+                                    background-color: #767e85;
+                                }
+                            }
+                            &:hover{
+                                background-color: #0062cc;
+                            }
+                        }
+                        .link{
+                            display: block;
+                            margin: 10px auto;
+                            color: #007bff;
+                            font-weight: 500;
+                            -webkit-text-decoration: revert;
+                            text-decoration: revert;
+                        }
+                    }
+                    .form-infomation{
+                        margin: auto;
+                        p{
+                            text-align: center;
                         }
                     }
                 }

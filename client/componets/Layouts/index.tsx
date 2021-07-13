@@ -8,7 +8,6 @@ import Chats from 'componets/Chats'
 import config from 'config'
 
 import { useSelector} from 'react-redux'
-import { useRouter } from 'next/router'
 
 import SocketClient from 'socket.io-client'
 
@@ -20,23 +19,20 @@ type LayoutProps = {
 
 const Layout : React.FC<LayoutProps> = ({children, title, description, categoriesMenu}) =>{
     const signIn = useSelector((state:any) => state.signIn)
-    const useInfo = useSelector((state:any) => state.useInfo)
-    const router = useRouter()
     let socket = SocketClient('//localhost:8484/chat')
-    socket.on('connect', function () {
-        console.log('da ket noi duoc server chats nhe!')
-    })
-    socket.on('send', function(fullname, objPersont) {
-        console.log(fullname, objPersont)
-    })
-    socket.emit('receives', 'Client da nhan dc thong tin')
     
     useEffect(()=>{
-        windownEvent()
-        if (signIn!=null&&!signIn&&useInfo!=null) {
-            router.push('/login')
+        if (signIn) {
+            socket.on('connect', function () {
+                console.log('da ket noi duoc server chats nhe!')
+            })
+            socket.on('send', function(fullname, objPersont) {
+                console.log(fullname, objPersont)
+            })
+            socket.emit('receives', 'Client da nhan dc thong tin')
         }
-    }, [signIn, useInfo])
+        windownEvent()
+    }, [signIn])
 
     const windownEvent = () => {
         window.addEventListener('click', function(element) {

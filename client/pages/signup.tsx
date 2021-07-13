@@ -105,15 +105,15 @@ const SignUp = ({signIn, action}) => {
                             </div>
                             <div className="form-group flex-c">
                                 <label htmlFor="lastName">Last Name</label>
-                                <input type="text" name="lastName" id="lastName" className="form-control" placeholder="Enter first name" onChange = {handleChange} value={values.lastName} onBlur={handleBlur} />
+                                <input type="text" name="lastName" id="lastName" className="form-control" placeholder="Enter last name" onChange = {handleChange} value={values.lastName} onBlur={handleBlur} />
                             </div>
                             <div className="form-group flex-c">
                                 <label htmlFor="nickName">Nick Name</label>
-                                <input type="text" name="nickName" id="nickName" className="form-control" placeholder="Enter first name" onChange = {handleChange} value={values.nickName} onBlur={handleBlur} />
+                                <input type="text" name="nickName" id="nickName" className="form-control" placeholder="Enter nick name" onChange = {handleChange} value={values.nickName} onBlur={handleBlur} />
                             </div>
                             <div className="form-group flex-c">
                                 <label htmlFor="birthDate">Birth Date</label>
-                                <input type="text" name="birthDate" id="birthDate" className="form-control" placeholder="Enter first name" onChange = {handleChange} value={values.birthDate} onBlur={handleBlur} />
+                                <input type="text" name="birthDate" id="birthDate" className="form-control" placeholder="Birth date" onChange = {handleChange} value={values.birthDate} onBlur={handleBlur} />
                             </div>
                             <div className="form-group flex-c">
                                 <label htmlFor="gender">Gender</label>
@@ -194,17 +194,19 @@ const SignUp = ({signIn, action}) => {
                                 <input type="text" name="address" id="address" className="form-control" onChange = {handleChange} value={values.address} onBlur={handleBlur} />
                             </div>
                             <div className="form-action flex-r">
-                                <button>Come Back</button>
-                                <button>Confirm</button>
+                                <div className="group">
+                                    <button className="btn-privice">Come Back</button>
+                                    <button>Confirm</button>
+                                </div>
                             </div>
                         </div>
                         {/* step complete */}
                         <div id="complete" className="step step-complete">
                             <div className="form-infomation">
-                                <p>Sign up complete! Thanks you for struct us.</p>
+                                <p>Sign up complete! Thanks you for trust us.</p>
                             </div>
                             <div className="form-action flex-r">
-                                <button>Go to SignIn</button>
+                                <Link href="/signup"><a className="link">Sign In</a></Link>
                             </div>
                         </div>
                     </div>

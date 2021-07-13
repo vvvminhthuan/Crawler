@@ -2,7 +2,21 @@
 
 const ModelRoles = require('./ModelRoles')
 const { sequelize, DataTypes, Op, Sequelize } = require('./ModelBase')
-
+const attributes = ['id', 
+        "firstName", 
+        "lastName", 
+        "nickName", 
+        "email", 
+        "phoneNumber", 
+        "numberId", 
+        "address", 
+        "roleId", 
+        "createdAt", 
+        "firstName", 
+        "firstName", 
+        "firstName", 
+        "firstName"
+    ]
 const ModelUsers = sequelize.define('users', {
     id: {
         type: DataTypes.INTEGER,
@@ -85,21 +99,6 @@ ModelUsers.belongsTo(ModelRoles, {
 })
 
 ModelUsers.findAllUsers = async (condition = {}, isIncludeAdmin = false) => {
-    let attributes = ['id', 
-        "firstName", 
-        "lastName", 
-        "nickName", 
-        "email", 
-        "phoneNumber", 
-        "numberId", 
-        "address", 
-        "roleId", 
-        "createdAt", 
-        "firstName", 
-        "firstName", 
-        "firstName", 
-        "firstName"
-    ]
     let include = {
         model: ModelRoles,
         attributes: ['id', "name", "role"],

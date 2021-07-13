@@ -1,9 +1,11 @@
 import { Provider } from 'react-redux'
 import useStore from '../redux'
-import {getInfoUser} from 'redux/middleware/User'
+import {setUserInfo} from 'redux/actions/Users'
+import {signIn as acSignIn, signOut} from 'redux/actions/SignIn'
 
 import React, {useEffect} from 'react'
 import { useRouter } from 'next/router'
+import {getInfoUserByAuth} from 'api/Users'
 
 import NProgress from 'nprogress'
 
@@ -17,10 +19,12 @@ const nProgresDone = () => {
     NProgress.done()
 }
 
+const noneRedirect = ['/signup', '/forgot', '/_error']
+
 export default function App({Component, pageProps}){
     const store = useStore(pageProps.initialReduxState)
     const router = useRouter()
-    store.dispatch(getInfoUser())
+    const {signIn, userInfo} = store.getState() 
     useEffect(() =>{
         router.events.on('routeChangeStart', (url)=>{
             nProgresStart()
@@ -28,16 +32,33 @@ export default function App({Component, pageProps}){
         router.events.on('routeChangeComplete', (url) => {
             setTimeout(() =>{
                 nProgresDone()
-            }, 500)
+            }, 100)
         })
         router.events.on('routeChangeError', (url) => {
             setTimeout(() =>{
                 nProgresDone()
-            }, 500)
+            }, 100)
         })
-        
-        
 
+        if (!signIn&&userInfo==null) {
+            getInfoUserByAuth()
+            .then((result) => {
+                if (result.success) {
+                    store.dispatch(setUserInfo(result.results[0]))
+                    store.dispatch(acSignIn())
+                    router.push('/')
+                }else{
+                    store.dispatch(setUserInfo({
+                        success: false
+                    }))
+                    store.dispatch(signOut())
+                    if (noneRedirect.indexOf(router.pathname) < 0) {
+                        router.push('/login')
+                    }
+                }
+            })
+        }
+       
         return () =>{
             router.events.off('routeChangeStart', (url)=>{
                 nProgresStart()
@@ -49,7 +70,8 @@ export default function App({Component, pageProps}){
                 nProgresDone()
             })
         }
-    },[])
+    },[signIn, userInfo])
+
     return (
         <Provider store = { store }>
             <Component {...pageProps}/>

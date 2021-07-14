@@ -59,6 +59,7 @@
             padding: 0 16px;
             .card-body{
                 .step{
+                    padding: 20px 0;
                     .form-group{
                         margin-bottom: 20px;
                         label{
@@ -75,6 +76,28 @@
                             border-bottom: 1px solid #ced4da;
                             &:focus{
                                 border-bottom: 1px solid #007bff;
+                            }
+                            &.i-error{
+                                border-bottom: 1px solid #d81d10;
+                            }
+                        }
+                        .group{
+                            align-items: center;
+                            padding: 0 10px;
+                            input[type=radio]{
+                                width: 20px;
+                                height: 20px;
+                                border-radius: 50%;
+                                &.disabled{
+                                    pointer-events: none;
+                                }
+                            }
+                            label{
+                                margin: 0 5px;
+                                font-weight: 400;
+                                &.disabled{
+                                    pointer-events: none;
+                                }
                             }
                         }
                     }
@@ -120,6 +143,9 @@
                             text-align: center;
                         }
                     }
+                }
+                .hidden{
+                    display: none;
                 }
             }
         }

@@ -12,16 +12,18 @@ import { apiSignIn } from 'api/Auth'
 import {useCustomForm, JOI} from 'helpers/useCustomForm'
 import {setMessageErros} from 'helpers/common'
 
-const SignUp = ({signIn, action}) => {
+import contants from 'config/contants'
+
+const SignUp = () => {
     const router = useRouter()
     const dispatch = useDispatch()
-    const [isRendering, setIsRendering] = useState(false)
+    const [step, setStep] = useState(1)
     const initalValues = {
         firstName: '',
         lastName: '',
         nickName: '',
         birthDate: '',
-        gender: '',
+        gender: 0,
         email: '',
         password: '',
         passwordConfirm: '',
@@ -30,8 +32,17 @@ const SignUp = ({signIn, action}) => {
         address: '',
     }
     const initalValidates = {
+        firstName: JOI.string().min(1).max(250).required(),
+        lastName: JOI.string().min(1).max(250).required(),
+        nickName: JOI.string().min(1).max(250).required(),
+        birthDate: JOI.date().iso(),
+        gender: JOI.number().required(),
         email: JOI.string().email({tlds: false}).required(),
-        password: JOI.string().min(6).max(32).required()
+        password: JOI.string().min(6).max(32).required(),
+        passwordConfirm: JOI.ref('password'),
+        phoneNumber: JOI.number().min(10).max(12),
+        numberId: JOI.number().min(9).max(12),
+        address: JOI.string().required().min(1).max(250),
     }
     const { 
         values, 
@@ -41,27 +52,25 @@ const SignUp = ({signIn, action}) => {
         handleChange, 
         handleSubmit,
         setErrorsByAttach
-    } = useCustomForm({initalValues, initalValidates, onEvent: value => onSubmit(value)}) 
+    } = useCustomForm({initalValues, initalValidates, onEvent: value => onSignIn(value)}) 
     
     useEffect(()=>{
-        if (signIn) {
-            router.push('/')
-        }
-        router.prefetch('/') 
-        setIsRendering(true)
-    },[signIn])
-    const onSubmit = async (values) =>{
-        let result = await apiSignIn(values)
-        if(result.success){
-            dispatch(getInfoUser())
-        }else{
-            let err = setMessageErros(result)
-            setErrorsByAttach(err)
-        }
+    },[])
+
+    const onSignIn = (values) =>{
+        console.log(values)
+        setStep(step+1)
     }
-    if (!isRendering) {
-        return null
+
+    const onConfirm = () =>{
+        console.log(values)
+        setStep(step+1)
     }
+
+    const onBack = () =>{
+        setStep(step-1)
+    }
+
     return (
         <div className="signup-page">
             <div className="card-signup">
@@ -72,21 +81,21 @@ const SignUp = ({signIn, action}) => {
                 {/* /.card-header */}
                 {/* /.stepper-header */}
                 <div className="stepper-header flex-r">
-                    <div className="step active" data-trigger="sign-up">
+                    <div className={`step ${(step==1) ? 'active' : ''}`} data-trigger="sign-up">
                         <button className="step-trigger">
                             <span className="step-circle">1</span>
                             <span className="step-label">Sign up</span>
                         </button>
                     </div>
                     <div className="step-line"></div>
-                    <div className="step" data-trigger="confirm">
+                    <div className={`step ${(step==2) ? 'active' : ''}`} data-trigger="confirm">
                         <button className="step-trigger">
                             <span className="step-circle">2</span>
                             <span className="step-label">Confirm</span>
                         </button>
                     </div>
                     <div className="step-line"></div>
-                    <div className="step" data-trigger="complete">
+                    <div className={`step ${(step==3) ? 'active' : ''}`} data-trigger="complete">
                         <button className="step-trigger">
                             <span className="step-circle">3</span>
                             <span className="step-label">Complete</span>
@@ -98,115 +107,89 @@ const SignUp = ({signIn, action}) => {
                 <form method='POST' onSubmit = {handleSubmit} noValidate>
                     <div className="card-body">
                         {/* step sign up */}
-                        <div id="sign-up" className="step step-signup">
+                        <div className={`step step-signup ${step > 2 ? 'hidden' : ''}`}>
                             <div className="form-group flex-c">
                                 <label htmlFor="firstName">First Name</label>
-                                <input type="text" name="firstName" id="firstName" className="form-control" placeholder="Enter first name" onChange = {handleChange} value={values.firstName} onBlur={handleBlur} />
+                                <input type="text" name="firstName" id="firstName" className={`form-control ${errors.firstName ? 'i-error' : ''}`} placeholder="Enter first name" onChange = {handleChange} value={values.firstName} onBlur={handleBlur} disabled={(step>1)}/>
+                                {errors.firstName ? <span className="error">{errors.firstName}</span> : null}
                             </div>
                             <div className="form-group flex-c">
                                 <label htmlFor="lastName">Last Name</label>
-                                <input type="text" name="lastName" id="lastName" className="form-control" placeholder="Enter last name" onChange = {handleChange} value={values.lastName} onBlur={handleBlur} />
+                                <input type="text" name="lastName" id="lastName" className={`form-control ${errors.lastName ? 'i-error' : ''}`} placeholder="Enter last name" onChange = {handleChange} value={values.lastName} onBlur={handleBlur} disabled={(step>1)}/>
+                                {errors.lastName ? <span className="error">{errors.lastName}</span> : null}
                             </div>
                             <div className="form-group flex-c">
                                 <label htmlFor="nickName">Nick Name</label>
-                                <input type="text" name="nickName" id="nickName" className="form-control" placeholder="Enter nick name" onChange = {handleChange} value={values.nickName} onBlur={handleBlur} />
+                                <input type="text" name="nickName" id="nickName" className={`form-control ${errors.nickName ? 'i-error' : ''}`} placeholder="Enter nick name" onChange = {handleChange} value={values.nickName} onBlur={handleBlur} disabled={(step>1)}/>
+                                {errors.nickName ? <span className="error">{errors.nickName}</span> : null}
                             </div>
                             <div className="form-group flex-c">
                                 <label htmlFor="birthDate">Birth Date</label>
-                                <input type="text" name="birthDate" id="birthDate" className="form-control" placeholder="Birth date" onChange = {handleChange} value={values.birthDate} onBlur={handleBlur} />
+                                <input type="text" name="" id="birthDate" className={`form-control ${errors.birthDate ? 'i-error' : ''}`} placeholder="Birth date(yyyy-mm-dd)" onChange = {handleChange} value={values.birthDate} onBlur={handleBlur} disabled={(step>1)}/>
+                                {errors.birthDate ? <span className="error">{errors.birthDate}</span> : null}
                             </div>
                             <div className="form-group flex-c">
                                 <label htmlFor="gender">Gender</label>
-                                <input type="text" name="gender" id="gender" className="form-control" placeholder="Enter gender" onChange = {handleChange} value={values.gender} onBlur={handleBlur} />
+                                <div className="flex-r">
+                                    <div className="group flex-r">
+                                        <input type="radio" name="gender" id="female" className={`form-control ${(step>1) ? 'disabled' : ''}`} onChange = {handleChange} value={contants.USER.GENDER.FEMALE} onBlur={handleBlur} checked/>
+                                        <label htmlFor="female" className={`${(step>1) ? 'disabled' : ''}`}>Female</label>
+                                    </div>
+                                    <div className="group flex-r">
+                                        <input type="radio" name="gender" id="male" className={`form-control ${(step>1) ? 'disabled' : ''}`} onChange = {handleChange} value={contants.USER.GENDER.MALE} onBlur={handleBlur} />
+                                        <label htmlFor="male" className={`${(step>1) ? 'disabled' : ''}`}>Male</label>
+                                    </div>
+                                </div>
+                                {errors.gender ? <span className="error">{errors.gender}</span> : null}
                             </div>
                             <div className="form-group flex-c">
                                 <label htmlFor="email">Email Address</label>
-                                <input type="text" name="email" id="email" className="form-control" placeholder="Enter email" onChange = {handleChange} value={values.email} onBlur={handleBlur} />
+                                <input type="text" name="email" id="email" className={`form-control ${errors.email ? 'i-error' : ''}`} placeholder="Enter email" onChange = {handleChange} value={values.email} onBlur={handleBlur} disabled={(step>1)}/>
+                                {errors.email ? <span className="error">{errors.email}</span> : null}
                             </div>
                             <div className="form-group flex-c">
                                 <label htmlFor="password">Password</label>
-                                <input type="password" name="password" id="password" className="form-control" placeholder="Password" onChange = {handleChange} value={values.password} onBlur={handleBlur} />
+                                <input type="password" name="password" id="password" className={`form-control ${errors.password ? 'i-error' : ''}`} placeholder="Password" onChange = {handleChange} value={values.password} onBlur={handleBlur} disabled={(step>1)}/>
+                                {errors.password ? <span className="error">{errors.password}</span> : null}
                             </div>
                             <div className="form-group flex-c">
                                 <label htmlFor="passwordConfirm">Password Confirm</label>
-                                <input type="password" name="passwordConfirm" id="passwordConfirm" className="form-control" placeholder="Password confirm" onChange = {handleChange} value={values.passwordConfirm} onBlur={handleBlur} />
+                                <input type="password" name="passwordConfirm" id="passwordConfirm" className={`form-control ${errors.passwordConfirm ? 'i-error' : ''}`} placeholder="Password confirm" onChange = {handleChange} value={values.passwordConfirm} onBlur={handleBlur} disabled={(step>1)}/>
+                                {errors.passwordConfirm ? <span className="error">{errors.passwordConfirm}</span> : null}
                             </div>
                             <div className="form-group flex-c">
                                 <label htmlFor="phoneNumber">Phone</label>
-                                <input type="text" name="phoneNumber" id="phoneNumber" className="form-control" placeholder="Phone number" onChange = {handleChange} value={values.phoneNumber} onBlur={handleBlur} />
+                                <input type="text" name="phoneNumber" id="phoneNumber" className={`form-control ${errors.phoneNumber ? 'i-error' : ''}`} placeholder="Phone number" onChange = {handleChange} value={values.phoneNumber} onBlur={handleBlur} disabled={(step>1)}/>
+                                {errors.phoneNumber ? <span className="error">{errors.phoneNumber}</span> : null}
                             </div>
                             <div className="form-group flex-c">
                                 <label htmlFor="numberId">Number ID</label>
-                                <input type="text" name="numberId" id="numberId" className="form-control" placeholder="Number id" onChange = {handleChange} value={values.numberId} onBlur={handleBlur} />
+                                <input type="text" name="numberId" id="numberId" className={`form-control ${errors.numberId ? 'i-error' : ''}`} placeholder="Number id" onChange = {handleChange} value={values.numberId} onBlur={handleBlur} disabled={(step>1)}/>
+                                {errors.numberId ? <span className="error">{errors.numberId}</span> : null}
                             </div>
                             <div className="form-group flex-c">
                                 <label htmlFor="address">Address</label>
-                                <input type="text" name="address" id="address" className="form-control" placeholder="Enter address" onChange = {handleChange} value={values.address} onBlur={handleBlur} />
+                                <input type="text" name="address" id="address" className={`form-control ${errors.address ? 'i-error' : ''}`} placeholder="Enter address" onChange = {handleChange} value={values.address} onBlur={handleBlur} disabled={(step>1)}/>
+                                {errors.address ? <span className="error">{errors.address}</span> : null}
                             </div>
-                            <div className="form-action flex-r">
-                                <button>Sign Up</button>
+                            <div className={`form-action flex-r ${step != 1 ? 'hidden' : ''}`} data-submit="sign-up">
+                                <button type="submit" >Sign Up</button>
                             </div>
-                        </div>
-                        {/* step confirm */}
-                        <div id="confirm" className="step step-confirm">
-                            <div className="form-group flex-c">
-                                <label htmlFor="firstName">First Name</label>
-                                <input type="text" name="firstName" id="firstName" className="form-control" onChange = {handleChange} value={values.firstName} onBlur={handleBlur} />
-                            </div>
-                            <div className="form-group flex-c">
-                                <label htmlFor="lastName">Last Name</label>
-                                <input type="text" name="lastName" id="lastName" className="form-control" onChange = {handleChange} value={values.lastName} onBlur={handleBlur} />
-                            </div>
-                            <div className="form-group flex-c">
-                                <label htmlFor="nickName">Nick Name</label>
-                                <input type="text" name="nickName" id="nickName" className="form-control" onChange = {handleChange} value={values.nickName} onBlur={handleBlur} />
-                            </div>
-                            <div className="form-group flex-c">
-                                <label htmlFor="birthDate">Birth Date</label>
-                                <input type="text" name="birthDate" id="birthDate" className="form-control" onChange = {handleChange} value={values.birthDate} onBlur={handleBlur} />
-                            </div>
-                            <div className="form-group flex-c">
-                                <label htmlFor="gender">Gender</label>
-                                <input type="text" name="gender" id="gender" className="form-control" onChange = {handleChange} value={values.gender} onBlur={handleBlur} />
-                            </div>
-                            <div className="form-group flex-c">
-                                <label htmlFor="email">Email Address</label>
-                                <input type="text" name="email" id="email" className="form-control" onChange = {handleChange} value={values.email} onBlur={handleBlur} />
-                            </div>
-                            <div className="form-group flex-c">
-                                <label htmlFor="password">Password</label>
-                                <input type="password" name="password" id="password" className="form-control" onChange = {handleChange} value={values.password} onBlur={handleBlur} />
-                            </div>
-                            <div className="form-group flex-c">
-                                <label htmlFor="passwordConfirm">Password Confirm</label>
-                                <input type="password" name="passwordConfirm" id="passwordConfirm" className="form-control" onChange = {handleChange} value={values.passwordConfirm} onBlur={handleBlur} />
-                            </div>
-                            <div className="form-group flex-c">
-                                <label htmlFor="phoneNumber">Phone</label>
-                                <input type="text" name="phoneNumber" id="phoneNumber" className="form-control" onChange = {handleChange} value={values.phoneNumber} onBlur={handleBlur} />
-                            </div>
-                            <div className="form-group flex-c">
-                                <label htmlFor="numberId">Number ID</label>
-                                <input type="text" name="numberId" id="numberId" className="form-control" onChange = {handleChange} value={values.numberId} onBlur={handleBlur} />
-                            </div>
-                            <div className="form-group flex-c">
-                                <label htmlFor="address">Address</label>
-                                <input type="text" name="address" id="address" className="form-control" onChange = {handleChange} value={values.address} onBlur={handleBlur} />
-                            </div>
-                            <div className="form-action flex-r">
+                            {/* step confirm */}
+                            <div className={`form-action flex-r ${step != 2 ? 'hidden' : ''}`} data-submit="confirm">
                                 <div className="group">
-                                    <button className="btn-privice">Come Back</button>
-                                    <button>Confirm</button>
+                                    <button className="btn-privice" onClick={onBack}>Come Back</button>
+                                    <button onClick={onConfirm}>Confirm</button>
                                 </div>
                             </div>
                         </div>
                         {/* step complete */}
-                        <div id="complete" className="step step-complete">
+                        <div id="complete" className={`step step-complete ${step != 3 ? 'hidden' : ''}`} >
                             <div className="form-infomation">
                                 <p>Sign up complete! Thanks you for trust us.</p>
                             </div>
                             <div className="form-action flex-r">
-                                <Link href="/signup"><a className="link">Sign In</a></Link>
+                                <Link href="/login"><a className="link">Sign In</a></Link>
                             </div>
                         </div>
                     </div>
@@ -216,16 +199,4 @@ const SignUp = ({signIn, action}) => {
     )
 }
 
-function mapStateToProps(state) {
-    return {
-        signIn: state.signIn
-    }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        action: bindActionCreators({signIn}, dispatch)
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp)
+export default SignUp

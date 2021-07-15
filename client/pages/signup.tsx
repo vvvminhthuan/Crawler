@@ -11,8 +11,10 @@ import { useRouter } from 'next/router'
 import { apiSignIn } from 'api/Auth'
 import {useCustomForm, JOI} from 'helpers/useCustomForm'
 import {setMessageErros} from 'helpers/common'
+import SiginUpValidates from 'helpers/validates/signup'
 
 import contants from 'config/contants'
+
 
 const SignUp = () => {
     const router = useRouter()
@@ -23,7 +25,7 @@ const SignUp = () => {
         lastName: '',
         nickName: '',
         birthDate: '',
-        gender: 0,
+        gender: '',
         email: '',
         password: '',
         passwordConfirm: '',
@@ -31,19 +33,8 @@ const SignUp = () => {
         numberId: '',
         address: '',
     }
-    const initalValidates = {
-        firstName: JOI.string().min(1).max(250).required(),
-        lastName: JOI.string().min(1).max(250).required(),
-        nickName: JOI.string().min(1).max(250).required(),
-        birthDate: JOI.date().iso(),
-        gender: JOI.number().required(),
-        email: JOI.string().email({tlds: false}).required(),
-        password: JOI.string().min(6).max(32).required(),
-        passwordConfirm: JOI.ref('password'),
-        phoneNumber: JOI.number().min(10).max(12),
-        numberId: JOI.number().min(9).max(12),
-        address: JOI.string().required().min(1).max(250),
-    }
+    const initalValidates = SiginUpValidates(JOI)
+    
     const { 
         values, 
         errors, 
@@ -125,14 +116,14 @@ const SignUp = () => {
                             </div>
                             <div className="form-group flex-c">
                                 <label htmlFor="birthDate">Birth Date</label>
-                                <input type="text" name="" id="birthDate" className={`form-control ${errors.birthDate ? 'i-error' : ''}`} placeholder="Birth date(yyyy-mm-dd)" onChange = {handleChange} value={values.birthDate} onBlur={handleBlur} disabled={(step>1)}/>
+                                <input type="text" name="birthDate" id="birthDate" className={`form-control ${errors.birthDate ? 'i-error' : ''}`} placeholder="Birth date(yyyy-mm-dd)" onChange = {handleChange} value={values.birthDate} onBlur={handleBlur} disabled={(step>1)}/>
                                 {errors.birthDate ? <span className="error">{errors.birthDate}</span> : null}
                             </div>
                             <div className="form-group flex-c">
                                 <label htmlFor="gender">Gender</label>
                                 <div className="flex-r">
                                     <div className="group flex-r">
-                                        <input type="radio" name="gender" id="female" className={`form-control ${(step>1) ? 'disabled' : ''}`} onChange = {handleChange} value={contants.USER.GENDER.FEMALE} onBlur={handleBlur} checked/>
+                                        <input type="radio" name="gender" id="female" className={`form-control ${(step>1) ? 'disabled' : ''}`} onChange = {handleChange} value={contants.USER.GENDER.FEMALE} onBlur={handleBlur}/>
                                         <label htmlFor="female" className={`${(step>1) ? 'disabled' : ''}`}>Female</label>
                                     </div>
                                     <div className="group flex-r">

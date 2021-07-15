@@ -9,6 +9,8 @@ module.exports = {
             firstName: 'required|sometimes|string',
             lastName: 'required|sometimes|string',
             nickName: 'required|sometimes|string',
+            birthDate: 'required|sometimes|date',
+            gender: 'required|sometimes|decimal',
             email: 'required|email|uniqueUsers:email|sometimes',
             password: 'required|sometimes|same:passwordConfirm',
             passwordConfirm: 'required|sometimes',

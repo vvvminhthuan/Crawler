@@ -1,14 +1,14 @@
 import React, {useEffect, useRef, useState} from 'react'
-import joi from 'joi'
+import Validator from './validates/ValidatorBasic'
 
-export const useCustomForm = ({initalValues, initalValidates, onEvent}) =>{
+const useCustomForm = ({initalValues, initalValidates, onEvent}) =>{
     const [values, setValues]: any  = useState(initalValues || {})
     const [errors, setErrors]: any = useState({})
     const [touched, setTouched]: any  = useState({})
     const [onSubmitting, setOnSubmitting] = useState<boolean>(false)
     const [onBlur, setOnBlur] = useState<boolean>(false)
    
-    
+    const formRef =  useRef<Array<HTMLInputElement>>(new Array())
     const formRendered = useRef(true)
 
     useEffect(() =>{
@@ -33,20 +33,22 @@ export const useCustomForm = ({initalValues, initalValidates, onEvent}) =>{
         setTouched({...touched, [name]: true})
         if (initalValidates[name]) {
             let currentValidate = initalValidates[name]
-            let schemaCurrent = joi.object({[name]: currentValidate})
-            let valueCurrent = {
-                [name]: value
-            }
-            let valueValidate = schemaCurrent.validate(valueCurrent)
-            if (valueValidate.error) {
-                let errorCurrent = {
-                    [name]: valueValidate.error.message.replaceAll('\"','')
+            if (currentValidate) {
+                let schemaCurrent = {[name]: currentValidate}
+                let valueCurrent = {
+                    [name]: value
                 }
-                setErrors({...errors, ...errorCurrent})
-            }else{
-                let errorCurrent = errors
-                delete errorCurrent[name]
-                setErrors({...errors, ...errorCurrent})
+                let resultValidate = Validator.validate(valueCurrent, schemaCurrent)
+                if (resultValidate.hasError) {
+                    let errorCurrent = {
+                        [name]: resultValidate.getError(name)
+                    }
+                    setErrors({...errors, ...errorCurrent})
+                }else{
+                    let errorCurrent = errors
+                    delete errorCurrent[name]
+                    setErrors({...errors, ...errorCurrent})
+                }
             }
         }
     }
@@ -54,16 +56,16 @@ export const useCustomForm = ({initalValues, initalValidates, onEvent}) =>{
         if (event) {
             event.preventDefault()
         }
-        const schema = joi.object(initalValidates)
-        const valueValidate: any = schema.validate(values,{
-            abortEarly: false,
-        })
-        if (valueValidate.error) {
-            let {details} = valueValidate.error
+        let resultValidate = Validator.validate(values,initalValidates)
+        if (resultValidate.hasError) {
+            let details = resultValidate.errors
+            let arrList = Object.keys(details)
+            setFocus(arrList[0])
             let listError = {}
-            details.map(item => {
+            arrList.map((key) => {
+                let mes = details[key]
                 let errorCurrent = {
-                    [item.path[0]]: item.message.replaceAll('\"','')
+                    [key]: mes[0]
                 }
                 listError = {...listError, ...errorCurrent}
             })
@@ -75,6 +77,48 @@ export const useCustomForm = ({initalValues, initalValidates, onEvent}) =>{
     const setErrorsByAttach = (obj: any) => {
         setErrors({...obj})
     }
+    const setFocus = (inputName) =>{
+        for (let index = 0; index < formRef.current.length; index++) {
+            let element = formRef.current[index];
+            if (!element) {
+                continue
+            }
+            if (element.name == inputName) {
+                element.focus()
+                break
+            }
+        }
+    }
+    const createRef = (inputName: any):void => {
+        if (formRef.current.length == 0) {
+            formRef.current.push(inputName)
+        }else {
+            let isPush = true
+            for (let index = 0; index < formRef.current.length; index++) {
+                let element = formRef.current[index];
+                if (!element) {
+                    continue
+                }
+                if (element.name == inputName) {
+                    console.log(element.name)
+                    isPush = false
+                    break
+                }
+            }
+            if (isPush) {
+                formRef.current.push(inputName)
+            }
+        }
+    }
+    const register = (inputName: string) => {
+        return {
+            onChange: handleChange,
+            onBlur: handleBlur,
+            value: values[inputName],
+            ref: (inputName) => createRef(inputName),
+            name: inputName,
+        }
+    }
 
     return {
         values,
@@ -83,8 +127,9 @@ export const useCustomForm = ({initalValues, initalValidates, onEvent}) =>{
         handleChange,
         handleBlur,
         handleSubmit,
-        setErrorsByAttach
+        setErrorsByAttach,
+        register
     }
 }
 
-export const JOI = joi
+export default useCustomForm

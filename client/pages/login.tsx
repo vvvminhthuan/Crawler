@@ -9,8 +9,9 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
 import { apiSignIn } from 'api/Auth'
-import {useCustomForm, JOI} from 'helpers/useCustomForm'
+import useCustomForm from 'helpers/useCustomForm'
 import {setMessageErros} from 'helpers/common'
+import LoginValidate from 'helpers/validates/login'
 
 const Login = ({signIn, action}) => {
     const router = useRouter()
@@ -20,10 +21,7 @@ const Login = ({signIn, action}) => {
         email: '',
         password: '',
     }
-    const initalValidates = {
-        email: JOI.string().email({tlds: false}).required(),
-        password: JOI.string().min(6).max(32).required()
-    }
+    const initalValidates = LoginValidate
     const { 
         values, 
         errors, 

@@ -11,7 +11,7 @@ module.exports = {
                 req.infor = infor
                 return next()
             }
-            setRes(res, 401, false, 'User not allowed to access', [], false)
+            setRes(res, 422, false, 'User not allowed to access', [], false)
         } catch (error) {
             setRes(res, 401, false, 'User not allowed to access', [], false)
         }
@@ -24,7 +24,7 @@ module.exports = {
             }
             return next()
         } catch (error) {
-            setRes(res, 401, false, 'User not allowed to access', [], false)
+            setRes(res, 422, false, 'User not allowed to access', [], false)
         }
     },
 }

@@ -1,6 +1,8 @@
 .signup-page{
     padding: 15px;
     background: linear-gradient(125deg, $lightblue, $gray-x-light);
+    box-sizing: border-box;
+    min-height: 100vh;
     .card-signup{
         margin: auto;
         width: 750px;
@@ -55,7 +57,7 @@
                 background-color: $border-gray;
             }
         }
-        form{
+        .form{
             padding: 0 16px;
             .card-body{
                 .step{

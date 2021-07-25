@@ -32,7 +32,7 @@ module.exports = {
         return validate.check()
         .then(matched =>{
             if (!matched) {
-                setRes(res, 400, false, 'Validate fails', {
+                setRes(res, 422, false, 'Validate fails', {
                     oldParams: req.body,
                     error: validate.errors
                 })

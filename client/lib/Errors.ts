@@ -1,24 +1,31 @@
-
-import Messages from './Messages'
+import { types } from "joi"
 
 interface iErrors {
-    setError(property: string, rule: string| object): void,
-    getError(property: string, rule: string| object): string,
+    setError(attribute: string, messages: string): void,
+    errors: object,
 }
-
 class Errors implements  iErrors {
     private _errors: object
-    private _messages: object
+    private _hasError: boolean
 
-    constructor(messages: Messages) {
-        this._messages = messages.messages
+    setError(attribute: string, messages: string): void{
+        if (this._errors[attribute]) {
+            this._errors[attribute].push(messages)
+        }else{
+            this._errors[attribute] = Array(messages)
+        }
     }
-    hasError: boolean
-    setError(property: string, rule: string| object): void{
 
+    public get errors() {
+        return this._errors
     }
-    getError(property: string, rule: string| object): string{
-        return ''
+
+    public get hasErrors() {
+        return this._hasError
+    }
+
+    public set hasErrors(value: boolean) {
+        this._hasError= value
     }
 }
 

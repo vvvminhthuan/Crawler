@@ -32,7 +32,7 @@ module.exports = {
     dateBeforeToday: 'The :attribute must be a date before :arg0 :arg1.',
     dateFormat: 'The :attribute does not match the date format :arg0.',
     datetime: 'The :attribute must be a valid datetime(YYYY-MM-DD HH:mm:ss).',
-    dateiso: 'The :attribute must be a valid ISO-8601 date.',
+    dateiso: 'The :attribute must be a valid ISO-8601(YYYY-MM-DD) date.',
     decimal: 'The :attribute must be a valid decimal value.',
     different: 'The :attribute and :arg0 must be different.',
     digits: 'The :attribute must be of :arg0 digits.',
@@ -85,10 +85,10 @@ module.exports = {
     unique: 'The :attribute has already been taken.',
     url: 'The :attribute format is invalid.',
     any: 'At least one of :attribute fields must be provided',
-    $niceNames: {},
-    $custom: {
+    niceNames: {},
+    custom: {
         custom_attribute: 'Message gies here.',
         'custom_attribute.rule': 'Message gies here.',
     },
-    $default: 'The :attribute value is malformed.',
+    default: 'The :attribute value is malformed.',
 }

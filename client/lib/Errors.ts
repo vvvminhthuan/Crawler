@@ -16,11 +16,11 @@ class Errors implements  iErrors {
         }
     }
 
-    public get errors() {
+    public get errors():object {
         return this._errors
     }
 
-    public get hasErrors() {
+    public get hasErrors():boolean {
         return this._hasError
     }
 

@@ -1,7 +1,6 @@
-import { fileURLToPath } from 'url'
 import BaseMessage from './BaseMessagers'
-
-class Messages {
+import iMessagers from './IMessagers'
+class Messages implements iMessagers {
     private _messages: object
     constructor(mesObj?: object) {
         Object.assign(this._messages, BaseMessage)

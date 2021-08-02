@@ -64,6 +64,15 @@ class Rules {
         let extArr = arg.split('|')
         return extArr.indexOf(extValue)>=0 
     }
+    custorm(callback:Function, value?:any, arg?:object):boolean{
+        if (value&&arg) {
+            return callback(value,arg)
+        }
+        if (value) {
+            return callback(value)
+        }
+        return callback()
+    }
 }
 
 export default Rules

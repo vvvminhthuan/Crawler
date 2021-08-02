@@ -1,18 +1,15 @@
-import { types } from "joi"
-
-interface iErrors {
-    setError(attribute: string, messages: string): void,
-    errors: object,
-}
+import iErrors from './IErrors'
 class Errors implements  iErrors {
-    private _errors: object
-    private _hasError: boolean
+    private _errors: object = null
+    private _hasError: boolean = false
 
     setError(attribute: string, messages: string): void{
         if (this._errors[attribute]) {
             this._errors[attribute].push(messages)
+            this.hasErrors = true
         }else{
             this._errors[attribute] = Array(messages)
+            this.hasErrors = true
         }
     }
 
@@ -24,7 +21,7 @@ class Errors implements  iErrors {
         return this._hasError
     }
 
-    public set hasErrors(value: boolean) {
+    private set hasErrors(value: boolean) {
         this._hasError= value
     }
 }

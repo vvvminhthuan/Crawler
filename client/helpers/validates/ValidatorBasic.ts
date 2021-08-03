@@ -1,10 +1,9 @@
-import Validator from 'max-validator'
-import joi from 'joi'
 import {SigninUpMessage} from './signup'
+import Xda from 'lib/xda-validator'
 
 const initalMessage = new Object()
 
 Object.assign(initalMessage, SigninUpMessage)
-Validator.setMessages(initalMessage)
+const Validator = new Xda(initalMessage)
 
 export default Validator

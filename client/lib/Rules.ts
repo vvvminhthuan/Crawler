@@ -5,7 +5,7 @@ class Rules {
     }
     // numeric:'The :attribute must be a number.',
     numeric(value:any):boolean{
-        return typeof value === 'number'
+        return /^\d*$/.test(value)
     }
     // array:'The :attribute must be an array.',
     array(value:any):boolean{
@@ -63,6 +63,18 @@ class Rules {
         let extValue = value.split('.')[1]
         let extArr = arg.split('|')
         return extArr.indexOf(extValue)>=0 
+    }
+    // checked: 'The :attribute field must be checked.',
+    checked(value:string|boolean|number):boolean{
+        return 1 === value || "on" === value || !0 === value || "true" === value 
+    }
+    // required: 'The :attribute field is required.',
+    required(value:any):boolean{
+        return !(value==='')
+    }
+    // phoneNumber: 'The :attribute must be a valid phone number.',
+    phoneNumber(value:string):boolean{
+        return /^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/.test(value)
     }
     custorm(callback:Function, value?:any, arg?:object):boolean{
         if (value&&arg) {

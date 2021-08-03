@@ -129,7 +129,7 @@ const SignUp = () => {
                                         <label htmlFor="female" className={`${(step>1) ? 'disabled' : ''}`}>Female</label>
                                     </div>
                                     <div className="group flex-r">
-                                        <input type="radio" {...register('gender')} className={`form-control ${(step>1) ? 'disabled' : ''}`} value={USER.GENDER.MALE}/>
+                                        <input type="radio" {...register('gender')} id="male" className={`form-control ${(step>1) ? 'disabled' : ''}`} value={USER.GENDER.MALE}/>
                                         <label htmlFor="male" className={`${(step>1) ? 'disabled' : ''}`}>Male</label>
                                     </div>
                                 </div>

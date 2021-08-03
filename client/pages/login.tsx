@@ -41,6 +41,9 @@ const Login = ({signIn, action}) => {
     },[signIn])
     const onSubmit = async (values) =>{
         let result = await apiSignIn(values)
+        if (!result) {
+            return
+        }
         if(result.success){
             dispatch(getInfoUser())
         }else{

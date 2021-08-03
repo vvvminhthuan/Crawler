@@ -57,6 +57,15 @@ export default function App({Component, pageProps}){
                     }
                 }
             })
+            .catch(e => {
+                store.dispatch(setUserInfo({
+                    success: false
+                }))
+                store.dispatch(signOut())
+                if (noneRedirect.indexOf(router.pathname) < 0) {
+                    router.push('/login')
+                }
+            })
         }
        
         return () =>{

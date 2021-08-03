@@ -38,10 +38,10 @@ const useCustomForm = ({initalValues, initalValidates, onEvent}) =>{
                 let valueCurrent = {
                     [name]: value
                 }
-                let resultValidate = Validator.validate(valueCurrent, schemaCurrent)
-                if (resultValidate.hasError) {
+                let valid = Validator.validate(schemaCurrent, valueCurrent)
+                if (valid.hasError) {
                     let errorCurrent = {
-                        [name]: resultValidate.getError(name)
+                        [name]: valid.errors[name]
                     }
                     setErrors({...errors, ...errorCurrent})
                 }else{
@@ -56,16 +56,16 @@ const useCustomForm = ({initalValues, initalValidates, onEvent}) =>{
         if (event) {
             event.preventDefault()
         }
-        let resultValidate = Validator.validate(values,initalValidates)
-        if (resultValidate.hasError) {
-            let details = resultValidate.errors
+        let valid = Validator.validate(initalValidates, values)
+        if (valid.hasError) {
+            let details = valid.errors
             let arrList = Object.keys(details)
             setFocus(arrList[0])
             let listError = {}
             arrList.map((key) => {
                 let mes = details[key]
                 let errorCurrent = {
-                    [key]: mes[0]
+                    [key]: mes
                 }
                 listError = {...listError, ...errorCurrent}
             })
@@ -100,7 +100,6 @@ const useCustomForm = ({initalValues, initalValidates, onEvent}) =>{
                     continue
                 }
                 if (element.name == inputName) {
-                    console.log(element.name)
                     isPush = false
                     break
                 }

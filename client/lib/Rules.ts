@@ -70,7 +70,7 @@ class Rules {
     }
     // required: 'The :attribute field is required.',
     required(value:any):boolean{
-        return !(value==='')
+        return (value!='')&&(value!=undefined)&&(value!=null)
     }
     // phoneNumber: 'The :attribute must be a valid phone number.',
     phoneNumber(value:string):boolean{

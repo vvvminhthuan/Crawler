@@ -4,7 +4,6 @@ import Rules from './Rules'
 import Errors from './Errors'
 import iErrors from './IErrors'
 import iXda from './IXda'
-import { boolean } from 'joi'
 
 interface xdaError{
     hasError: boolean,

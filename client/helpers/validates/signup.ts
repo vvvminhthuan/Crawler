@@ -17,8 +17,8 @@ export const SiginUpValidates = {
             return true
         }
     },
-    gender: 'required|string|maxLength:255',
-    email: 'required|string|maxLength:255',
+    gender: 'required',
+    email: 'required|string|maxLength:255|email',
     password: 'required|string|minLength:6',
     passwordConfirm: {
         required: true,
@@ -39,6 +39,7 @@ export const SiginUpValidates = {
         maxLength:12
     },
     address: 'required|string|maxLength:255',
+    privacyPolicy: 'checked',
 }
 
 export const SigninUpMessage = {

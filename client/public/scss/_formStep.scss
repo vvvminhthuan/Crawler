@@ -1,0 +1,113 @@
+.form-step-page{
+    padding: 15px;
+    background: linear-gradient(125deg, $lightblue, $gray-x-light);
+    box-sizing: border-box;
+    min-height: 100vh;
+    .card-form-step{
+        margin: auto;
+        width: 750px;
+        min-height: 300px;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
+        background-color: #fff;
+        .card-header{
+            padding: 16px;
+            background-color: #007bff;
+            color: #fff;
+        }
+        .stepper-header{
+            .step{
+                .step-trigger{
+                    padding: 20px;
+                    background-color: transparent;
+                    border: none;
+                    text-align: center;
+                    font-weight: bold;
+                    color: #6c757d;
+                    cursor: pointer;
+                    .step-circle{
+                        display: inline-flex;
+                        width: 35px;
+                        height: 35px;
+                        border-radius: 50%;
+                        background-color: #6c757d;
+                        color: #fff;
+                        justify-content: center;
+                        align-content: center;
+                        align-items: center;
+                    }
+                    .step-label{
+                        margin-left: 5px;
+                    }
+                }
+                &.active{
+                    .step-trigger{
+                        .step-circle{
+                            background-color: #007bff;
+                        }
+                    }
+                }
+            }
+            .step-line{
+                flex: 1 0;
+                min-width: 1px;
+                min-height: 1px;
+                margin: auto;
+                background-color: $border-gray;
+            }
+        }
+        .form{
+            padding: 0 16px;
+            .card-body{
+                .step{
+                    padding: 20px 0;
+                    .form-action{
+                        .group{
+                            margin: auto;
+                            button{
+                                margin: auto 10px;
+                            }
+                        }
+                        button{
+                            margin: auto;
+                            min-width: 100px;
+                            padding: 10px;
+                            color: #fff;
+                            font-weight: 700;
+                            border-radius: 5px;
+                            background-color: #007bff;
+                            border-color: #007bff;
+                            border: 1px solid transparent;
+                            &.btn-privice{
+                                background-color: #8f98a0;
+                                &:hover{
+                                    background-color: #767e85;
+                                }
+                            }
+                            &:hover{
+                                background-color: #0062cc;
+                            }
+                        }
+                    }
+                }
+                .hidden{
+                    display: none;
+                }
+            }
+            .control-disable{
+                input{
+                    pointer-events: none;
+                    &.disabled{
+                        pointer-events: none;
+                    }
+                }
+                label{
+                    &.disabled{
+                        pointer-events: none;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,3 +1,4 @@
+import { type } from 'os'
 import React, {useEffect, useRef, useState} from 'react'
 import Validator from './validates/ValidatorBasic'
 
@@ -25,19 +26,77 @@ const useCustomForm = ({initalValues, initalValidates, onEvent}) =>{
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { target } = event
         const { name, value } = target
-        setValues({...values, [name]: value})
+        switch (target.type) {
+            case 'checkbox':
+                if (!value|| value == 'true'|| value == 'false') {
+                    setValues({...values, [name]: target.checked})
+                }else{
+                    setValues({...values, [name]: value})
+                }
+                break;
+            case 'radio':
+                if (!value|| value == 'true'|| value == 'false') {
+                    setValues({...values, [name]: target.checked})
+                }else{
+                    setValues({...values, [name]: value})
+                }
+                break;
+            default:
+                setValues({...values, [name]: value})
+                break;
+        }
     }
     const handleBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { target } = event
         const { name, value } = target
+        let valueCurrent = null
+        switch (target.type) {
+            case 'checkbox':
+                if (!value|| value == 'true'|| value == 'false') {
+                    valueCurrent = {
+                        [name]: target.checked
+                    }
+                }else{
+                    if (target.checked) {
+                        valueCurrent = {
+                            [name]: value
+                        }
+                    }else{
+                        valueCurrent = {
+                            [name]: undefined
+                        }
+                    }
+                }
+                break;
+            case 'radio':
+                if (!value|| value == 'true'|| value == 'false') {
+                    valueCurrent = {
+                        [name]: target.checked
+                    }
+                }else{
+                    if (target.checked) {
+                        valueCurrent = {
+                            [name]: value
+                        }
+                    }else{
+                        valueCurrent = {
+                            [name]: undefined
+                        }
+                    }
+                }
+                break;
+            default:
+                valueCurrent = {
+                    [name]: value
+                }
+                break;
+        }
         setTouched({...touched, [name]: true})
         if (initalValidates[name]) {
             let currentValidate = initalValidates[name]
             if (currentValidate) {
                 let schemaCurrent = {[name]: currentValidate}
-                let valueCurrent = {
-                    [name]: value
-                }
+                
                 let valid = Validator.validate(schemaCurrent, valueCurrent)
                 if (valid.hasError) {
                     let errorCurrent = {
@@ -71,7 +130,11 @@ const useCustomForm = ({initalValues, initalValidates, onEvent}) =>{
             })
             setErrors({...errors, ...listError})
         }else{
-            onEvent({...values})
+            setErrors({})
+            let rs = onEvent({...values})
+            if (rs) {
+                return rs
+            }
         }
     }
     const setErrorsByAttach = (obj: any) => {

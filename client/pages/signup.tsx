@@ -1,25 +1,19 @@
 import Link from 'next/link'
 
-import { connect , useDispatch} from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { signIn } from 'redux/actions/SignIn'
-import { getInfoUser } from 'redux/middleware/User'
-
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 
-import { apiSignIn } from 'api/Auth'
+import { createUser } from 'api/Users'
 import useCustomForm from 'helpers/useCustomForm'
 import {setMessageErros} from 'helpers/common'
-import {SiginUpValidates} from 'helpers/validates/signup'
+import {SiginUpValidates} from 'helpers/validates/SignUp'
 import {USER} from '../config/contants'
 
 import FormStep from 'componets/FormStep'
+import Modals from 'componets/Modals'
 
 const SignUp = () => {
-    const router = useRouter()
-    const dispatch = useDispatch()
-    
+
     const initalValues = {
         firstName: '',
         lastName: '',
@@ -50,11 +44,12 @@ const SignUp = () => {
     useEffect(()=>{
     },[])
     const onSignIn = (value) =>{
+        console.log(1)
         return true
     }
 
-    const confirm = () =>{
-        return ''
+    const confirm = async () =>{
+        return true
     }
     const signInStep = ['Sign Up', 'Confirm', 'Complete']
     const signInFooter = {
@@ -74,6 +69,7 @@ const SignUp = () => {
     }
 
     return (
+        <>
         <FormStep title ='Sign up systems' initStep={signInStep} initFooter={signInFooter} classBody='sign-up'>
             <div className="form-group flex-c">
                 <label htmlFor="firstName">First Name</label>
@@ -145,16 +141,23 @@ const SignUp = () => {
             <div className="form-group flex-c">
                 <div className="flex-r">
                     <input type="checkbox" {...register('privacyPolicy')} id='privacy-policy'className="privacy-policy" name="privacyPolicy"/>
-                    <label htmlFor="privacy-policy" className="lb-privacy-policy flex-r">
+                    <div className="lb-privacy-policy flex-r">
                         I agree to the Crawle
-                        <a href="" className="modal-service">Terms of Service</a>
+                        <a className="modal-service" data-modals="service">Terms Of Service</a>
                         and
-                        <a href="" className="modal-service"> Privacy Policy</a>
-                    </label>
+                        <a className="modal-service" data-modals="policy">Privacy Policy</a>
+                    </div>
                 </div>
                 {errors.privacyPolicy ? <span className="error">{errors.privacyPolicy}</span> : null}
             </div>
         </FormStep>
+        <Modals title = 'Terms Of Service' modalsID = 'service'>
+            <div>Terms Of Service</div>
+        </Modals>
+        <Modals title = 'Privacy Policy' modalsID = 'policy'>
+            <div>Privacy Policy</div>
+        </Modals>
+        </>
     )
 }
 

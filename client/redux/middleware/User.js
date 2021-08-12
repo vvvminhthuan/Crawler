@@ -3,21 +3,27 @@ import {signOut, signIn as acSignIn} from '../actions/SignIn'
 import {getInfoUserByAuth} from 'api/Users'
 
 export const getInfoUser = () => (dispatch, getState) =>{
-    const { signIn, userInfo } = getState()
+    const { signIn } = getState()
     if (!signIn) {
         getInfoUserByAuth()
         .then((result) => {
             if (result.success) {
                 dispatch(acSignIn())
-                dispatch(setUserInfo(result.results[0]))
+                let useInfo = {
+                    success: true
+                }
+                Object.assign(useInfo, result.results[0])
+                dispatch(setUserInfo(useInfo))
             }else{
-                console.log('day')
                 dispatch(setUserInfo({
                     success: false
                 }))
                 dispatch(signOut())
             }
         }).catch((err) => {
+            dispatch(setUserInfo({
+                success: false
+            }))
             dispatch(signOut())
         })
     }

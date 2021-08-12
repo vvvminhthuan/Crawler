@@ -11,13 +11,14 @@ import { useRouter } from 'next/router'
 
 const LogoutPage = ({signIn, action}) => {
     const router = useRouter()
+    
     useEffect(() => {
         apiSignOut()
         .then((result) => {
             if (result.success) {
                 action.signOut()
                 action.setUserInfo(null)
-                router.push('./login')
+                router.push('/login')
             }
         }).catch((err) => {
             console.log(err + '')

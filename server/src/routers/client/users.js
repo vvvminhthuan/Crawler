@@ -2,7 +2,7 @@
 var routes = require('express').Router()
 const { getUsers, createUsers, updateUsers, deleteUers, getUsersByAuth } = require('../../Controllers/ControllerUsers')
 const　{ Auth, detectAuth } = require('../../Middlewares/MiddlewareAuth')
-const　{ CREATE_UPADTE_USERS } = require('../../Middlewares/Validates/ValidateUsers')
+const　{ CREATE_USERS, UPADTE_USERS } = require('../../Middlewares/Validates/ValidateUsers')
 const { detectParams, validateParams } = require('../../Middlewares/MiddlewareRouters')
 
 routes.get('/user-info', [detectAuth], (req, res) => {
@@ -11,10 +11,10 @@ routes.get('/user-info', [detectAuth], (req, res) => {
 routes.get('/:id?', [detectParams, Auth], (req, res, next) => {
     getUsers(req, res)
 })
-routes.post('/', CREATE_UPADTE_USERS, (req, res) => {
+routes.post('/', CREATE_USERS, (req, res) => {
     createUsers(req, res)
 })
-routes.put('/:id?', [detectParams, validateParams, Auth, CREATE_UPADTE_USERS], (req, res) => {
+routes.put('/:id?', [detectParams, validateParams, Auth, UPADTE_USERS], (req, res) => {
     updateUsers(req, res)
 })
 routes.delete('/:id?', [detectParams, validateParams, Auth], (req, res) => {

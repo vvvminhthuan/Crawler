@@ -102,7 +102,7 @@ ModelUsers.findAllUsers = async (condition = {}, isIncludeAdmin = false) => {
     let include = {
         model: ModelRoles,
         attributes: ['id', "name", "role"],
-        required: true
+        required: false
     }
     if (!isIncludeAdmin) {
         include.where = {

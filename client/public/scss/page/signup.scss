@@ -45,7 +45,8 @@
                         .lb-privacy-policy{
                             margin: auto 5px;
                             font-weight: 300;
-                            a{
+                            .modal-service{
+                                cursor: pointer;
                                 font-weight: 600;
                                 margin: 0 5px;
                             }

@@ -43,7 +43,7 @@ export default function App({Component, pageProps}){
         if (!signIn&&userInfo==null) {
             getInfoUserByAuth()
             .then((result) => {
-                if (result.success) {
+                if (result.success&&result.results[0]) {
                     store.dispatch(setUserInfo(result.results[0]))
                     store.dispatch(acSignIn())
                     router.push('/')

@@ -46,7 +46,6 @@ class Xda implements iXda {
         }else{
             return rule(value)    
         }
-        return true
     }
     /**
      * validate

@@ -19,6 +19,7 @@ type LayoutProps = {
 
 const Layout : React.FC<LayoutProps> = ({children, title, description, categoriesMenu}) =>{
     const signIn = useSelector((state:any) => state.signIn)
+
     let socket = SocketClient('//localhost:8484/chat')
     
     useEffect(()=>{

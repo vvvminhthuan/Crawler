@@ -1,0 +1,48 @@
+.xda-modals{
+    position: fixed;
+    left: 0;
+    top: 0;
+    box-sizing: border-box;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999;
+    .xda-modals-content{
+        margin: auto;
+        background-color: #fff;
+        overflow: hidden;
+        transform: translateY(50%);
+        box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
+        border-radius: 10px;
+        .modal-header{
+            height: 50px;
+            padding: 0 10px;
+            background-color: #007bff;
+            box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
+            align-items: center;
+            justify-content: space-between;
+            color: #fff;
+            font-weight: 500;
+            .modal-close{
+                width: 30px;
+                height: 30px;
+                box-sizing: border-box;
+                @include render-transition(all 0.3s ease-in-out);
+                &:hover{
+                    transform: rotate(180deg);
+                    @include render-transition(all 0.3s ease-in-out);
+                }
+            }
+        }
+        .modal-body{
+            padding: 10px;
+        }
+    }
+    &.show{
+        display: block;
+        @include render-transition(all 0.3s ease-in-out);
+    }
+    &.hidden{
+        display: none;
+        @include render-transition(all 0.3s ease-in-out);
+    }
+}

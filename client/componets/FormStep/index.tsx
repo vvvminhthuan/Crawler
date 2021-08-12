@@ -17,22 +17,20 @@ type initProps = {
 
 const FormStep : React.FC<initProps> = ({children, title, initFooter, initStep, classBody}) =>{
     const [step, setStep] = useState(1)
-    const [isNext, setIsNext] = useState(false)
 
     const onStep1 = () =>{
         let isNext = initFooter.actionStep1()
         if (isNext) {
             setStep(step + 1)
-            setIsNext(true)
-        }else{
-            setIsNext(false)
         }
     }
 
-    const onStep2 = () =>{
-        initFooter.actionStep2()
+    const onStep2 = async() =>{
+        let isNext = await initFooter.actionStep2()
         if (isNext) {
             setStep(step + 1)
+        }else{
+            setStep(step - 1)
         }
     }
 
@@ -41,6 +39,7 @@ const FormStep : React.FC<initProps> = ({children, title, initFooter, initStep, 
             setStep(step - 1)
         }
     }
+    
     const setHeaderStep = () => {
         let element = []
         initStep.forEach((e, i) => {

@@ -11,9 +11,9 @@ import { useRouter } from 'next/router'
 import { apiSignIn } from 'api/Auth'
 import useCustomForm from 'helpers/useCustomForm'
 import {setMessageErros} from 'helpers/common'
-import LoginValidate from 'helpers/validates/login'
+import LoginValidate from 'helpers/validates/Login'
 
-const Login = ({signIn, action}) => {
+const Login = ({signIn, userInfo, action}) => {
     const router = useRouter()
     const dispatch = useDispatch()
     const [isRendering, setIsRendering] = useState(false)
@@ -36,9 +36,9 @@ const Login = ({signIn, action}) => {
         if (signIn) {
             router.push('/')
         }
-        router.prefetch('/') 
         setIsRendering(true)
     },[signIn])
+
     const onSubmit = async (values) =>{
         let result = await apiSignIn(values)
         if (!result) {
@@ -83,7 +83,7 @@ const Login = ({signIn, action}) => {
                         </div>
                     </div>
                     <div className="card-footer flex-c">
-                        <Link href="#"><a className="link-register">Forgot Password</a></Link>
+                        <Link href="/for-got"><a className="link-register">Forgot Password</a></Link>
                         <button type="submit" className="btn-sign">Sign in</button>
                         <Link href="/signup"><a className="link-register">Signup</a></Link>
                     </div>
@@ -95,7 +95,8 @@ const Login = ({signIn, action}) => {
 
 function mapStateToProps(state) {
     return {
-        signIn: state.signIn
+        signIn: state.signIn,
+        userInfo: state.userInfo
     }
 }
 

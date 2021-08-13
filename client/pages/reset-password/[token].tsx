@@ -6,13 +6,28 @@ import useCustomForm from 'helpers/useCustomForm'
 import {setMessageErros} from 'helpers/common'
 
 import FormStep from 'componets/FormStep'
+import { useRouter } from 'next/router'
 
 const ResetPassword = () => {
+    const router = useRouter()
+    const param = router.query
     const initalValues = {
-        email: ''
+        password: '',
+        passwordConfirm: '',
     }
     const initalValidates = {
-        email: 'required|string|maxLength:255|email'
+        password: 'required|string|minLength:6',
+        passwordConfirm: {
+            required: true,
+            string: true,
+            pwConfirm: (value) => {
+                let password:any = document.getElementsByName('password')
+                if (value == password[0].value) {
+                    return true
+                }
+                return false
+            }
+        },
     }
     const { 
         values, 
@@ -32,7 +47,7 @@ const ResetPassword = () => {
     const confirm = async () =>{
         return true
     }
-    const signInStep = ['Find your email', 'Email confirm', 'Complete']
+    const signInStep = ['Reset your password', 'Password confirm', 'Complete']
     const signInFooter = {
         step1: 'Next',
         actionStep1: handleSubmit,

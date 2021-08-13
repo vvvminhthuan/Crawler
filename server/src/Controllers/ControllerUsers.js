@@ -3,6 +3,7 @@ const ModelUsers = require('../Models/ModelUsers')
 const BrcyptCode = require('../Auth/BrcyptCode')
 const {ROW_DELETE} = require('../Config')
 const { setRes } = require('../Helpers/Response')
+const { ResetPassword } = require('../Helpers/Mailer')
 
 module.exports = {
     getUsers: (req, res) => {
@@ -85,4 +86,8 @@ module.exports = {
                 setRes(res, 200, false, 'Get user fail!')
             })
     },
+    sendResetPassword: (req, res) => {
+        let params = req.params
+        ResetPassword(params, params.email)
+    }
 }

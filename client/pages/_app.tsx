@@ -19,7 +19,7 @@ const nProgresDone = () => {
     NProgress.done()
 }
 
-const noneRedirect = ['/signup', '/forgot', '/_error']
+const noneRedirect = ['/signup', '/for-got', '/_error', '/reset-password']
 
 export default function App({Component, pageProps}){
     const store = useStore(pageProps.initialReduxState)
@@ -52,7 +52,7 @@ export default function App({Component, pageProps}){
                         success: false
                     }))
                     store.dispatch(signOut())
-                    if (noneRedirect.indexOf(router.pathname) < 0) {
+                    if (noneRedirect.indexOf('/'+router.pathname.split('/')[1]) < 0) {
                         router.push('/login')
                     }
                 }

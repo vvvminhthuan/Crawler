@@ -1,12 +1,9 @@
-import Layout from 'componets/Layouts'
-
 import { useEffect } from 'react'
-
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { signOut } from 'redux/actions/SignIn'
 import { setUserInfo } from 'redux/actions/Users'
-import {apiSignOut} from 'api/Auth'
+import { apiSignOut } from 'api/Auth'
 import { useRouter } from 'next/router'
 
 const LogoutPage = ({signIn, action}) => {
@@ -25,12 +22,9 @@ const LogoutPage = ({signIn, action}) => {
         })
     }, [])
     return (
-        <Layout title='Trang Chủ' description='Hoàng Minh Thuận'>
-		</Layout>
+        null
     )
 }
-
-
 
 function mapStateToProps(state) {
     return {

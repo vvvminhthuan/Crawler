@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
-import { useEffect, useState } from 'react'
-
+import { useEffect } from 'react'
+import { mailRestPassword } from 'api/Users'
 import useCustomForm from 'helpers/useCustomForm'
 import {setMessageErros} from 'helpers/common'
 
@@ -30,7 +30,14 @@ const ForGot = () => {
         return true
     }
     const confirm = async () =>{
-        return true
+        let result = await mailRestPassword(values)
+        if (result.success) {
+            return true
+        } else {
+            let err = setMessageErros(result)
+            setErrorsByAttach(err)
+            return false
+        }
     }
     const signInStep = ['Find your email', 'Email confirm', 'Complete']
     const signInFooter = {

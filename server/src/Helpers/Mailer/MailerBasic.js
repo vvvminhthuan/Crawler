@@ -23,11 +23,16 @@ const sendMail = async (html, to, bcc='', subject='', from='Crawler <no-reply@cr
         subject: subject,
         html: html
     }
-    let info = await TRANSPORT.sendMail(inital)
-    if (info.messageId) {
-        return true
+    try {
+        let info = await TRANSPORT.sendMail(inital)
+        if (info.messageId) {
+            return true
+        }
+        return false
+    } catch (error) {
+        console.log(error)
+        return false
     }
-    return false
 }
 
 const setTempHtml = (html, params) => {

@@ -2,7 +2,6 @@
 
 const { SECRET, EXP, ALG, TOKEN_REFRESH, TOKEN_ACCESS } = require('../Config')
 const jwt = require('jsonwebtoken')
-const { compareSync } = require('bcrypt')
 
 const JWT = () => {
     var options = {

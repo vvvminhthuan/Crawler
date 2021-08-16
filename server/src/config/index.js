@@ -54,5 +54,6 @@ module.exports= {
     MAIL: {
         USER: process.env.USER || 'dev.xda.crawler@gmail.com',
         PASSWORD: process.env.PASSWORD || 'Thuan@2021!'
-    }
+    },
+    URL_CLIENT: process.env.URL_CLIENT || 'http://localhost:8088/',
 }

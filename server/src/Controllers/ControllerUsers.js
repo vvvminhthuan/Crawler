@@ -3,7 +3,9 @@ const ModelUsers = require('../Models/ModelUsers')
 const BrcyptCode = require('../Auth/BrcyptCode')
 const {ROW_DELETE} = require('../Config')
 const { setRes } = require('../Helpers/Response')
-const { ResetPassword } = require('../Helpers/Mailer')
+const { mailResetPassword } = require('../Helpers/Mailer')
+const { URL_CLIENT } = require('../Config')
+const JWT = require('../Auth/JWT')
 
 module.exports = {
     getUsers: (req, res) => {
@@ -86,8 +88,20 @@ module.exports = {
                 setRes(res, 200, false, 'Get user fail!')
             })
     },
-    sendResetPassword: (req, res) => {
-        let params = req.params
-        ResetPassword(params, params.email)
+    resetPassword: async (req, res) => {
+        let params = req.body
+        let dataJwt = {
+            email: params.email
+        }
+        let token = JWT.signCode(dataJwt)
+        let data = {
+            url: URL_CLIENT + 'reset-password/' + token
+        }
+        let result = await mailResetPassword(data, params.email)
+        if (result) {
+            setRes(res, 200, true, 'Send mail reset password complete!', result)
+        } else {
+            setRes(res, 500, false, 'Send mail reset password fails!', result)
+        }
     }
 }

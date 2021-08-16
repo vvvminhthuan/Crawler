@@ -1,6 +1,6 @@
 "use strict"
 
-const ResetPassword = require('./ResetPassword')
+const resetPassword = require('./ResetPassword')
 module.exports = {
-    ResetPassword: ResetPassword
+    mailResetPassword: resetPassword
 }

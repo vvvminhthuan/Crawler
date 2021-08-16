@@ -18,6 +18,7 @@ routes.post('/signin', USER_SIGNIN, (req, res, next) => {
 routes.get('/signout', (req, res) => {
     logout(req, res)
 })
+
 routes.use(function (req, res) {
     res.status(404).json({status: false, error: 'Not found 404' })
 })

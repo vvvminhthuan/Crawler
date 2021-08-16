@@ -2,6 +2,7 @@
 
 const nodemailer = require('nodemailer')
 const {MAIL} = require('../../Config')
+const { sync } = require('../../Models/ModelRoles')
 
 const mailConfig = {
     host: 'smtp.gmail.com',
@@ -22,18 +23,23 @@ const sendMail = async (html, to, bcc='', subject='', from='Crawler <no-reply@cr
         subject: subject,
         html: html
     }
-    return await TRANSPORT.sendMail(inital)
+    let info = await TRANSPORT.sendMail(inital)
+    if (info.messageId) {
+        return true
+    }
+    return false
 }
 
 const setTempHtml = (html, params) => {
     let listParms = Object.keys(params)
     listParms.forEach(element => {
-        html.replaceAll(':'+ element, params[element])
+        let reg = RegExp(`:${element}`, 'g')
+        html = html.replace(reg, params[element])
     })
     let basicHtml = `
         <div style=" margin: auto;
-        width: 750px;
-        min-height: 300px;
+        width: 80%;
+        max-width: 750px;
         border-radius: 10px;
         overflow: hidden;
         box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
@@ -42,19 +48,18 @@ const setTempHtml = (html, params) => {
             background-color: #007bff;
             border-bottom: 1px solid #aaa;
             color: #fff;">
-            <p>Welcome to Crawler system!</p>
+            <p style="color: #fff;">Welcome to Crawler system!</p>
         </div>
         :content
         <div class="footer" style="background-color: #c2c5d0;
-            border-top: 1px solid #aaa;">
-            <p>____________________________________</p>
+            border-top: 1px solid #aaa;
+            padding: 10px 15px;">
             <p>Email us: infor@gmail.com</p>
             <p>Phone: +0123456789</p>
             <p>Address: xda street, CPCC</p>
-            <p>____________________________________</p>
         </div>
     </div>`
-    return basicHtml.replaceAll(':content', html)
+    return basicHtml.replace(/(:content)/g, html)
 }
 
 module.exports = {

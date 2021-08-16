@@ -28,6 +28,17 @@ VALIDATOR.extend('uniqueRole', async({ value, args }) => {
     let result = await ModelRoles.findAll(condition)
     return !(result.length > 0)
 })
+VALIDATOR.extend('mailExsist', async({ value, args }) => {
+    let field = args[0] || 'email'
+    let condition = {
+        where: {
+            [field]: value,
+            isDelete: ROW_DELETE.NOT_DELETE
+        }
+    }
+    let result = await ModelUsers.findAll(condition)
+    return (result.length > 0)
+})
 module.exports = {
     VALIDATOR: VALIDATOR,
     Validator: Validator

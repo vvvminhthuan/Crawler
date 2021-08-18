@@ -25,8 +25,7 @@ routes.post('/reset-password', EMAIL_EXIST, (req, res) => {
     resetPassword(req, res)
 })
 routes.put('/reset-password/:token', [TOKEN_VERIFY, UPADTE_USERS], (req, res) => {
-    res.end('to')
-    // updateUsers(req, res)
+    updateUsers(req, res)
 })
 
 module.exports = routes;

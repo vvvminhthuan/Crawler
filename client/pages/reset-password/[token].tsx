@@ -32,9 +32,6 @@ const ResetPassword = () => {
     const { 
         values, 
         errors, 
-        touched, 
-        handleBlur,
-        handleChange, 
         handleSubmit,
         setErrorsByAttach,
         register

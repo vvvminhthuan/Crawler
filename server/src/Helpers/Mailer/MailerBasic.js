@@ -2,7 +2,6 @@
 
 const nodemailer = require('nodemailer')
 const {MAIL} = require('../../Config')
-const { sync } = require('../../Models/ModelRoles')
 
 const mailConfig = {
     host: 'smtp.gmail.com',

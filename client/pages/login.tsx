@@ -25,7 +25,6 @@ const Login = ({signIn, userInfo, action}) => {
     const { 
         values, 
         errors, 
-        touched, 
         handleBlur,
         handleChange, 
         handleSubmit,

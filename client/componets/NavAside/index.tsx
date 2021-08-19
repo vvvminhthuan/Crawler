@@ -1,3 +1,4 @@
+import Link from 'next/link'
 const NavAside = () => {
     return (
         <nav className="nav-aside">
@@ -8,14 +9,12 @@ const NavAside = () => {
                     <i className="nav-icon fas fa-tachometer-alt"></i>
                     <p>
                         Dashboard
-                        <i className="right fas fa-angle-left"></i>
                     </p>
                     </a>
                     <ul className="nav nav-treeview">
                     <li className="nav-item">
-                        <a href="./index.html" className="nav-link active">
-                        <i className="far fa-circle nav-icon"></i>
-                        <p>Dashboard v1</p>
+                        <a className="nav-link active">
+                            <Link href="/users-of-roles"><a className="link">Users of Roles</a></Link>
                         </a>
                     </li>
                     <li className="nav-item">

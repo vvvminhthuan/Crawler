@@ -34,7 +34,7 @@ const Aside = () => {
                         </Link>
                     </div>
                 </div>
-
+                <span className="bottom-line"></span>
                 {/* Sidebar Menu */}
                 <NavAside />
                 {/* /.sidebar-menu */}

@@ -19,30 +19,34 @@ if (config.MODEL_DEV) {
     }
     server = require('https').Server(options, app)
 }
+const allowedOrigins = ["http://localhost:8088", "http://localhost:8087", 'http://localhost:8020', 'http://127.0.0.1:9000', 'http://localhost:9000'];
 const _io = socket(server, {
     cors: {
-        origin: "*",
-        credentials: true
+        origin: allowedOrigins,
+        methods: ["GET", "POST"],
+        allowedHeaders: ["my-custom-header"],
+        credentials: true,
     }
 })
 
 app.use((req, res, next)=>{
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8088')
-
+    const origin = req.headers.origin
+    if (allowedOrigins.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin)
+    } 
+    // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8088') 
+    // res.setHeader('Access-Control-Allow-Origin', "http://localhost:8087") 
+    
     res.setHeader('Content-Type', 'application/json')
-
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
     res.setHeader('Access-Control-Allow-Credentials', true)
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
-
     // Request headers you wish to allow
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
 
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    // res.setHeader('Access-Control-Allow-Credentials', true)
-    
     // when client user method OPTIONS
     if (req.method === 'OPTIONS') {
         res.status(200).end()
@@ -52,7 +56,9 @@ app.use((req, res, next)=>{
     // Pass to next layer of middleware
     return next()
 })
-app.disable('x-powered-by') // disable nguon cung cap api
+
+// disable nguon cung cap api
+app.disable('x-powered-by') 
 
 app.use(express.static('stores'))
 app.use(bodyParser.json({limit: '1mb'}))

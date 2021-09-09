@@ -5,17 +5,22 @@ const NavAside = () => {
             <ul className="nav nav-pills nav-sidebar flex-c">
                 {/* Add icons to the links using the .nav-icon class with font-awesome or any other icon font library */}
                 <li className="nav-item has-treeview menu-open">
-                    <a href="#" className="nav-link active">
-                    <i className="nav-icon fas fa-tachometer-alt"></i>
-                    <p>
-                        Dashboard
-                    </p>
-                    </a>
+                    <Link href="/">
+                        <a href="#" className="nav-link active">
+                            <i className="nav-icon fas fa-tachometer-alt"></i>
+                            <p>
+                                Dashboard
+                            </p>
+                        </a>
+                    </Link>
+                    
                     <ul className="nav nav-treeview">
                     <li className="nav-item">
-                        <a className="nav-link active">
-                            <Link href="/users-of-roles"><a className="link">Users of Roles</a></Link>
-                        </a>
+                        <Link href="/users-of-roles">
+                            <a className="nav-link active link">
+                                Users of Roles
+                            </a>
+                        </Link>
                     </li>
                     <li className="nav-item">
                         <a href="./index2.html" className="nav-link">

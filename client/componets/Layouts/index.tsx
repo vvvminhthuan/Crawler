@@ -9,8 +9,6 @@ import config from 'config'
 
 import { useSelector} from 'react-redux'
 
-import SocketClient from 'socket.io-client'
-
 type LayoutProps = {
     title?: string,
     description?: string
@@ -20,17 +18,11 @@ type LayoutProps = {
 const Layout : React.FC<LayoutProps> = ({children, title, description, categoriesMenu}) =>{
     const signIn = useSelector((state:any) => state.signIn)
 
-    let socket = SocketClient('//localhost:8484/chat')
+    
     
     useEffect(()=>{
         if (signIn) {
-            socket.on('connect', function () {
-                console.log('da ket noi duoc server chats nhe!')
-            })
-            socket.on('send', function(fullname, objPersont) {
-                console.log(fullname, objPersont)
-            })
-            socket.emit('receives', 'Client da nhan dc thong tin')
+            
         }
         windownEvent()
     }, [signIn])
@@ -90,7 +82,7 @@ const Layout : React.FC<LayoutProps> = ({children, title, description, categorie
                 <main>
                     <div className="content">
                         {children}
-                        {/* <Chats /> */}
+                        <Chats />
                     </div>
                 </main>
                 <footer>

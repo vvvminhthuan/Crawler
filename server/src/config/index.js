@@ -36,19 +36,20 @@ module.exports= {
     },
     SOCKET_EVENT:  {
         CONNECT: 'connection',
+        CONNECT_ERR: 'connect_error',
         DISCONNECT: 'disconnect',
         DISCONNECT_ERR: 'disconnect_error',
-        CHAT: 'chat',
+        CHAT: 'CHAT',
         CHAT_EVENT: {
-            READ: 'read',
-            WRITE: 'write',
-            SEND: 'send',
-            RECEIVES: 'receives',
+            READ: 'READ',
+            WRITE: 'WRITE',
+            SEND: 'SEND',
+            RECEIVES: 'RECEIVES',
         },
-        NOTIFITION: 'notifition',
+        NOTIFITION: 'NOTIFITION',
         NOTIFITION_EVENT: {
-            PUSH_NOTIFI: 'push_notifi',
-            PUSH_CHAT: 'push_chat',
+            PUSH_NOTIFI: 'PUSH_NOTIFI',
+            PUSH_CHAT: 'PUSH_CHAT',
         }
     },
     MAIL: {

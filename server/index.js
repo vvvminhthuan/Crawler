@@ -19,12 +19,11 @@ if (config.MODEL_DEV) {
     }
     server = require('https').Server(options, app)
 }
-const allowedOrigins = ["http://localhost:8088", "http://localhost:8087", 'http://localhost:8020', 'http://127.0.0.1:9000', 'http://localhost:9000'];
+const allowedOrigins = config.ALLOWED_ORIGINS
 const _io = socket(server, {
     cors: {
         origin: allowedOrigins,
         methods: ["GET", "POST"],
-        allowedHeaders: ["my-custom-header"],
         credentials: true,
     }
 })

@@ -2,6 +2,7 @@
 require('dotenv').config()
 
 module.exports= {
+    ALLOWED_ORIGINS :  process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : ["http://localhost:8088", "http://localhost:8087", 'http://localhost:8020', 'http://127.0.0.1:9000', 'http://localhost:9000'],
     PORT:  process.env.MODEL_DEV ? process.env.PORT : 443,
     MODEL_DEV:  (process.env.MODEL_DEV === 'true'),
     CRT:  'Hoang Minh THuan',

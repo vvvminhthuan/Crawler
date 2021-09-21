@@ -1,5 +1,5 @@
 import {SigninUpMessage} from './Signup'
-import Xda from 'lib/xda-validator'
+import Xda from 'lib/Validate/xda-validator'
 
 const initalMessage = new Object()
 

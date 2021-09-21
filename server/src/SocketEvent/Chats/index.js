@@ -1,17 +1,12 @@
 "use strict"
 const { SOCKET_EVENT } = require('../../Config')
+const JWT = require('../../Auth/JWT')
 const {disconnect, disconnectErrors, connectErrors} = require('../utils/CommonEvent')
+const middlewares = require('../Middlewares')
 
 module.exports = (io) => {
-    io.of(`/${SOCKET_EVENT.CHAT}`)
-    .use((socket, next) => {
-        console.log('middelware', socket)
-        next()
-    })
-    .on(SOCKET_EVENT.CONNECT, (socket) =>{
-        // console.log(socket.request.headers.cookie)
-        // console.log(socket.handshake.auth)
-        
+    middlewares(io)
+    io.on(SOCKET_EVENT.CONNECT, (socket) =>{
         console.log(`Client ID ${socket.id} connected CHAT`)
         // chats(io, socket)
         disconnect(socket)

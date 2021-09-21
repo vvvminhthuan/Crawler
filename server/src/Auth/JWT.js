@@ -43,7 +43,6 @@ const JWT = () => {
                 return false
             } catch (error) {
                 return false
-                throw error
             }
         }
     }

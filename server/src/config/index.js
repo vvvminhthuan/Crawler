@@ -32,8 +32,8 @@ module.exports= {
         IS_DRAFT: 2,
     },
     TYPE_MESSAGE: {
-        TEXT: 1,
-        JSON: 2,
+        SEND: 1,
+        READ: 2
     },
     SOCKET_EVENT:  {
         CONNECT: 'connection',

@@ -1,0 +1,27 @@
+.group-emoji{
+    position: absolute;
+    padding: 5px;
+    left: 0;
+    top: -172px;
+    height: 150px;
+    background-color: #fff;
+    overflow: hidden;
+    .list-item{
+        width: 250px;
+        height: 130px;
+        overflow: hidden;
+        overflow-y: auto;
+        .group{
+            .icon{
+                width: 21px;
+                height: 21px;
+                font-style: normal;
+            }
+        }
+    }
+    .list-group{
+        li{
+            text-decoration: none;
+        }
+    }
+}

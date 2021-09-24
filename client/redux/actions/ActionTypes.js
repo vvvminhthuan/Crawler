@@ -20,5 +20,13 @@ export const PRODUCTS_SORT = 'PRODUCTS_SORT'
 //Filter
 export const URL_SEARCH = 'URL_SEARCH'
 export const URL_CATEGORY = 'URL_CATEGORY'
-// Get infor User
+//Get infor User
 export const USER_INFO = 'USER_INFO'
+//LIST CHAT
+export const ADD_MESSAGE = 'ADD_MESSAGE'
+export const REMOVE_MESSAGE = 'REMOVE_MESSAGE'
+export const ADD_GROUP = 'ADD_GROUP'
+export const REMOVE_GROUP = 'REMOVE_GROUP'
+export const EDIT = 'EDIT'
+export const READ = 'READ'
+export const NUM_MESSAGE = 'NUM_MESSAGE'

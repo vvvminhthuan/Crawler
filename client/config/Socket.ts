@@ -1,5 +1,5 @@
 export const SOCKET = {
-    URL: '//localhost:8484',
+    URL: process.env.NEXT_PUBLIC_URL_SOCKET ?? '//localhost:8484',
     CONNECT: 'connect',
     DISCONNECT: 'disconnect',
     DISCONNECT_ERR: 'disconnect_error',

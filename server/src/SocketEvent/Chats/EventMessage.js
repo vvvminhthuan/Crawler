@@ -32,7 +32,7 @@ const EventMessagers = () => {
                 content: null,
                 errors: err + ''
             })
-        });
+        })
     }
     const writing = (socket, groupId, userId) => {
         socket.emit(`${SOCKET_EVENT.CHAT_EVENT.WRITE}.${groupId}`, {
@@ -85,18 +85,18 @@ const EventMessagers = () => {
 
     return {
         /*
-            {
+            body: {
                 groupId: 0, tn moi thi groupId = 0 || undefine
                 users: '1,2',
                 message: 'string',
-            }
+            },
         */ 
-        sendMessages: (socket) => {
+        sendMessages: async (socket) => {
             socket.on(SOCKET_EVENT.CHAT_EVENT.SEND, (body, callback) => {
                 let {groupId, userId, content} = body
                 // neu khong co group thi tao group truoc
                 if (groupId == 0 || groupId == undefined) {
-                    groupId = createGroup(content)
+                    groupId = await createGroup(content)
                     if (typeof callback == "function") {
                         callback({
                             status: 'OK',
@@ -109,7 +109,8 @@ const EventMessagers = () => {
                     if (valid) {
                         send(socket, groupId, userId, content)
                     }
-                }).catch((err) => {
+                })
+                .catch((err) => {
                     console.log('Send message: ' + err)
                 })
             })

@@ -1,27 +1,51 @@
 .group-emoji{
+    display: none;
     position: absolute;
-    padding: 5px;
     left: 0;
-    top: -172px;
+    top: -160px;
     height: 150px;
-    background-color: #fff;
+    padding: 5px 0 5px 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     overflow: hidden;
+    box-shadow: $color_box_shadow;
+    background-color: #fff;
+    &.active{
+        display: block;
+    }
     .list-item{
-        width: 250px;
+        padding: 0 5px;
+        width: 255px;
         height: 130px;
+        background-color: #fff;
         overflow: hidden;
         overflow-y: auto;
         .group{
+            display: none;
             .icon{
                 width: 21px;
                 height: 21px;
                 font-style: normal;
+                cursor: pointer;
+            }
+            &.active{
+                display: block;
             }
         }
     }
     .list-group{
+        width: 260px;
+        background-color: #f9f6f6;
+        padding-left: 5px;
         li{
-            text-decoration: none;
+            cursor: pointer;
+            list-style: none;
+            padding: 1px;
+            &.active {
+                background-color: #dadada;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+            }
         }
     }
 }

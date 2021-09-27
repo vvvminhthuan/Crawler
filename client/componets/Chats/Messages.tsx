@@ -9,11 +9,7 @@ type MessageProperty = {
 const Messages : React.FC<MessageProperty> = ({dataContent, isRight}) => {
     return (
         <div className={`chat-msg${isRight? ' right' : ''}`}>
-            {/* .chat-infos */}
-            <div className="chat-infos flex-r">
-                <span className="chat-name"></span>
-                <span className="chat-timestamp">23 Jan 2:00 pm</span>
-            </div>
+            {/*  /.chat-text */}
             <div className="chat-content flex-r">
                 {/*  /.chat-infos */}
                 {/* <Image src="/stores/images/user1-128x128.jpg" alt="Message User Image" width="35px" height="35px" className="img-circle" /> */}
@@ -24,6 +20,11 @@ const Messages : React.FC<MessageProperty> = ({dataContent, isRight}) => {
                 </div>
             </div>
             {/*  /.chat-text */}
+            {/* .chat-infos */}
+            <div className="chat-infos flex-r">
+                <span className="chat-name"></span>
+                <span className="chat-timestamp">23 Jan 2:00 pm</span>
+            </div>
         </div>
     )
 }

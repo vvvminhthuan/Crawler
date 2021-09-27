@@ -64,24 +64,6 @@ const EventMessagers = () => {
             })
         })
     }
-    const createGroup = async (params) => {
-        let listUsers = []
-        let users = params.users.slipt(',')
-        let group = await ModelGroups.create({'name': groupName})
-        if (group) {
-            users.forEach(e => {
-                listUsers.push({
-                    'groupId': group.id,
-                    'userId': group.e,
-                })
-            })
-            let groupUser = await ModelGroupUsers.bulkCreate(listUsers)
-            if (groupUser) {
-                return group.id // tra ve groupId
-            }
-        }
-        return 0
-    }
 
     return {
         /*
@@ -91,19 +73,9 @@ const EventMessagers = () => {
                 message: 'string',
             },
         */ 
-        sendMessages: async (socket) => {
+        handleSendMessages: (socket) => {
             socket.on(SOCKET_EVENT.CHAT_EVENT.SEND, (body, callback) => {
                 let {groupId, userId, content} = body
-                // neu khong co group thi tao group truoc
-                if (groupId == 0 || groupId == undefined) {
-                    groupId = await createGroup(content)
-                    if (typeof callback == "function") {
-                        callback({
-                            status: 'OK',
-                            groupId: groupId
-                        })
-                    }
-                }
                 CREATE_UPDATE_MESSAGE(body)
                 .then((valid) => {
                     if (valid) {
@@ -121,7 +93,7 @@ const EventMessagers = () => {
                 userId: 0,
             }
         */
-        writing: (socket) => {
+        handleWriting: (socket) => {
             socket.on(SOCKET_EVENT.CHAT_EVENT.WRITE, (content) => {
                 let {groupId, userId} = content
                 writing(socket, groupId, userId)
@@ -133,8 +105,8 @@ const EventMessagers = () => {
                 userId: 0,
             }
         */
-        read: (socket) => {
-            socket.on(SOCKET_EVENT.CHAT_EVENT.WRITE, (content) => {
+        handleRead: (socket) => {
+            socket.on(SOCKET_EVENT.CHAT_EVENT.READ, (content) => {
                 let {groupId, userId} = content
                 read(socket, groupId, userId)
             })

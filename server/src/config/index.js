@@ -46,6 +46,7 @@ module.exports= {
             WRITE: 'WRITE',
             SEND: 'SEND',
             RECEIVES: 'RECEIVES',
+            ONLINE: 'ONLINE',
         },
         NOTIFITION: 'NOTIFITION',
         NOTIFITION_EVENT: {

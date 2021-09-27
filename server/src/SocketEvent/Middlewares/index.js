@@ -9,6 +9,7 @@ module.exports = (io) => {
             socket.disconnect()
             next(new Error('The authorizing not correct!'))
         }else {
+            console.log('The authorizing correct!')
             next()
         }
     })

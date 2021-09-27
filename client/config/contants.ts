@@ -6,3 +6,7 @@ export const USER = {
         MALE: 2,
     }
 }
+export const LIST_CHAT = {
+    HORIZONAL: 6,
+    VERTICAL: 3,
+}

@@ -45,13 +45,11 @@ app.use((req, res, next)=>{
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
     // Request headers you wish to allow
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
-
     // when client user method OPTIONS
     if (req.method === 'OPTIONS') {
         res.status(200).end()
         return
     }
-
     // Pass to next layer of middleware
     return next()
 })

@@ -14,8 +14,11 @@ export const setMessageErros = (result: any): any =>{
 }
 export const getParent = (elementName : string, tagElement: any): any =>{
     let strClassName = tagElement ? tagElement.className : ''
-    if (strClassName == null || strClassName == '') {
+    if (tagElement == null || (tagElement != null && tagElement.tagName.toUpperCase() == 'BODY')) {
         return null
+    }
+    if (strClassName == '') {
+        getParent(elementName, tagElement.parentElement)
     }
     if (typeof(strClassName) == 'string' && strClassName.indexOf(elementName) >= 0) {
         return tagElement

@@ -14,6 +14,7 @@ CREATE TABLE "users" (
   "numberId" varchar,
   "address" varchar,
   "roleId" int,
+  "online" INT DEFAULT 0;
   "isDelete" int,
   "createdAt" timestamp,
   "updatedAt" timestamp,

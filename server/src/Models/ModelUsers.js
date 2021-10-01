@@ -1,6 +1,7 @@
 "use strict"
 
 const ModelRoles = require('./ModelRoles')
+const ModelGroupUsers = require('./ModelGroupUsers')
 const { sequelize, DataTypes, Op, Sequelize } = require('./ModelBase')
 const attributes = ['id', 
         "firstName", 
@@ -11,6 +12,7 @@ const attributes = ['id',
         "numberId", 
         "address", 
         "roleId", 
+        "online", 
         "createdAt", 
         "firstName", 
         "firstName", 
@@ -74,6 +76,11 @@ const ModelUsers = sequelize.define('users', {
             key: 'id'
         }
     },
+    online: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 0
+    },
     isDelete: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -116,6 +123,15 @@ ModelUsers.findAllUsers = async (condition = {}, isIncludeAdmin = false) => {
         include,
         attributes
     })
+}
+
+ModelUsers.getAllGroups = async () => {
+    let sql = `SELECT "users"."id", "users"."firstName", "users"."lastName", "users"."nickName", "users"."email", "users"."phoneNumber", "users"."numberId", "users"."address", 
+    "users"."roleId", "users"."online", "groupUsers"."groupId"
+    FROM "users" AS "users" 
+    LEFT OUTER JOIN "groupUsers" AS "groupUsers" ON "users"."id" = "groupUsers"."userId" 
+    WHERE "users"."isDelete" = 0`
+    return await sequelize.query(sql)
 }
 
 module.exports = ModelUsers

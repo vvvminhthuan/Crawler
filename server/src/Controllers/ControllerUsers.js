@@ -68,7 +68,7 @@ module.exports = {
             setRes(res, 500, false, 'Create user fails!')
         }) 
     },
-    getUsersByAuth: (req, res) => {
+    getUsersByAuth: async (req, res) => {
         let infor = req.infor
         let condition = {
             where: {
@@ -80,8 +80,15 @@ module.exports = {
         }else{
             return setRes(res, 200, false, 'Get user fail!')
         }
+        let listGroup = await ModelUsers.getAllGroups()
+        // console.log(listGroup)
         return ModelUsers.findAllUsers(condition, true)
             .then(result => {
+                console.log(result[0])
+                result.listGroup = listGroup[0]
+                Object.assign(result[0].user, {
+                    listGroup: listGroup[0]
+                })
                 setRes(res, 200, true, 'Get user complete!', result)
             })
             .catch (err => {

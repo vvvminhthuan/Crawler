@@ -1,0 +1,2 @@
+ALTER TABLE users
+ADD COLUMN "online" INT DEFAULT 0;

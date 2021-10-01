@@ -17,70 +17,51 @@ module.exports = {
             Object.assign(condition.where, params)
         }
         return ModelRoles.findAllRoles(condition)
-            .then(result => {
-                setRes(res, 200, true, 'Get role complete!', result)
-            })
-            .catch (err => {
-                setRes(res, 500, false, 'Get role fail!')
-            })
+        .then(result => {
+            setRes(res, 200, true, 'Get role complete!', result)
+        })
+        .catch (err => {
+            setRes(res, 500, false, 'Get role fail!')
+        })
     },
     createGroups: async (req, res) => {
         let params = req.body
-        let listRoles = await ModelRoles.findAll({
-            where: {
-                isDelete: ROW_DELETE.NOT_DELETE
-            },
-            order: [
-                ['role', 'DESC']
-            ]
-        })
-        params.role = signRole(listRoles.length, params.roleChild)
-        params.roleChild = signRoleChild(params.roleChild)
-        // lay quyen cao nhat
-        let roleMax = listRoles[0].role
-        // Set lai quyen admin khi tao mot role moi
-        let newAdmin = {
-            role: roleMax + params.role,            
-            roleChild: roleMax + params.role
-        }
-        let oldAdmin = {
-            role: roleMax
-        }
-        const result = await ModelGroups.createRoles(params, newAdmin, oldAdmin)
-        if (result) {
-            setRes(res, 201, true, 'Create role complete!', result)
-        } else {
-            setRes(res, 500, true, 'Create role fails!')
+        let group = await ModelGroups.create({name: params.name ?? ''})
+        if (group) {
+            let listUser = params.users.split(',')
+            listUser = listUser.map(item => {
+                return {
+                    groupId: group.id,
+                    userId: item
+                }
+            })
+            ModelGroupUsers.bulkCreate(listUser)
+            .then((results) => {
+                if (results) {
+                    setRes(res, 201, true, 'Create group chat complete!', results)
+                }
+            })
+            .catch((err) => {
+                setRes(res, 500, true, 'Create group chat fails!')
+            })
+        }else{
+            setRes(res, 500, true, 'Create group chat fails!')
         }
     },
-    getMessages: async (req, res) => {
-        let params = req.body
-        let listRoles = await ModelMessages.findAll({
-            where: {
-                isDelete: ROW_DELETE.NOT_DELETE
-            },
-            order: [
-                ['role', 'DESC']
-            ]
-        })
-        params.role = signRole(listRoles.length, params.roleChild)
-        params.roleChild = signRoleChild(params.roleChild)
-        // lay quyen cao nhat
-        let roleMax = listRoles[0].role
-
-        // Set lai quyen admin khi tao mot role moi
-        let newAdmin = {
-            role: roleMax + params.role,            
-            roleChild: roleMax + params.role
+    getMessages: (req, res) => {
+        let params = req.params
+        if (!params.search) {
+            Object.assign(params, {search: ''})
         }
-        let oldAdmin = {
-            role: roleMax
-        }
-        const result = await ModelGroups.createRoles(params, newAdmin, oldAdmin)
-        if (result) {
-            setRes(res, 201, true, 'Create role complete!', result)
-        } else {
-            setRes(res, 500, true, 'Create role fails!')
-        }
+        ModelMessages.findAllMessages(params)
+        .then((result) => {
+            if (result) {
+                setRes(res, 201, true, 'Get messages complete!', result)
+            } else {
+                setRes(res, 500, true, 'Get messages fails!')
+            }
+        }).catch((err) => {
+            setRes(res, 500, false, 'Get messages fail!')
+        }) 
     },
 }

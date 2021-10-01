@@ -1,7 +1,6 @@
 "use strict"
 const { SOCKET_EVENT, TYPE_MESSAGE } = require('../../Config')
-const ModelGroupUsers = require('../../Models/ModelGroupUsers')
-const ModelGroups = require('../../Models/ModelGroups')
+const ModelUsers = require('../../Models/ModelUsers')
 const ModelMessages = require('../../Models/ModelMessages')
 const {CREATE_UPDATE_MESSAGE} = require('../Middlewares/ValidateMessages')
 
@@ -64,6 +63,30 @@ const EventMessagers = () => {
             })
         })
     }
+    const _online = (socket, groupId, userId, _online) => {
+        let condition = {
+            userId: userId
+        }
+        let param = {
+            online: _online
+        }
+        ModelUsers.update(param, {
+            where: condition
+        })
+        .then((result) => {
+            socket.emit(`${SOCKET_EVENT.CHAT_EVENT.ONLINE}.${groupId}`, {
+                status: 'OK',
+                userId: userId,
+                online: _online
+            })
+        }).catch((err) => {
+            socket.emit(`${SOCKET_EVENT.CHAT_EVENT.ONLINE}.${groupId}`, {
+                status: 'FAIL',
+                userId: userId,
+                online: _online
+            })
+        })
+    }
 
     return {
         /*
@@ -74,7 +97,7 @@ const EventMessagers = () => {
             },
         */ 
         handleSendMessages: (socket) => {
-            socket.on(SOCKET_EVENT.CHAT_EVENT.SEND, (body, callback) => {
+            socket.on(SOCKET_EVENT.CHAT_EVENT.SEND, (body) => {
                 let {groupId, userId, content} = body
                 CREATE_UPDATE_MESSAGE(body)
                 .then((valid) => {
@@ -109,6 +132,18 @@ const EventMessagers = () => {
             socket.on(SOCKET_EVENT.CHAT_EVENT.READ, (content) => {
                 let {groupId, userId} = content
                 read(socket, groupId, userId)
+            })
+        },
+        /*
+            {
+                groupId: 0,
+                userId: 0,
+            }
+        */
+        handleOnline: (socket) => {
+            socket.on(SOCKET_EVENT.CHAT_EVENT.ONLINE, (content) => {
+                let {groupId, userId, online} = content
+                _online(socket, groupId, userId, online)
             })
         }
     }

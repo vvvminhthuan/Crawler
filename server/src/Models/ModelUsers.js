@@ -105,6 +105,10 @@ ModelUsers.belongsTo(ModelRoles, {
     foreignKey: 'roleId',
 })
 
+ModelGroupUsers.hasMany(ModelUsers, {
+    foreignKey: 'userId',
+}) 
+
 ModelUsers.findAllUsers = async (condition = {}, isIncludeAdmin = false) => {
     let include = {
         model: ModelRoles,
@@ -125,13 +129,26 @@ ModelUsers.findAllUsers = async (condition = {}, isIncludeAdmin = false) => {
     })
 }
 
-ModelUsers.getAllGroups = async () => {
-    let sql = `SELECT "users"."id", "users"."firstName", "users"."lastName", "users"."nickName", "users"."email", "users"."phoneNumber", "users"."numberId", "users"."address", 
-    "users"."roleId", "users"."online", "groupUsers"."groupId"
-    FROM "users" AS "users" 
-    LEFT OUTER JOIN "groupUsers" AS "groupUsers" ON "users"."id" = "groupUsers"."userId" 
-    WHERE "users"."isDelete" = 0`
-    return await sequelize.query(sql)
+// ModelUsers.getAllGroups = async () => {
+//     let sql = `SELECT "users"."id", "users"."firstName", "users"."lastName", "users"."nickName", "users"."email", "users"."phoneNumber", "users"."numberId", "users"."address", 
+//     "users"."roleId", "users"."online", "groupUsers"."groupId"
+//     FROM "users" AS "users" 
+//     LEFT OUTER JOIN "groupUsers" AS "groupUsers" ON "users"."id" = "groupUsers"."userId" 
+//     WHERE "users"."isDelete" = 0`
+//     return await sequelize.query(sql)
+// }
+
+ModelUsers.getAllGroups = async (conditions) => {
+    let include = {
+        model: ModelGroupUsers,
+        attributes: ['id', "userId", "groupId"],
+        required: false
+    }
+    return await ModelUsers.findAll({ 
+        include,
+        attributes,
+        conditions
+    })
 }
 
 module.exports = ModelUsers

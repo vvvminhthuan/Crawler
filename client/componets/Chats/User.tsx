@@ -2,7 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 
 type UserProperty = {
-    userInfo: Object
+    userInfo: any
 }
 
 const User : React.FC<UserProperty> = ({userInfo}) => {
@@ -14,8 +14,7 @@ const User : React.FC<UserProperty> = ({userInfo}) => {
                 {/*  /.user-infos */}
             </div>
             <div className="item-name">
-                {/* {dataContent} */}
-                Hoàng Minh Thuận
+                {userInfo.firstName + ' ' + userInfo.lastName}
             </div>
         </div>
     )

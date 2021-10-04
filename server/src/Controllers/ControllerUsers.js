@@ -80,15 +80,15 @@ module.exports = {
         }else{
             return setRes(res, 200, false, 'Get user fail!')
         }
-        let listGroup = await ModelUsers.getAllGroups()
-        // console.log(listGroup)
+        let listGroup = await ModelUsers.findAll({
+            where: {
+                isDelete: ROW_DELETE.NOT_DELETE
+            },
+            attributes: ['id', 'firstName', 'lastName', 'nickName', 'email', 'online']
+        })
         return ModelUsers.findAllUsers(condition, true)
             .then(result => {
-                console.log(result[0])
-                result.listGroup = listGroup[0]
-                Object.assign(result[0].user, {
-                    listGroup: listGroup[0]
-                })
+                result[0].dataValues.groupChats = listGroup
                 setRes(res, 200, true, 'Get user complete!', result)
             })
             .catch (err => {

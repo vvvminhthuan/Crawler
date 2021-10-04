@@ -1,4 +1,6 @@
 "use strict"
+const ModelGroups = require('./ModelGroups')
+const ModelUsers = require('./ModelUsers')
 
 const { sequelize, DataTypes, Model, Sequelize } = require('./ModelBase')
 
@@ -35,5 +37,10 @@ const ModelGroupUsers = sequelize.define('groupUsers', {
         allowNull: false
     }
 })
+
+ModelGroupUsers.belongsTo(ModelGroups, {
+    foreignKey: 'groupId',
+})
+
 
 module.exports = ModelGroupUsers

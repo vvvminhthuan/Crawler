@@ -1,7 +1,16 @@
 import User from './User'
 import {getParent} from 'helpers/common'
 
+import { useEffect } from 'react'
+import { useSelector} from 'react-redux'
+
 const ListUsers = () => {
+    const userInfo = useSelector((state:any) => state.userInfo)
+    useEffect(() => {
+        console.log(userInfo)
+        
+    }, [userInfo])
+
     const handleMini = (e) => {
         let parentElenmet = getParent('vertical-item', e.target)
         if (parentElenmet.classList.contains('active')) {
@@ -25,17 +34,7 @@ const ListUsers = () => {
             <div className="card-body">
                 {/*  Conversations are loaded here */}
                 <div className="direct-chat-messages list-user">
-                    <User userInfo={null}/>
-                    <User userInfo={null}/>
-                    <User userInfo={null}/>
-                    <User userInfo={null}/>
-                    <User userInfo={null}/>
-                    <User userInfo={null}/>
-                    <User userInfo={null}/>
-                    <User userInfo={null}/>
-                    <User userInfo={null}/>
-                    <User userInfo={null}/>
-                    <User userInfo={null}/>
+                    {userInfo.groupChats.map(item => <User key={item.id} userInfo={item}/>)}
                 </div>
                 {/* /.direct-chat-messages*/}
             </div>

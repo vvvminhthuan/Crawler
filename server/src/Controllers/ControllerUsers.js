@@ -86,6 +86,7 @@ module.exports = {
             },
             attributes: ['id', 'firstName', 'lastName', 'nickName', 'email', 'online']
         })
+        console.log(listGroup)
         return ModelUsers.findAllUsers(condition, true)
             .then(result => {
                 result[0].dataValues.groupChats = listGroup

@@ -3,7 +3,8 @@
 const ModelRoles = require('./ModelRoles')
 const ModelGroupUsers = require('./ModelGroupUsers')
 const { sequelize, DataTypes, Op, Sequelize } = require('./ModelBase')
-const attributes = ['id', 
+const attributes = [
+        'id', 
         "firstName", 
         "lastName", 
         "nickName", 
@@ -105,9 +106,9 @@ ModelUsers.belongsTo(ModelRoles, {
     foreignKey: 'roleId',
 })
 
-ModelGroupUsers.hasMany(ModelUsers, {
-    foreignKey: 'userId',
-}) 
+// ModelGroupUsers.hasMany(ModelUsers, {
+//     foreignKey: 'userId',
+// }) 
 
 ModelUsers.findAllUsers = async (condition = {}, isIncludeAdmin = false) => {
     let include = {

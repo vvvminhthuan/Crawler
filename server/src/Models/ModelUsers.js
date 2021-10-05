@@ -106,9 +106,9 @@ ModelUsers.belongsTo(ModelRoles, {
     foreignKey: 'roleId',
 })
 
-// ModelGroupUsers.hasMany(ModelUsers, {
-//     foreignKey: 'userId',
-// }) 
+ModelUsers.hasMany(ModelGroupUsers, {
+    foreignKey: 'userId',
+}) 
 
 ModelUsers.findAllUsers = async (condition = {}, isIncludeAdmin = false) => {
     let include = {
@@ -140,15 +140,23 @@ ModelUsers.findAllUsers = async (condition = {}, isIncludeAdmin = false) => {
 // }
 
 ModelUsers.getAllGroups = async (conditions) => {
+    let where = {
+        where: {
+            [Op.and]: [
+                { 'users.isDelete': conditions.isDelete },
+                { 'groupUsers.userId': conditions.userId }
+            ]
+        }
+    }
     let include = {
         model: ModelGroupUsers,
-        attributes: ['id', "userId", "groupId"],
-        required: false
+        attributes: ["userId", "groupId"],
+        required: false,
     }
     return await ModelUsers.findAll({ 
         include,
-        attributes,
-        conditions
+        where,
+        attributes: ['id', 'firstName', 'lastName', 'nickName', 'email', 'online' ,['isDelete', 'userIsDelete']]
     })
 }
 

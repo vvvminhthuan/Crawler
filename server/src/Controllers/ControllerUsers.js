@@ -80,13 +80,10 @@ module.exports = {
         }else{
             return setRes(res, 200, false, 'Get user fail!')
         }
-        let listGroup = await ModelUsers.findAll({
-            where: {
-                isDelete: ROW_DELETE.NOT_DELETE
-            },
-            attributes: ['id', 'firstName', 'lastName', 'nickName', 'email', 'online']
+        let listGroup = await ModelUsers.getAllGroups({
+            isDelete: ROW_DELETE.NOT_DELETE,
+            userId: infor.id
         })
-        console.log(listGroup)
         return ModelUsers.findAllUsers(condition, true)
             .then(result => {
                 result[0].dataValues.groupChats = listGroup

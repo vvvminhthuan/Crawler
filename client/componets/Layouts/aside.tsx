@@ -2,8 +2,10 @@ import NavAside from 'componets/NavAside'
 import Link from 'next/link'
 import Image from 'next/image'
 
+import { useSelector} from 'react-redux'
+
 const Aside = () => {
-    
+    const userInfo = useSelector((state:any) => state.userInfo)
     return (
         <aside className="main-sidebar scrollbar">
             {/* Brand Logo */}
@@ -22,7 +24,7 @@ const Aside = () => {
                     </div>
                     <div className="info flex-r">
                         <Link href="/">
-                            <a href="/" className="d-block">Alexander Pierce</a>
+                            <a href="/" className="d-block">{`${userInfo.firstName} ${userInfo.lastName}`}</a>
                         </Link>
                         <Link href="/logout">
                             <a href="/logout" className="sign-out">

@@ -26,7 +26,11 @@ module.exports = {
     },
     createGroups: async (req, res) => {
         let params = req.body
-        let group = await ModelGroups.create({name: params.name ?? ''})
+        let infor = req.infor
+        let group = await ModelGroups.create({
+            name: params.name ?? '',
+            createdBy: infor.id
+        })
         if (group) {
             let listUser = params.users.split(',')
             listUser = listUser.map(item => {

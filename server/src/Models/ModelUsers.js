@@ -2,7 +2,7 @@
 
 const ModelRoles = require('./ModelRoles')
 const ModelGroupUsers = require('./ModelGroupUsers')
-const { sequelize, DataTypes, Op, Sequelize } = require('./ModelBase')
+const { sequelize, DataTypes, Op, Sequelize, QueryTypes } = require('./ModelBase')
 const attributes = [
         'id', 
         "firstName", 
@@ -130,34 +130,33 @@ ModelUsers.findAllUsers = async (condition = {}, isIncludeAdmin = false) => {
     })
 }
 
-// ModelUsers.getAllGroups = async () => {
-//     let sql = `SELECT "users"."id", "users"."firstName", "users"."lastName", "users"."nickName", "users"."email", "users"."phoneNumber", "users"."numberId", "users"."address", 
-//     "users"."roleId", "users"."online", "groupUsers"."groupId"
-//     FROM "users" AS "users" 
-//     LEFT OUTER JOIN "groupUsers" AS "groupUsers" ON "users"."id" = "groupUsers"."userId" 
-//     WHERE "users"."isDelete" = 0`
-//     return await sequelize.query(sql)
-// }
-
 ModelUsers.getAllGroups = async (conditions) => {
-    let where = {
-        where: {
-            [Op.and]: [
-                { 'users.isDelete': conditions.isDelete },
-                { 'groupUsers.userId': conditions.userId }
-            ]
-        }
-    }
-    let include = {
-        model: ModelGroupUsers,
-        attributes: ["userId", "groupId"],
-        required: false,
-    }
-    return await ModelUsers.findAll({ 
-        include,
-        where,
-        attributes: ['id', 'firstName', 'lastName', 'nickName', 'email', 'online' ,['isDelete', 'userIsDelete']]
-    })
+    let sql = `SELECT u.id, u."firstName", u."lastName", u."nickName", u.email, u."phoneNumber", u."numberId",u."roleId", u.online, gu."groupId" AS "groupId"
+        FROM users AS u
+        LEFT JOIN "groupUsers" AS gu ON u.id = gu."userId"
+        WHERE u."isDelete" = ${conditions.isDelete} AND u."id" <> ${conditions.userId}`
+    return await sequelize.query(sql, {type: QueryTypes.query})
 }
+
+// ModelUsers.getAllGroups = async (conditions) => {
+//     let where = {
+//         where: {
+//             // [Op.and]: [
+//             //     { '$groupUsers.userId$': conditions.userId }
+//             // ],
+//             userIsDelete: conditions.isDelete
+//         }
+//     }
+//     let include = {
+//         model: ModelGroupUsers,
+//         attributes: [['groupId', 'UgroupId'], ['userId', 'UuserId']],
+//         required: false,
+//     }
+//     return await ModelUsers.findAll({ 
+//         include,
+//         // where,
+//         attributes: ['id', 'firstName', 'lastName', 'nickName', 'email', 'online']
+//     })
+// }
 
 module.exports = ModelUsers

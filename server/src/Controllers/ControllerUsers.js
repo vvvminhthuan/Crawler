@@ -84,9 +84,10 @@ module.exports = {
             isDelete: ROW_DELETE.NOT_DELETE,
             userId: infor.id
         })
+
         return ModelUsers.findAllUsers(condition, true)
             .then(result => {
-                result[0].dataValues.groupChats = listGroup
+                result[0].dataValues.groupChats = listGroup[0]
                 setRes(res, 200, true, 'Get user complete!', result)
             })
             .catch (err => {

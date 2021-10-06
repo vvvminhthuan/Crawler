@@ -1,6 +1,6 @@
 "use strict"
 
-const { Sequelize, DataTypes, Model, Op } = require('sequelize') 
+const { Sequelize, DataTypes, Model, Op, QueryTypes } = require('sequelize') 
 const { PGUSER, PGHOST, PGPASSWORD, PGDATABASE, PGPORT, PGCONNETNAME, MODEL_DEV } = require('../Config')
 module.exports = {
     sequelize: new Sequelize(PGDATABASE, PGUSER, PGPASSWORD, {
@@ -14,6 +14,7 @@ module.exports = {
     Model: Model,
     Sequelize: Sequelize,
     Op: Op,
+    QueryTypes: QueryTypes,
     testConnect: (sequelize) => {
         try {
             sequelize.authenticate()

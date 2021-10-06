@@ -39,6 +39,9 @@ VALIDATOR.extend('mailExsist', async({ value, args }) => {
     let result = await ModelUsers.findAll(condition)
     return (result.length > 0)
 })
+VALIDATOR.extend('regUsers', async({value, args }) => {
+    return (value.indexOf(',') > 0)
+})
 module.exports = {
     VALIDATOR: VALIDATOR,
     Validator: Validator

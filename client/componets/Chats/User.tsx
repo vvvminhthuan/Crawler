@@ -1,21 +1,36 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import Image from 'next/image'
+import { connect , useDispatch} from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 import { createGroup } from 'api/Chats'
-
-import VerticalItem from './VerticalItem'
+import { addGroup } from 'redux/actions/Chats'
 
 type UserProperty = {
     user: any,
-    mySelf: any
+    mySelf: any,
+    chats: any,
+    action: any
 }
 
-const User : React.FC<UserProperty> = ({user, mySelf}) => {
+const User : React.FC<UserProperty> = ({user, mySelf, chats, action}) => {
     const handleClick = () => {
         if (!user.groupId) {
-            console.log('tao group', mySelf, user)
-            showGroupChat(user.groupId?? 999)
+            action.addGroup({
+                groupId: user.groupId,
+                messages: [
+                    {
+                        id: null,
+                        message: '',
+                        dateTime: '2021-09-24 15:25:55',
+                        read: true 
+                    }
+                ],
+                numMessage: 4,
+                edit: false,
+                mini: false
+            })
+            showGroupChat(user.groupId)
         }else{
             showGroupChat(user.groupId)
         }
@@ -25,7 +40,7 @@ const User : React.FC<UserProperty> = ({user, mySelf}) => {
         if (groupChat) {
             groupChat.classList.add('active')
         }else{
-          
+            
         }
     }
     return (
@@ -42,4 +57,16 @@ const User : React.FC<UserProperty> = ({user, mySelf}) => {
     )
 }
   
-export default User
+function mapStateToProps(state) {
+    return {
+        chats: state.chats,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        action: bindActionCreators({addGroup}, dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(User)

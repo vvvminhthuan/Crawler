@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 import {getParent} from 'helpers/common'
 
-const HorizontalItem = ({groupId}) => {
+const HorizontalItem = ({groupId, unread}) => {
     //remove group chat
     const handleRemove = (e) => {
         let parentElenmet = getParent('item-message', e.target)

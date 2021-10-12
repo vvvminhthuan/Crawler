@@ -4,7 +4,14 @@ import Messages from './Messages'
 import Emojis from '../Emoji'
 import {getParent} from 'helpers/common'
 
-const VerticalItem = ({groupId}) => {
+import {useEffect} from 'react'
+
+const VerticalItem = ({groupId, content}) => {
+
+    useEffect(() => {
+        console.log(groupId, content)
+    })
+
     const handleIcon = (e) => {
         let parentElenmet = getParent('input-group', e.target)
         let groupEmoji = parentElenmet.getElementsByClassName('group-emoji')[0]

@@ -16,100 +16,100 @@ import { ADD_MESSAGE, REMOVE_MESSAGE, ADD_GROUP, REMOVE_GROUP, EDIT, READ } from
     }
 */
 const initialState = [
-    {
-        groupId: 0,
-        messages: [
-            {
-                id: 0,
-                message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
-                dateTime: '2021-09-24 15:25:55',
-                read: true 
-            }
-        ],
-        numMessage: 4,
-        edit: false,
-        mini: true
-    },
-    {
-        groupId: 1,
-        messages: [
-            {
-                id: 0,
-                message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
-                dateTime: '2021-09-24 15:25:55',
-                read: true 
-            },
-            {
-                id: 1,
-                message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
-                dateTime: '2021-09-24 15:25:55',
-                read: true 
-            },
-            {
-                id: 2,
-                message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
-                dateTime: '2021-09-24 15:25:55',
-                read: true 
-            },
-            {
-                id: 3,
-                message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
-                dateTime: '2021-09-24 15:25:55',
-                read: true 
-            },
-            {
-                id: 4,
-                message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
-                dateTime: '2021-09-24 15:25:55',
-                read: true 
-            }
-        ],
-        numMessage: 4,
-        edit: false,
-        mini: true
-    },
-    {
-        groupId: 2,
-        messages: [
-            {
-                id: 0,
-                message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
-                dateTime: '2021-09-24 15:25:55',
-                read: true 
-            }
-        ],
-        numMessage: 4,
-        edit: false,
-        mini: true
-    },
-    {
-        groupId: 3,
-        messages: [
-            {
-                id: 0,
-                message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
-                dateTime: '2021-09-24 15:25:55',
-                read: true 
-            }
-        ],
-        numMessage: 4,
-        edit: false,
-        mini: true
-    },
-    {
-        groupId: 4,
-        messages: [
-            {
-                id: 0,
-                message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
-                dateTime: '2021-09-24 15:25:55',
-                read: true 
-            }
-        ],
-        numMessage: 4,
-        edit: false,
-        mini: true
-    }
+    // {
+    //     groupId: 0,
+    //     messages: [
+    //         {
+    //             id: 0,
+    //             message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
+    //             dateTime: '2021-09-24 15:25:55',
+    //             read: true 
+    //         }
+    //     ],
+    //     numMessage: 4,
+    //     edit: false,
+    //     mini: true
+    // },
+    // {
+    //     groupId: 1,
+    //     messages: [
+    //         {
+    //             id: 0,
+    //             message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
+    //             dateTime: '2021-09-24 15:25:55',
+    //             read: true 
+    //         },
+    //         {
+    //             id: 1,
+    //             message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
+    //             dateTime: '2021-09-24 15:25:55',
+    //             read: true 
+    //         },
+    //         {
+    //             id: 2,
+    //             message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
+    //             dateTime: '2021-09-24 15:25:55',
+    //             read: true 
+    //         },
+    //         {
+    //             id: 3,
+    //             message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
+    //             dateTime: '2021-09-24 15:25:55',
+    //             read: true 
+    //         },
+    //         {
+    //             id: 4,
+    //             message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
+    //             dateTime: '2021-09-24 15:25:55',
+    //             read: true 
+    //         }
+    //     ],
+    //     numMessage: 4,
+    //     edit: false,
+    //     mini: true
+    // },
+    // {
+    //     groupId: 2,
+    //     messages: [
+    //         {
+    //             id: 0,
+    //             message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
+    //             dateTime: '2021-09-24 15:25:55',
+    //             read: true 
+    //         }
+    //     ],
+    //     numMessage: 4,
+    //     edit: false,
+    //     mini: true
+    // },
+    // {
+    //     groupId: 3,
+    //     messages: [
+    //         {
+    //             id: 0,
+    //             message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
+    //             dateTime: '2021-09-24 15:25:55',
+    //             read: true 
+    //         }
+    //     ],
+    //     numMessage: 4,
+    //     edit: false,
+    //     mini: true
+    // },
+    // {
+    //     groupId: 4,
+    //     messages: [
+    //         {
+    //             id: 0,
+    //             message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
+    //             dateTime: '2021-09-24 15:25:55',
+    //             read: true 
+    //         }
+    //     ],
+    //     numMessage: 4,
+    //     edit: false,
+    //     mini: true
+    // }
 ]
 
 const chatReducer = (state = initialState, action) => {

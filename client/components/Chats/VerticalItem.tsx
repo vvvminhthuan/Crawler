@@ -4,14 +4,13 @@ import Messages from './Messages'
 import Emojis from '../Emoji'
 import {getParent} from 'helpers/common'
 
+import { removeGroup } from 'redux/actions/Chats'
+
 import {useEffect} from 'react'
+import { useDispatch } from 'react-redux'
 
 const VerticalItem = ({groupId, content}) => {
-
-    useEffect(() => {
-        console.log(groupId, content)
-    })
-
+    const dispatch =  useDispatch()
     const handleIcon = (e) => {
         let parentElenmet = getParent('input-group', e.target)
         let groupEmoji = parentElenmet.getElementsByClassName('group-emoji')[0]
@@ -30,8 +29,11 @@ const VerticalItem = ({groupId, content}) => {
         }
     }
     const handleClose = (e) => {
-        let parentElenmet = getParent('vertical-item', e.target)
-        parentElenmet.remove()
+        // let parentElenmet = getParent('vertical-item', e.target)
+        // parentElenmet.remove()
+        dispatch(removeGroup({
+            groupId: groupId
+        }))
     }
     return (
         <div className="vertical-item active" id ={`vertical-item-${groupId}`}>
@@ -106,5 +108,5 @@ const VerticalItem = ({groupId, content}) => {
         </div>
     )
 }
-  
+
 export default VerticalItem

@@ -1,14 +1,20 @@
 import Image from 'next/image'
+import { useDispatch } from 'react-redux'
 
 import {getParent} from 'helpers/common'
+import { removeGroup } from 'redux/actions/Chats'
 
 const HorizontalItem = ({groupId, unread}) => {
+    const dispatch =  useDispatch()
     //remove group chat
     const handleRemove = (e) => {
-        let parentElenmet = getParent('item-message', e.target)
-        parentElenmet.remove()
-        let verticalItem = document.getElementById(`vertical-item-${groupId}`)
-        verticalItem.remove()
+        // let parentElenmet = getParent('item-message', e.target)
+        // parentElenmet.remove()
+        // let verticalItem = document.getElementById(`vertical-item-${groupId}`)
+        // verticalItem.remove()
+        dispatch(removeGroup({
+            groupId: groupId
+        }))
     }
     //show group chat
     const handleExpand = (e) => {

@@ -4,7 +4,7 @@ import React, {useEffect} from 'react'
 import Header from './header'
 import Footer from './footer'
 import Aside from './aside'
-import Chats from 'componets/Chats'
+import Chats from 'components/Chats'
 import config from 'config'
 import { getParent, getChildren } from 'helpers/common'
 

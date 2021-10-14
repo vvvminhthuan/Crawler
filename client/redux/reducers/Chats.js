@@ -133,14 +133,15 @@ const chatReducer = (state = initialState, action) => {
             })
             return state
         case REMOVE_GROUP:
-            state.map((item, index) => {
-                if (item.groupId == action.payload.groupId) {
-                    state.splice(index, 1) // xoa 1 item khi groupId trung payload
-                }
-            })
-            return state
+            return state.filter(item => item.groupId != action.payload.groupId)
         case ADD_GROUP:
-            return state.push(action.payload)
+            let index = state.filter(item => item.groupId == action.payload.groupId)
+            if (!index.length) {
+                return [
+                    ...state,
+                    action.payload
+                ]
+            }
         case EDIT:
             state.map(item => {
                 if (item.groupId == action.payload.groupId) {
@@ -163,6 +164,5 @@ const chatReducer = (state = initialState, action) => {
             return initialState
     }
 }
-
 
 export default chatReducer

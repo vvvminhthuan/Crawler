@@ -5,7 +5,7 @@ import { mailRestPassword } from 'api/Users'
 import useCustomForm from 'helpers/useCustomForm'
 import {setMessageErros} from 'helpers/common'
 
-import FormStep from 'componets/FormStep'
+import FormStep from 'components/FormStep'
 
 const ForGot = () => {
     const initalValues = {

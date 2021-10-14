@@ -1,4 +1,4 @@
-import Layout from 'componets/Layouts';
+import Layout from 'components/Layouts';
 const UsersOfRoles = () => {
     return (
         <Layout title='Users of roles' description='Trang phan quyen nguoi dung'>

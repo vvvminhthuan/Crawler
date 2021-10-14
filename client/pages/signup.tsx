@@ -5,8 +5,8 @@ import useCustomForm from 'helpers/useCustomForm'
 import {setMessageErros} from 'helpers/common'
 import {SiginUpValidates} from 'helpers/validates/Signup'
 import {USER} from '../config/contants'
-import FormStep from 'componets/FormStep'
-import Modals from 'componets/Modals'
+import FormStep from 'components/FormStep'
+import Modals from 'components/Modals'
 
 const SignUp = () => {
 

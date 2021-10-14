@@ -5,7 +5,7 @@ import { restPassword } from 'api/Users'
 import useCustomForm from 'helpers/useCustomForm'
 import {setMessageErros} from 'helpers/common'
 
-import FormStep from 'componets/FormStep'
+import FormStep from 'components/FormStep'
 import { useRouter } from 'next/router'
 
 const ResetPassword = () => {

@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-import { connect , useDispatch} from 'react-redux'
+import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { createGroup } from 'api/Chats'
@@ -15,12 +15,14 @@ type UserProperty = {
 
 const User : React.FC<UserProperty> = ({user, mySelf, chats, action}) => {
     const handleClick = () => {
-        if (!user.groupId) {
+        if (!user.groupId) {            
+            showGroupChat(user.groupId)
+        }else{
             action.addGroup({
                 groupId: user.groupId,
                 messages: [
                     {
-                        id: null,
+                        id: 1,
                         message: '',
                         dateTime: '2021-09-24 15:25:55',
                         read: true 
@@ -31,16 +33,14 @@ const User : React.FC<UserProperty> = ({user, mySelf, chats, action}) => {
                 mini: false
             })
             showGroupChat(user.groupId)
-        }else{
-            showGroupChat(user.groupId)
         }
     }
     const showGroupChat = (groupId) => {
-        let groupChat = document.getElementById(`vertical-item-${groupId}`)
-        if (groupChat) {
-            groupChat.classList.add('active')
-        }else{
-            
+        let verticalItem = document.getElementById(`vertical-item-${groupId}`)
+        let itemMessage = document.getElementById(`item-message-${groupId}`)
+        if (verticalItem) {
+            verticalItem.classList.add('active')
+            itemMessage.classList.remove('active')
         }
     }
     return (

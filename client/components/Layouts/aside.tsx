@@ -1,4 +1,4 @@
-import NavAside from 'componets/NavAside'
+import NavAside from 'components/NavAside'
 import Link from 'next/link'
 import Image from 'next/image'
 

@@ -4,26 +4,65 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { createGroup } from 'api/Chats'
-import { addGroup } from 'redux/actions/Chats'
+import { addGroup, miniGroup } from 'redux/actions/Chats'
+import { updateUersGroupChats } from 'redux/actions/Users'
 
 type UserProperty = {
     user: any,
-    mySelf: any,
+    idSelf: any,
     chats: any,
     action: any
 }
 
-const User : React.FC<UserProperty> = ({user, mySelf, chats, action}) => {
+const User : React.FC<UserProperty> = ({user, idSelf, chats, action}) => {
     const handleClick = () => {
         if (!user.groupId) {            
-            showGroupChat(user.groupId)
+            // tao group moi
+            let users = {
+                users: `${idSelf},${user.id}`
+            }
+            createGroup(users)
+            .then((result) => {
+                let group = {
+                    groupId: result.results[0].groupId,
+                    userName: user.firstName + ' ' + user.lastName,
+                    messages: [],
+                    numMessage: 0,
+                    edit: false,
+                    mini: false
+                }
+                action.updateUersGroupChats({
+                    id: user.id,
+                    groupId: result.results[0].groupId
+                })
+                action.addGroup(group)
+            }).catch((err) => {
+                
+            });
         }else{
+            // load list message
             action.addGroup({
                 groupId: user.groupId,
+                userName: user.firstName + ' ' + user.lastName,
                 messages: [
                     {
                         id: 1,
-                        message: '',
+                        userId: 1,
+                        message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
+                        dateTime: '2021-09-24 15:25:55',
+                        read: true 
+                    },
+                    {
+                        id: 2,
+                        userId: 2,
+                        message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
+                        dateTime: '2021-09-24 15:25:55',
+                        read: true 
+                    },
+                    {
+                        id: 2,
+                        userId: 2,
+                        message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
                         dateTime: '2021-09-24 15:25:55',
                         read: true 
                     }
@@ -32,17 +71,9 @@ const User : React.FC<UserProperty> = ({user, mySelf, chats, action}) => {
                 edit: false,
                 mini: false
             })
-            showGroupChat(user.groupId)
         }
     }
-    const showGroupChat = (groupId) => {
-        let verticalItem = document.getElementById(`vertical-item-${groupId}`)
-        let itemMessage = document.getElementById(`item-message-${groupId}`)
-        if (verticalItem) {
-            verticalItem.classList.add('active')
-            itemMessage.classList.remove('active')
-        }
-    }
+    console.log(user)
     return (
         <div className="item flex-r" onClick={handleClick}>
             <div className="item-avatar online">
@@ -53,6 +84,9 @@ const User : React.FC<UserProperty> = ({user, mySelf, chats, action}) => {
             <div className="item-name">
                 {user.firstName + ' ' + user.lastName}
             </div>
+            {
+                user.numMessage != null ? <div className="numb-message">{user.numMessage}</div> : null
+            }
         </div>
     )
 }
@@ -65,7 +99,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        action: bindActionCreators({addGroup}, dispatch)
+        action: bindActionCreators({
+                    addGroup,
+                    miniGroup,
+                    updateUersGroupChats
+                }, dispatch)
     }
 }
 

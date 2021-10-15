@@ -1,7 +1,7 @@
 "use strict"
 const ModelUsers = require('../Models/ModelUsers')
 const BrcyptCode = require('../Auth/BrcyptCode')
-const {ROW_DELETE} = require('../Config')
+const {ROW_DELETE, TYPE_MESSAGE} = require('../Config')
 const { setRes } = require('../Helpers/Response')
 const { mailResetPassword } = require('../Helpers/Mailer')
 const { URL_CLIENT } = require('../Config')
@@ -82,7 +82,8 @@ module.exports = {
         }
         let listGroup = await ModelUsers.getAllGroups({
             isDelete: ROW_DELETE.NOT_DELETE,
-            userId: infor.id
+            userId: infor.id,
+            type: TYPE_MESSAGE.SEND
         })
 
         return ModelUsers.findAllUsers(condition, true)

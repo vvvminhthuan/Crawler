@@ -135,15 +135,18 @@
                 h3{
                     vertical-align: middle;
                     line-height: 2;
+                    margin-right: auto;
+                    margin-left: 5px;
                 }
             }
             .card-body{
                 padding: 6px 12px;
                 max-height: 290px;
+                min-height: 290px;
                 overflow-y: auto;
                 .chat-msg{
                     .chat-infos{
-                        justify-content: space-between;
+                        margin-left: 10px;
                         .chat-name{
                             font-weight: 600;
                         }
@@ -208,6 +211,10 @@
                                 }
                             }
                         }
+                        .chat-infos{
+                            margin-right: 10px;
+                            justify-content: space-between;
+                        }
                     }
                 }
             }
@@ -269,7 +276,7 @@
             }
             .card-body{
                 min-height: 290px;
-                .list-user{
+                .list-item{
                     .item{
                         padding-top: 5px;
                         border-bottom: 1px solid #ced4da;
@@ -309,6 +316,18 @@
                         }
                         .item-name{
                             line-height: 2;
+                        }
+                        .numb-message{
+                            margin-top: 10px;
+                            margin-left: auto;
+                            width: 16px;
+                            height: 16px;
+                            background-color: #FF4500;
+                            color: #fff;
+                            font-size: 12px;
+                            line-height: 1.35;
+                            text-align: center;
+                            border-radius: 30%;
                         }
                     }
                 }

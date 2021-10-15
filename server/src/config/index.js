@@ -47,6 +47,7 @@ module.exports= {
             SEND: 'SEND',
             RECEIVES: 'RECEIVES',
             ONLINE: 'ONLINE',
+            ADD_GROUP: 'ADD_GROUP',
         },
         NOTIFITION: 'NOTIFITION',
         NOTIFITION_EVENT: {

@@ -2,7 +2,7 @@
 const ModelGroups = require('./ModelGroups')
 const ModelUsers = require('./ModelUsers')
 
-const { sequelize, DataTypes, Model, Sequelize } = require('./ModelBase')
+const { sequelize, DataTypes, Model, Sequelize, Op } = require('./ModelBase')
 
 const ModelGroupUsers = sequelize.define('groupUsers', {
     id: {
@@ -42,5 +42,17 @@ ModelGroupUsers.belongsTo(ModelGroups, {
     foreignKey: 'groupId',
 })
 
+ModelGroupUsers.checkGroupExists = async (params) => {
+    return await ModelGroupUsers.findAll({
+        where: {
+            userId: {
+                [Op.in]: params 
+            }
+        },
+        group:['groupId'],
+        having: sequelize.where(sequelize.fn('COUNT', sequelize.col('groupId')), '>', 1),
+        attributes: ['groupId', [sequelize.fn('count', sequelize.col('groupId')), 'counter']],
+    })
+}
 
 module.exports = ModelGroupUsers

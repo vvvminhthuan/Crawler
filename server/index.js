@@ -61,10 +61,11 @@ app.use(express.static('stores'))
 app.use(bodyParser.json({limit: '1mb'}))
 app.use(bodyParser.urlencoded({ extended: false }))// for parsing application/x-www-form-urlencoded
 app.use(upload.array()) // for parsing multipart/form-data
-app.use('/api', require('./src/Routers'))
 app.use(function (req, res, next) {
     res.io = _io
+    next()
 })
+app.use('/api', require('./src/Routers'))
 
 server.listen(config.PORT, function () {
     console.log(`System run on port: ${config.PORT}`)

@@ -4,7 +4,7 @@
 @import './chat';
 
 main{
-    min-height: calc(100vh - #{$height-header} - #{$height-footer});
+    min-height: calc(100vh - #{$height-header} - #{$height-footer - 3px});
 }
 @include responsive-min-width(768px){
     header, main, footer{

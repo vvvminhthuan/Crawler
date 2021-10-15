@@ -1,10 +1,12 @@
-import { ADD_MESSAGE, REMOVE_MESSAGE, ADD_GROUP, REMOVE_GROUP, EDIT, READ } from '../actions/ActionTypes'
+import { ADD_MESSAGE, REMOVE_MESSAGE, ADD_GROUP, REMOVE_GROUP, MINI_GROUP, EDIT, READ } from '../actions/ActionTypes'
 /*
     {
         groupId: null,
+        userName: user.firstName + ' ' + user.lastName,
         messages: [
             {
-                id: null,
+                id: 1,
+                userId: 1,
                 message: '',
                 dateTime: '2021-09-24 15:25:55',
                 read: true 
@@ -15,102 +17,7 @@ import { ADD_MESSAGE, REMOVE_MESSAGE, ADD_GROUP, REMOVE_GROUP, EDIT, READ } from
         mini: true
     }
 */
-const initialState = [
-    // {
-    //     groupId: 0,
-    //     messages: [
-    //         {
-    //             id: 0,
-    //             message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
-    //             dateTime: '2021-09-24 15:25:55',
-    //             read: true 
-    //         }
-    //     ],
-    //     numMessage: 4,
-    //     edit: false,
-    //     mini: true
-    // },
-    // {
-    //     groupId: 1,
-    //     messages: [
-    //         {
-    //             id: 0,
-    //             message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
-    //             dateTime: '2021-09-24 15:25:55',
-    //             read: true 
-    //         },
-    //         {
-    //             id: 1,
-    //             message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
-    //             dateTime: '2021-09-24 15:25:55',
-    //             read: true 
-    //         },
-    //         {
-    //             id: 2,
-    //             message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
-    //             dateTime: '2021-09-24 15:25:55',
-    //             read: true 
-    //         },
-    //         {
-    //             id: 3,
-    //             message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
-    //             dateTime: '2021-09-24 15:25:55',
-    //             read: true 
-    //         },
-    //         {
-    //             id: 4,
-    //             message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
-    //             dateTime: '2021-09-24 15:25:55',
-    //             read: true 
-    //         }
-    //     ],
-    //     numMessage: 4,
-    //     edit: false,
-    //     mini: true
-    // },
-    // {
-    //     groupId: 2,
-    //     messages: [
-    //         {
-    //             id: 0,
-    //             message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
-    //             dateTime: '2021-09-24 15:25:55',
-    //             read: true 
-    //         }
-    //     ],
-    //     numMessage: 4,
-    //     edit: false,
-    //     mini: true
-    // },
-    // {
-    //     groupId: 3,
-    //     messages: [
-    //         {
-    //             id: 0,
-    //             message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
-    //             dateTime: '2021-09-24 15:25:55',
-    //             read: true 
-    //         }
-    //     ],
-    //     numMessage: 4,
-    //     edit: false,
-    //     mini: true
-    // },
-    // {
-    //     groupId: 4,
-    //     messages: [
-    //         {
-    //             id: 0,
-    //             message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
-    //             dateTime: '2021-09-24 15:25:55',
-    //             read: true 
-    //         }
-    //     ],
-    //     numMessage: 4,
-    //     edit: false,
-    //     mini: true
-    // }
-]
+const initialState = []
 
 const chatReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -134,13 +41,27 @@ const chatReducer = (state = initialState, action) => {
             return state
         case REMOVE_GROUP:
             return state.filter(item => item.groupId != action.payload.groupId)
+        case MINI_GROUP:
+            return state.map(item => {
+                if (item.groupId == action.payload.groupId) {
+                    return Object.assign({}, item, {mini: action.payload.mini})
+                }
+                return item
+            })
         case ADD_GROUP:
             let index = state.filter(item => item.groupId == action.payload.groupId)
-            if (!index.length) {
+            if (!index.length) { // khong ton tai thi them moi vao state
                 return [
                     ...state,
                     action.payload
                 ]
+            }else{ // ton tai thi chuyen mini -> false
+                return state.map(item => {
+                    if (item.groupId == action.payload.groupId) {
+                        return Object.assign({}, item, {mini: false})
+                    }
+                    return item
+                })
             }
         case EDIT:
             state.map(item => {

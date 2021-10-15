@@ -145,6 +145,15 @@ const EventMessagers = () => {
                 let {groupId, userId, online} = content
                 _online(socket, groupId, userId, online)
             })
+        },
+        /**
+         * 
+         */
+        emitAddGroup: (socket, userId, group) => {
+            socket.emit(`${SOCKET_EVENT.CHAT_EVENT.ADD_GROUP}.${userId}`, {
+                status: 'OK',
+                content: group
+            })
         }
     }
 }

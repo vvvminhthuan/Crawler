@@ -24,6 +24,12 @@ export const removeGroup = (payload) => {
         payload: payload
     }
 }
+export const miniGroup = (payload) => {
+    return {
+        type: types.MINI_GROUP,
+        payload: payload
+    }
+}
 export const edit = (payload) => {
     return {
         type: types.EDIT,

@@ -7,7 +7,6 @@ import { useSelector} from 'react-redux'
 const ListUsers = () => {
     const userInfo = useSelector((state:any) => state.userInfo)
     useEffect(() => {
-        
     }, [userInfo])
 
     const handleMini = (e) => {
@@ -32,8 +31,8 @@ const ListUsers = () => {
             {/* /.card-header */}
             <div className="card-body">
                 {/*  Conversations are loaded here */}
-                <div className="direct-chat-messages list-user">
-                    {userInfo.groupChats.map(item => <User key={item.id} user={item} mySelf={userInfo.id}/>)}
+                <div className="direct-chat-messages list-item">
+                    {userInfo.groupChats.map(item => <User key={item.id} user={item} idSelf={userInfo.id}/>)}
                 </div>
                 {/* /.direct-chat-messages*/}
             </div>

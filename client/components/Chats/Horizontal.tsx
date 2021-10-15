@@ -20,7 +20,7 @@ const Horizontal = () => {
     return (
         <div className="content-horizontal flex-c">
             {chats.map((item, index)=>{
-                return <HorizontalItem groupId={item.groupId} unread = {item.numMessage} key={index}/>
+                return <HorizontalItem groupId={item.groupId} numMessage = {item.numMessage} mini = {item.mini} key={index}/>
             })}
             <div className="new-action" onClick={handleNew}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-pencil-square" viewBox="0 0 16 16">

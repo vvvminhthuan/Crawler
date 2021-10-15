@@ -131,10 +131,12 @@ ModelUsers.findAllUsers = async (condition = {}, isIncludeAdmin = false) => {
 }
 
 ModelUsers.getAllGroups = async (conditions) => {
-    let sql = `SELECT u.id, u."firstName", u."lastName", u."nickName", u.email, u."phoneNumber", u."numberId",u."roleId", u.online, gu."groupId" AS "groupId"
+    let sql = `SELECT u.id, u."firstName", u."lastName", u."nickName", u.email, u."phoneNumber", u."numberId",u."roleId", u.online, gu."groupId" AS "groupId", m."numMessage"
         FROM users AS u
         LEFT JOIN "groupUsers" AS gu ON u.id = gu."userId"
-        WHERE u."isDelete" = ${conditions.isDelete} AND u."id" <> ${conditions.userId}`
+        LEFT JOIN (SELECT count(id) AS "numMessage", "groupId" FROM messages WHERE type = ${conditions.type} GROUP BY "groupId") AS m ON m."numMessage" = gu."groupId"
+        WHERE u."isDelete" = ${conditions.isDelete} AND u."id" <> ${conditions.userId}
+        ORDER BY u.id`
     return await sequelize.query(sql, {type: QueryTypes.query})
 }
 

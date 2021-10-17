@@ -9,17 +9,19 @@ const userReducer = (state = initialState, action) => {
         case USER_INFO_ADD_GROUP:
             return action.payload
         case USER_INFO_EDIT_GROUP:
-            let group = state.groupChats.filter(item => item.id == action.payload.id)
-            group = Object.assign({}, group[0], {
+            let group = state.groupChats.filter(item => item.id == action.payload.id)[0]
+            group = {
+                ...group, 
                 groupId: action.payload.groupId
-            })
+            }
             let groupChats = [
                 ...state.groupChats.filter(item => item.id != action.payload.id),
                 group
             ]
-            return Object.assign({}, state, {
+            return {
+                ...state, 
                 groupChats: groupChats.sort(compare)
-            })
+            }
         default:
             return state
     }

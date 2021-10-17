@@ -22,12 +22,20 @@ const initialState = []
 const chatReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_MESSAGE:
-            state.map(item => {
+            return state.map(item => {
                 if (item.groupId == action.payload.groupId) {
-                    item.messages.push(action.payload.message)
+                    let messages = [
+                        ...item.messages,
+                        action.payload
+                    ]
+                    return {
+                        ...item,
+                        messages,
+                        numMessage: Number.parseInt(item.numMessage) + (item.userId == action.payload.userId ? 1 : 0)
+                    }
                 }
+                return item
             })
-            return state
         case REMOVE_MESSAGE:
             state.map(item => {
                 if (item.groupId == action.payload.groupId) {
@@ -50,7 +58,7 @@ const chatReducer = (state = initialState, action) => {
             })
         case ADD_GROUP:
             let index = state.filter(item => item.groupId == action.payload.groupId)
-            if (!index.length) { // khong ton tai thi them moi vao state
+            if (index.length == 0) { // khong ton tai thi them moi vao state
                 return [
                     ...state,
                     action.payload
@@ -71,18 +79,26 @@ const chatReducer = (state = initialState, action) => {
             })
             return state
         case READ:
-            state.map(item => {
+            return state.map(item => {
                 if (item.groupId == action.payload.groupId) {
-                    item.messages.map((m, i) =>{
-                        if (m.id == action.payload.id) {
-                            m.read = action.payload.read
+                    let messages = item.messages.map(m =>{
+                        if (m.userId == action.payload.userId && m.type != action.payload.type) {
+                            return {
+                                ...m,
+                                type: action.payload.type
+                            }
                         }
+                        return m
                     })
+                    return {
+                        ...item,
+                        messages
+                    }
                 }
+                return item
             })
-            return state
         default:
-            return initialState
+            return state
     }
 }
 

@@ -6,10 +6,11 @@ module.exports = {
         let validate = new Validator(body, {
             groupId: 'required',
             userId: 'required',
-            content: 'required|sometimes'
+            content: 'required'
         })
         return validate.check()
         .then(matched =>{
+            // console.log(validate.errors)
             return matched // false neu valid sai
         })
         .catch(err => {

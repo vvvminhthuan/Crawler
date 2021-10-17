@@ -1,14 +1,19 @@
 import {useEffect} from 'react'
 import SocketClient, {io} from 'socket.io-client'
-import { useSelector} from 'react-redux'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 import Horizontal from './Horizontal'
 import Vertical from './Vertical'
 
 import {SOCKET} from 'config/Socket'
 
-const Chats = () => {
-    const signIn = useSelector((state:any) => state.signIn)
+import { handleAddGroup, handleSendMessage, handleRead, test } from 'lib/SocketEvents/Chats'
+import { updateUersGroupChats } from 'redux/actions/Users'
+import {addMessage, read} from 'redux/actions/Chats'
+
+const Chats = ({signIn, userInfo, action}) => {
+    
     let chat = SocketClient(SOCKET.URL + '/' + SOCKET.CHAT, {
         withCredentials: true,
         auth:{
@@ -24,19 +29,36 @@ const Chats = () => {
             chat.on(SOCKET.DISCONNECT, function (reason) {
                 console.log('khong ket noi duoc server chats!', reason)
             })
-            chat.on('send', function(fullname, objPersont) {
-                console.log(fullname, objPersont)
-            })
-            chat.emit('receives', 'Client da nhan dc thong tin')
+            handleAddGroup(chat, userInfo.id, action)
+            handleSendMessage(chat, userInfo.id, action)
+            handleRead(chat, userInfo.id, action)
+            // test(chat)
         }
     }, [signIn])
 
     return (
         <div className="chat flex-r">
-            <Vertical />
+            <Vertical socket = {chat}/>
             <Horizontal />
         </div>
     )
 }
   
-export default Chats
+function mapStateToProps(state) {
+    return {
+        signIn: state.signIn,
+        userInfo: state.userInfo,
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        action: bindActionCreators({
+                    updateUersGroupChats,
+                    addMessage,
+                    read
+                }, dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Chats)

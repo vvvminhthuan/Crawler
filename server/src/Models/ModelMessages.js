@@ -1,6 +1,6 @@
 "use strict"
 
-const { sequelize, DataTypes, Model, Sequelize } = require('./ModelBase')
+const { sequelize, DataTypes, Model, Sequelize, Op } = require('./ModelBase')
 const {ROW_DELETE} = require('../Config')
 
 const ModelMessages = sequelize.define('messages', {
@@ -46,23 +46,56 @@ const ModelMessages = sequelize.define('messages', {
 })
 
 ModelMessages.findAllMessages = (params = {}) => {
-    let condition = {
+    return ModelMessages.findAll({
         where: {
             groupId: params.groupId,
             content: {
-                [Op.like]: `%${params}%`
+                [Op.like]: `%${params.search}%`
             },
             isDelete: ROW_DELETE.NOT_DELETE
         },
-        order: [
-            ['createdAt', 'ASC']
-        ]
-    }
-    return ModelMessages.findAll(condition)
+        attributes: ["id", "userId", "content", "type", "createdAt", "groupId"],
+        order:["createdAt"]
+    })
     .then((result) => {
         return result
     }).catch((err) => {
-        
+        console.log('Errors: ' + err)
+    })
+}
+
+ModelMessages.countUnreadMessages = (params) => {
+    return ModelMessages.findAll({
+        where: {
+            groupId: params.groupId,
+            type: params.type,
+            userId: {
+                [Op.ne]: params.userId
+            }
+        },
+        attributes: [[sequelize.fn('count', sequelize.col('groupId')), 'numMessage']]
+    })
+    .then((result) => {
+        return result
+    }).catch((err) => {
+        console.log('Errors: ' + err)  
+    })
+}
+
+ModelMessages.updateReaded = (params, conditions) => {
+    return ModelMessages.update(params, {
+        where: {
+            groupId: conditions.groupId,
+            userId: conditions.userId,
+            createdAt: {
+                [Op.lte]: conditions.createdAt
+            }
+        }
+    })
+    .then((result) => {
+        return result
+    }).catch((err) => {
+        console.log('update' + err)  
     })
 }
 

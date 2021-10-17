@@ -1,6 +1,6 @@
 import * as types from './ActionTypes'
 
-export const addChat = (payload) => {
+export const addMessage = (payload) => {
     return {
         type: types.ADD_MESSAGE,
         payload: payload

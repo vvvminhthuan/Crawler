@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { createGroup } from 'api/Chats'
+import { createGroup, getMessages } from 'api/Chats'
 import { addGroup, miniGroup } from 'redux/actions/Chats'
 import { updateUersGroupChats } from 'redux/actions/Users'
 
@@ -24,56 +24,45 @@ const User : React.FC<UserProperty> = ({user, idSelf, chats, action}) => {
             createGroup(users)
             .then((result) => {
                 let group = {
+                    userId: user.id,
                     groupId: result.results[0].groupId,
                     userName: user.firstName + ' ' + user.lastName,
                     messages: [],
-                    numMessage: 0,
+                    numMessage: null,
                     edit: false,
                     mini: false
                 }
                 action.updateUersGroupChats({
                     id: user.id,
-                    groupId: result.results[0].groupId
+                    groupId: group.groupId
                 })
                 action.addGroup(group)
             }).catch((err) => {
                 
-            });
+            })
         }else{
             // load list message
-            action.addGroup({
-                groupId: user.groupId,
-                userName: user.firstName + ' ' + user.lastName,
-                messages: [
-                    {
-                        id: 1,
-                        userId: 1,
-                        message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
-                        dateTime: '2021-09-24 15:25:55',
-                        read: true 
-                    },
-                    {
-                        id: 2,
-                        userId: 2,
-                        message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
-                        dateTime: '2021-09-24 15:25:55',
-                        read: true 
-                    },
-                    {
-                        id: 2,
-                        userId: 2,
-                        message: "Is this template really for free? That's unbelievable!Is this template really for free? That's unbelievable!",
-                        dateTime: '2021-09-24 15:25:55',
-                        read: true 
-                    }
-                ],
-                numMessage: 4,
-                edit: false,
-                mini: false
+            getMessages({
+                groupId:user.groupId, 
+                userId: idSelf
             })
+            .then(({success, results}) => {
+                if (success) {
+                    action.addGroup({
+                        userId: user.id,
+                        groupId: user.groupId,
+                        userName: user.firstName + ' ' + user.lastName,
+                        messages: results.messages,
+                        numMessage: results.numMessage,
+                        edit: false,
+                        mini: false
+                    })
+                }
+            }).catch((err) => {
+                
+            })            
         }
     }
-    console.log(user)
     return (
         <div className="item flex-r" onClick={handleClick}>
             <div className="item-avatar online">

@@ -1,15 +1,14 @@
 import VerticalItem from './VerticalItem'
 import ListUsers from './ListUsers'
 
-import {useEffect} from 'react'
 import { connect } from 'react-redux'
 
-const Vertical = ({chats}) => {
+const Vertical = ({socket, chats}) => {
     return (
         <div className="content-vertical flex-r" id="content-vertical">
             {
                 chats.map((item, index) => {
-                    return <VerticalItem groupId ={item.groupId} content = {item} key={index}/>
+                    return <VerticalItem  socket ={ socket } groupId ={item.groupId} content = {item} key={index}/>
                 })
             }
             <ListUsers />

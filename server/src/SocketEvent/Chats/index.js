@@ -8,9 +8,9 @@ module.exports = (io) => {
     .on(SOCKET_EVENT.CONNECT, (socket) =>{
         console.log(`Client ID ${socket.id} connected CHAT`)
 
-        handleSendMessages(socket)
-        handleWriting(socket)
-        handleRead(socket)
+        handleSendMessages(socket, io)
+        handleWriting(socket, io)
+        handleRead(socket, io)
 
         disconnect(socket)
         connectErrors(socket)

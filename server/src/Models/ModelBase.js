@@ -9,6 +9,10 @@ module.exports = {
         port: parseInt(PGPORT),
         logging: MODEL_DEV,
         logging: MODEL_DEV ? console.log : null, 
+        dialectOptions: {
+            useUTC: false, // for reading from database
+        },
+        timezone: '+09:00', // for writing to database
     }),
     DataTypes: DataTypes,
     Model: Model,

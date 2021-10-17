@@ -2,7 +2,7 @@
 const ModelGroups = require('../Models/ModelGroups')
 const ModelMessages = require('../Models/ModelMessages')
 const ModelGroupUsers = require('../Models/ModelGroupUsers')
-const {ROW_DELETE, SOCKET_EVENT} = require('../Config')
+const {ROW_DELETE, TYPE_MESSAGE} = require('../Config')
 const { setRes } = require('../Helpers/Response')
 const {emitAddGroup} = require('../SocketEvent/Chats/EventMessage')
 
@@ -41,7 +41,7 @@ module.exports = {
         if (groupExists.length>0) {
             return setRes(res, 500, false, 'Create group chat fails! group chat is exists')
         }
-        let socket = res.io.of(`/${SOCKET_EVENT.CHAT}`)
+        let io = res.io
         let group = await ModelGroups.create({
             name: params.name ?? '',
             createdBy: infor.id
@@ -50,14 +50,18 @@ module.exports = {
             let listUser = users.map(item => {
                 return {
                     groupId: group.id,
-                    userId: item.trim()
+                    userId: item.trim(),
+                    createdBy: infor.id
                 }
             })
             ModelGroupUsers.bulkCreate(listUser)
             .then((results) => {
                 if (results) {
-                    let user = listUser.filter(item => item.userId != infor.id)
-                    emitAddGroup(socket, user.id, user.groupId)
+                    let user = listUser.filter(item => item.userId != infor.id)[0]
+                    emitAddGroup(io, user.userId, {
+                        userId: infor.id,
+                        groupId: group.id
+                    })
                     setRes(res, 201, true, 'Create group chat complete!', results)
                 }
             })
@@ -68,15 +72,20 @@ module.exports = {
             setRes(res, 500, false, 'Create group chat fails! group not empty')
         }
     },
-    getMessages: (req, res) => {
+    getMessages: async (req, res) => {
         let params = req.params
+        params.type = TYPE_MESSAGE.SEND
         if (!params.search) {
             Object.assign(params, {search: ''})
         }
+        let numMessage = await ModelMessages.countUnreadMessages(params)
         ModelMessages.findAllMessages(params)
         .then((result) => {
             if (result) {
-                setRes(res, 201, true, 'Get messages complete!', result)
+                setRes(res, 201, true, 'Get messages complete!', {
+                    numMessage: numMessage[0].dataValues.numMessage,
+                    messages: result
+                })
             } else {
                 setRes(res, 500, true, 'Get messages fails!')
             }

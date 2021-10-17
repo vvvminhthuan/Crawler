@@ -5,13 +5,13 @@ const　{ detectAuth } = require('../../Middlewares/MiddlewareAuth')
 const { detectParams } = require('../../Middlewares/MiddlewareRouters')
 const {CREATE_GROUPUSERS} = require('../../Middlewares/Validates/ValidateChats');
 
-routes.get('/messages/:groupId', [detectParams, detectAuth], (req, res) => {
+routes.get('/messages/:groupId?/:userId?/:search?', [detectParams, detectAuth], (req, res, next) => {
     getMessages(req, res)
 })
-routes.get('/group/:userId', [detectParams, detectAuth], (req, res) => {
+routes.get('/group/:userId?', [detectParams, detectAuth], (req, res, next) => {
     getListGroups(req, res)
 })
-routes.post('/group', [detectAuth, CREATE_GROUPUSERS], (req, res) => {
+routes.post('/group', [detectAuth, CREATE_GROUPUSERS], (req, res, next) => {
     createGroups(req, res)
 })
 

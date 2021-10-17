@@ -134,7 +134,7 @@ ModelUsers.getAllGroups = async (conditions) => {
     let sql = `SELECT u.id, u."firstName", u."lastName", u."nickName", u.email, u."phoneNumber", u."numberId",u."roleId", u.online, gu."groupId" AS "groupId", m."numMessage"
         FROM users AS u
         LEFT JOIN "groupUsers" AS gu ON u.id = gu."userId"
-        LEFT JOIN (SELECT count(id) AS "numMessage", "groupId" FROM messages WHERE type = ${conditions.type} GROUP BY "groupId") AS m ON m."numMessage" = gu."groupId"
+        LEFT JOIN (SELECT count(mm.id) AS "numMessage", mm."groupId" FROM messages as mm WHERE mm.type = ${conditions.type} AND mm."userId" <> ${conditions.userId} GROUP BY mm."groupId") AS m ON m."groupId" = gu."groupId"
         WHERE u."isDelete" = ${conditions.isDelete} AND u."id" <> ${conditions.userId}
         ORDER BY u.id`
     return await sequelize.query(sql, {type: QueryTypes.query})

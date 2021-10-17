@@ -25,6 +25,9 @@ export default function App({Component, pageProps}){
     const store = useStore(pageProps.initialReduxState)
     const router = useRouter()
     const {signIn, userInfo} = store.getState() 
+    // store.subscribe(() => {
+    //     console.log('subscribed for counter actions', store.getState(), store.getState().action);
+    // });
     useEffect(() =>{
         router.events.on('routeChangeStart', (url)=>{
             nProgresStart()

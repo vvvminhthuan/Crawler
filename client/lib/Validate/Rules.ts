@@ -74,7 +74,7 @@ class Rules {
     }
     // phoneNumber: 'The :attribute must be a valid phone number.',
     phoneNumber(value:string):boolean{
-        return /^(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/.test(value)
+        return /^(0)?(\+\d{1,2}\s?)?1?\-?\.?\s?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/.test(value)
     }
     custorm(callback:Function, value?:any, arg?:object):boolean{
         if (value&&arg) {

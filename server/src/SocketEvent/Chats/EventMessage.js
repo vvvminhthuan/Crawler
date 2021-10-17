@@ -5,65 +5,69 @@ const ModelMessages = require('../../Models/ModelMessages')
 const {CREATE_UPDATE_MESSAGE} = require('../Middlewares/ValidateMessages')
 
 const EventMessagers = () => {
-    const send = (socket, groupId, userId, content) => {
+    const send = (_io, groupId, userId, content, userEmit, callback) => {
         ModelMessages.create({
             groupId: groupId,
             userId: userId,
             content: content,
-            type: TYPE_MESSAGE.SEND
+            type: TYPE_MESSAGE.SEND,
+            createdBy: userId
         })
         .then((result) => {
             if (result) {
-                socket.emit(`${SOCKET_EVENT.CHAT_EVENT.SEND}.${groupId}`, {
+                _io.of(`/${SOCKET_EVENT.CHAT}`).emit(`${SOCKET_EVENT.CHAT_EVENT.SEND}.${userEmit}`, {
                     status: 'OK',
-                    content: content
+                    content: {
+                        id: result.id,
+                        groupId: groupId,
+                        userId: userId,
+                        content: content,
+                        type: result.type,
+                        createdAt: result.createdAt
+                    }
                 })
-            }else{
-                socket.emit(`${SOCKET_EVENT.CHAT_EVENT.SEND}.${groupId}`, {
-                    status: 'FAIL',
-                    content: null,
-                    errors: "Create message fail"
+                callback({
+                    id: result.id,
+                    groupId: groupId,
+                    userId: userId,
+                    content: content,
+                    type: result.type,
+                    createdAt: result.createdAt
                 })
             }
         }).catch((err) => {
-            socket.emit(`${SOCKET_EVENT.CHAT_EVENT.SEND}.${groupId}`, {
-                status: 'FAIL',
-                content: null,
-                errors: err + ''
-            })
+            console.log('LOI send: ', err + '')
         })
     }
-    const writing = (socket, groupId, userId) => {
-        socket.emit(`${SOCKET_EVENT.CHAT_EVENT.WRITE}.${groupId}`, {
+    const writing = (_io, groupId, userEmit) => {
+        _io.of(`/${SOCKET_EVENT.CHAT}`).emit(`${SOCKET_EVENT.CHAT_EVENT.WRITE}.${userEmit}`, {
             status: 'OK',
             userId: userId
         })
     }
-    const read = (socket, groupId, userId) => {
+    const read = (_io, groupId, userEmit, createdAt) => {
         let condition = {
             groupId: groupId,
-            userId: userId
+            userId: userEmit,
+            createdAt: createdAt
         }
-        let param = {
+        let params = {
             type: TYPE_MESSAGE.READ
         }
-        ModelMessages.update(param, {
-            where: condition
-        })
+        ModelMessages.updateReaded(params, condition)
         .then((result) => {
-            socket.emit(`${SOCKET_EVENT.CHAT_EVENT.READ}.${groupId}`, {
-                status: 'OK',
-                userId: userId
-            })
+            if (result) {
+                _io.of(`/${SOCKET_EVENT.CHAT}`).emit(`${SOCKET_EVENT.CHAT_EVENT.READ}.${userEmit}`, {
+                    status: 'OK',
+                    groupId: groupId,
+                    type: TYPE_MESSAGE.READ
+                })
+            }
         }).catch((err) => {
-            socket.emit(`${SOCKET_EVENT.CHAT_EVENT.READ}.${groupId}`, {
-                status: 'FAIL',
-                userId: null,
-                errors: err + ''
-            })
+            console.log('LOI read: ', err + '')
         })
     }
-    const _online = (socket, groupId, userId, _online) => {
+    const _online = (_io, groupId, userId, _online, userEmit) => {
         let condition = {
             userId: userId
         }
@@ -74,17 +78,15 @@ const EventMessagers = () => {
             where: condition
         })
         .then((result) => {
-            socket.emit(`${SOCKET_EVENT.CHAT_EVENT.ONLINE}.${groupId}`, {
-                status: 'OK',
-                userId: userId,
-                online: _online
-            })
+            if (result) {
+                _io.of(`/${SOCKET_EVENT.CHAT}`).emit(`${SOCKET_EVENT.CHAT_EVENT.ONLINE}.${userEmit}`, {
+                    status: 'OK',
+                    userId: userId,
+                    online: _online
+                })
+            }
         }).catch((err) => {
-            socket.emit(`${SOCKET_EVENT.CHAT_EVENT.ONLINE}.${groupId}`, {
-                status: 'FAIL',
-                userId: userId,
-                online: _online
-            })
+            console.log('LOI _online: ', err + '')
         })
     }
 
@@ -96,13 +98,13 @@ const EventMessagers = () => {
                 message: 'string',
             },
         */ 
-        handleSendMessages: (socket) => {
-            socket.on(SOCKET_EVENT.CHAT_EVENT.SEND, (body) => {
-                let {groupId, userId, content} = body
+        handleSendMessages: (socket, _io) => {
+            socket.on(SOCKET_EVENT.CHAT_EVENT.SEND, (body, callback) => {
+                let {groupId, userId, content, userEmit} = body
                 CREATE_UPDATE_MESSAGE(body)
                 .then((valid) => {
                     if (valid) {
-                        send(socket, groupId, userId, content)
+                        send(_io, groupId, userId, content, userEmit, callback)
                     }
                 })
                 .catch((err) => {
@@ -116,10 +118,10 @@ const EventMessagers = () => {
                 userId: 0,
             }
         */
-        handleWriting: (socket) => {
+        handleWriting: (socket, _io) => {
             socket.on(SOCKET_EVENT.CHAT_EVENT.WRITE, (content) => {
                 let {groupId, userId} = content
-                writing(socket, groupId, userId)
+                writing(_io, groupId, userId)
             })
         },
         /*
@@ -128,10 +130,9 @@ const EventMessagers = () => {
                 userId: 0,
             }
         */
-        handleRead: (socket) => {
-            socket.on(SOCKET_EVENT.CHAT_EVENT.READ, (content) => {
-                let {groupId, userId} = content
-                read(socket, groupId, userId)
+        handleRead: (socket, _io) => {
+            socket.on(SOCKET_EVENT.CHAT_EVENT.READ, ({groupId, userId, createdAt}) => {
+                read(_io, groupId, userId, createdAt)
             })
         },
         /*
@@ -140,17 +141,17 @@ const EventMessagers = () => {
                 userId: 0,
             }
         */
-        handleOnline: (socket) => {
+        handleOnline: (socket, _io) => {
             socket.on(SOCKET_EVENT.CHAT_EVENT.ONLINE, (content) => {
                 let {groupId, userId, online} = content
-                _online(socket, groupId, userId, online)
+                _online(_io, groupId, userId, online)
             })
         },
         /**
          * 
          */
-        emitAddGroup: (socket, userId, group) => {
-            socket.emit(`${SOCKET_EVENT.CHAT_EVENT.ADD_GROUP}.${userId}`, {
+        emitAddGroup: (_io, userId, group) => {
+            _io.of(`/${SOCKET_EVENT.CHAT}`).emit(`${SOCKET_EVENT.CHAT_EVENT.ADD_GROUP}.${userId}`, {
                 status: 'OK',
                 content: group
             })

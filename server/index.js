@@ -10,6 +10,8 @@ const socket = require('socket.io')
 const SocketEvent = require('./src/SocketEvent')
 var server = null
 
+process.env.TZ = 'Asia/Tokyo'
+
 if (config.MODEL_DEV) {
     server = require('http').Server(app)  
 } else {

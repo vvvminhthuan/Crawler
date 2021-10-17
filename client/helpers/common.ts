@@ -36,3 +36,15 @@ export const getChildren = (elementName: string, tagElement : any) : any => {
     }
     return null
 }
+
+export const timeToLocal = (date) => {
+    var local = new Date(date)
+    local.setMinutes(local.getMinutes() - local.getTimezoneOffset())
+    return local.toJSON()
+}
+  
+export const timeToJSONLocal = (date) => {
+    var local = new Date(date);
+    local.setMinutes(local.getMinutes() - local.getTimezoneOffset())
+    return local.toJSON().slice(0, 19).replace('T', ' ')
+}

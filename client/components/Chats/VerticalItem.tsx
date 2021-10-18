@@ -6,7 +6,8 @@ import Messages from './Messages'
 import Emojis from '../Emoji'
 import {getParent} from 'helpers/common'
 
-import { removeGroup, miniGroup, addMessage } from 'redux/actions/Chats'
+import { removeGroup, miniGroup, addMessage, read } from 'redux/actions/Chats'
+import { updateUersNumMessage } from 'redux/actions/Users'
 
 import {emitMessage, emitRead} from 'lib/SocketEvents/Chats'
 
@@ -62,8 +63,10 @@ const VerticalItem = ({socket, groupId, content, userInfo, action}) => {
     }
 
     const handleReaded = () => {
-        let lastMessage = content.messages[content.messages.length - 1]
-        emitRead(socket, content.userId, groupId, lastMessage.createdAt)
+        if (content.numMessage != 0 && content.numMessage != null) {
+            let lastMessage = content.messages[content.messages.length - 1]
+            emitRead(socket, content.userId, groupId, lastMessage.createdAt, action)
+        }
     }
 
     return (
@@ -137,7 +140,9 @@ function mapDispatchToProps(dispatch) {
         action: bindActionCreators({
                     removeGroup,
                     miniGroup,
-                    addMessage
+                    addMessage,
+                    read,
+                    updateUersNumMessage
                 }, dispatch)
     }
 }

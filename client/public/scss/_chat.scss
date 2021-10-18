@@ -60,6 +60,7 @@
             }
         }
         .new-action{
+            position: relative;
             display: flex;
             margin: 10px 0;
             background-color: #e3e3e3;
@@ -68,6 +69,21 @@
             border-radius: 50%;
             svg{
                 margin: auto;
+            }
+            .count{
+                position: absolute;
+                bottom: 0;
+                right: -5px;
+                display: block;
+                width: 16px;
+                height: 16px;
+                border-radius: 30%;
+                background-color: $orange_red;
+                color: #fff;
+                font-size: 12px;
+                line-height: 1.35;
+                text-align: center;
+                z-index: 1;
             }
         }
     }

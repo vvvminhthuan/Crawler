@@ -9,7 +9,7 @@ import Vertical from './Vertical'
 import {SOCKET} from 'config/Socket'
 
 import { handleAddGroup, handleSendMessage, handleRead, test } from 'lib/SocketEvents/Chats'
-import { updateUersGroupChats } from 'redux/actions/Users'
+import { updateUersGroupChats, updateUersNumMessage } from 'redux/actions/Users'
 import {addMessage, read} from 'redux/actions/Chats'
 
 const Chats = ({signIn, userInfo, action}) => {
@@ -56,7 +56,8 @@ function mapDispatchToProps(dispatch) {
         action: bindActionCreators({
                     updateUersGroupChats,
                     addMessage,
-                    read
+                    read,
+                    updateUersNumMessage
                 }, dispatch)
     }
 }

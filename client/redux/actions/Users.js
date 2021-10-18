@@ -12,3 +12,9 @@ export const updateUersGroupChats = (info) => {
         payload: info
     }
 }
+export const updateUersNumMessage = (info) => {
+    return {
+        type: types.USER_INFO_EDIT_NUM_MESS,
+        payload: info
+    }
+}

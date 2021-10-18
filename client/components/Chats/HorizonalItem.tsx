@@ -26,7 +26,7 @@ const HorizontalItem = ({groupId, numMessage, mini}) => {
                 </svg>
             </span>
             <Image src="/stores/images/user1-128x128.jpg" alt="User Avatar" width="55px" height="55px" className="img-circle" />
-            { numMessage != null ? <span className="count">{numMessage}</span> : null}
+            { (numMessage != null && numMessage != 0) ? <span className="count">{numMessage}</span> : null}
         </div>
     )
 }

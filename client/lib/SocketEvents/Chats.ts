@@ -3,6 +3,10 @@ import { SOCKET } from 'config/Socket'
 export const handleSendMessage = (socket, userId, action) => {
     socket.on(`${SOCKET.CHAT_EVENT.SEND}.${userId}`, body => {
         action.addMessage(body.content)
+        action.updateUersNumMessage({
+            userId: body.content.userId,
+            num: 1 
+        })
     })
 }
 /*
@@ -70,13 +74,23 @@ export const handleRead = (socket, userId, action) => {
         userId: '1', ng dang nhan tin
     },
 */ 
-export const emitRead = (socket, userId, groupId, createdAt) => {
+export const emitRead = (socket, userId, groupId, createdAt, action) => {
     let body = {
         groupId: groupId,
         userId: userId,
         createdAt: createdAt,
     }
-    socket.emit(`${SOCKET.CHAT_EVENT.READ}`, body)
+    socket.emit(`${SOCKET.CHAT_EVENT.READ}`, body, result => {
+        action.read({
+            groupId: result.groupId,
+            userId: result.userId,
+            type: result.type
+        })
+    })
+    action.updateUersNumMessage({
+        userId: userId,
+        num: 0
+    })
 }
 /*
     body: {

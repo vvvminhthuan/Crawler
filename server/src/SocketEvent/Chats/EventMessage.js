@@ -45,7 +45,7 @@ const EventMessagers = () => {
             userId: userId
         })
     }
-    const read = (_io, groupId, userEmit, createdAt) => {
+    const read = (_io, groupId, userEmit, createdAt, callback) => {
         let condition = {
             groupId: groupId,
             userId: userEmit,
@@ -61,6 +61,11 @@ const EventMessagers = () => {
                     status: 'OK',
                     groupId: groupId,
                     type: TYPE_MESSAGE.READ
+                })
+                callback({
+                    groupId: groupId,
+                    userId: userEmit,
+                    type: TYPE_MESSAGE.READ,
                 })
             }
         }).catch((err) => {
@@ -131,8 +136,8 @@ const EventMessagers = () => {
             }
         */
         handleRead: (socket, _io) => {
-            socket.on(SOCKET_EVENT.CHAT_EVENT.READ, ({groupId, userId, createdAt}) => {
-                read(_io, groupId, userId, createdAt)
+            socket.on(SOCKET_EVENT.CHAT_EVENT.READ, ({groupId, userId, createdAt}, callback) => {
+                read(_io, groupId, userId, createdAt, callback)
             })
         },
         /*

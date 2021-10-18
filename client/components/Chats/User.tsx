@@ -74,7 +74,7 @@ const User : React.FC<UserProperty> = ({user, idSelf, chats, action}) => {
                 {user.firstName + ' ' + user.lastName}
             </div>
             {
-                user.numMessage != null ? <div className="numb-message">{user.numMessage}</div> : null
+                (user.numMessage != null && user.numMessage != 0)? <div className="numb-message">{user.numMessage}</div> : null
             }
         </div>
     )

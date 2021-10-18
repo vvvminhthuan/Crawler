@@ -1,4 +1,9 @@
-import { USER_INFO, USER_INFO_ADD_GROUP, USER_INFO_EDIT_GROUP } from '../actions/ActionTypes'
+import { 
+    USER_INFO, 
+    USER_INFO_ADD_GROUP, 
+    USER_INFO_EDIT_GROUP,
+    USER_INFO_EDIT_NUM_MESS,
+} from '../actions/ActionTypes'
 
 const initialState = null
 
@@ -21,6 +26,20 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state, 
                 groupChats: groupChats.sort(compare)
+            }
+        case USER_INFO_EDIT_NUM_MESS:
+            let groups = state.groupChats.map(item => {
+                if (item.id == action.payload.userId) {
+                    return {
+                        ...item,
+                        numMessage: action.payload.num == 0 ? 0 : Number.parseInt(item.numMessage) + 1
+                    }
+                }
+                return item
+            })
+            return {
+                ...state, 
+                groupChats: groups
             }
         default:
             return state

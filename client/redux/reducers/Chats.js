@@ -92,7 +92,8 @@ const chatReducer = (state = initialState, action) => {
                     })
                     return {
                         ...item,
-                        messages
+                        messages,
+                        numMessage: item.userId == action.payload.userId ? 0 : item.numMessage
                     }
                 }
                 return item

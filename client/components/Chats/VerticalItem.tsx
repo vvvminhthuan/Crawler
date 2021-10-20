@@ -6,10 +6,10 @@ import Messages from './Messages'
 import Emojis from '../Emoji'
 import {getParent} from 'helpers/common'
 
-import { removeGroup, miniGroup, addMessage, read } from 'redux/actions/Chats'
+import { removeGroup, miniGroup, addMessage, read, edit } from 'redux/actions/Chats'
 import { updateUersNumMessage } from 'redux/actions/Users'
 
-import {emitMessage, emitRead} from 'lib/SocketEvents/Chats'
+import {emitMessage, emitRead, emitWriting} from 'lib/SocketEvents/Chats'
 
 const VerticalItem = ({socket, groupId, content, userInfo, action}) => {
     const handleIcon = (e) => {
@@ -43,9 +43,25 @@ const VerticalItem = ({socket, groupId, content, userInfo, action}) => {
                 action: action
             }
             emitMessage(socket, params)
+            action.edit({
+                groupId: content.groupId,
+                edit: false
+            })
             e.target.value = ''
         }else{
-            console.log('handleInputEnter ', 'dang nhap')
+            if (!content.edit) {
+                emitWriting(socket, content.userId, content.groupId)
+                action.edit({
+                    groupId: content.groupId,
+                    edit: true
+                })
+            }
+            if (e.target.value.length == 0) {
+                action.edit({
+                    groupId: content.groupId,
+                    edit: false
+                })
+            }
         }
     }
 
@@ -60,6 +76,10 @@ const VerticalItem = ({socket, groupId, content, userInfo, action}) => {
         }
         emitMessage(socket, params)
         inputText[0].value = null
+        action.edit({
+            groupId: content.groupId,
+            edit: false
+        })
     }
 
     const handleReaded = () => {
@@ -142,6 +162,7 @@ function mapDispatchToProps(dispatch) {
                     miniGroup,
                     addMessage,
                     read,
+                    edit,
                     updateUersNumMessage
                 }, dispatch)
     }

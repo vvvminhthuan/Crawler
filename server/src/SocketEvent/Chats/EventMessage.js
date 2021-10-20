@@ -42,7 +42,8 @@ const EventMessagers = () => {
     const writing = (_io, groupId, userEmit) => {
         _io.of(`/${SOCKET_EVENT.CHAT}`).emit(`${SOCKET_EVENT.CHAT_EVENT.WRITE}.${userEmit}`, {
             status: 'OK',
-            userId: userId
+            userId: userEmit,
+            groupId: groupId
         })
     }
     const read = (_io, groupId, userEmit, createdAt, callback) => {
@@ -125,8 +126,8 @@ const EventMessagers = () => {
         */
         handleWriting: (socket, _io) => {
             socket.on(SOCKET_EVENT.CHAT_EVENT.WRITE, (content) => {
-                let {groupId, userId} = content
-                writing(_io, groupId, userId)
+                let {groupId, userEmit} = content
+                writing(_io, groupId, userEmit)
             })
         },
         /*

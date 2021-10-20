@@ -133,7 +133,10 @@ ModelUsers.findAllUsers = async (condition = {}, isIncludeAdmin = false) => {
 ModelUsers.getAllGroups = async (conditions) => {
     let sql = `SELECT u.id, u."firstName", u."lastName", u."nickName", u.email, u."phoneNumber", u."numberId",u."roleId", u.online, gu."groupId" AS "groupId", m."numMessage"
         FROM users AS u
-        LEFT JOIN "groupUsers" AS gu ON u.id = gu."userId"
+        LEFT JOIN (select gu1."groupId", gu1."userId" 
+        from "groupUsers" AS gu1 
+        JOIN (select "groupId", "userId" from "groupUsers" where "userId" = ${conditions.userId}) AS gu2 on gu1."groupId" = gu2."groupId" 
+        where gu1."userId" != ${conditions.userId}) AS gu ON u.id = gu."userId"
         LEFT JOIN (SELECT count(mm.id) AS "numMessage", mm."groupId" FROM messages as mm WHERE mm.type = ${conditions.type} AND mm."userId" <> ${conditions.userId} GROUP BY mm."groupId") AS m ON m."groupId" = gu."groupId"
         WHERE u."isDelete" = ${conditions.isDelete} AND u."id" <> ${conditions.userId}
         ORDER BY u.id`

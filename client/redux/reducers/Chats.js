@@ -72,12 +72,15 @@ const chatReducer = (state = initialState, action) => {
                 })
             }
         case EDIT:
-            state.map(item => {
+            return state.map(item => {
                 if (item.groupId == action.payload.groupId) {
-                    item.edit = action.payload.edit
+                    return {
+                        ...item,
+                        edit: action.payload.edit
+                    }
                 }
+                return item
             })
-            return state
         case READ:
             return state.map(item => {
                 if (item.groupId == action.payload.groupId) {

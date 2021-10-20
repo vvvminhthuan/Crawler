@@ -32,7 +32,7 @@ const userReducer = (state = initialState, action) => {
                 if (item.id == action.payload.userId) {
                     return {
                         ...item,
-                        numMessage: action.payload.num == 0 ? 0 : Number.parseInt(item.numMessage) + 1
+                        numMessage: action.payload.num == 0 ? 0 : Number.parseInt(item.numMessage?? 0) + 1
                     }
                 }
                 return item

@@ -39,7 +39,7 @@ export const handleWriting = (socket, userId, action) => {
     socket.on(`${SOCKET.CHAT_EVENT.WRITE}.${userId}`, body =>{
         action.edit({
             groupId: body.groupId,
-            edit: true
+            edit: body.edit
         })
     })
 }
@@ -49,10 +49,11 @@ export const handleWriting = (socket, userId, action) => {
         users: '1,2',
     },
 */ 
-export const emitWriting = (socket, userId, groupId) => {
+export const emitWriting = (socket, userId, groupId, edit) => {
     let body = {
         groupId: groupId,
         userEmit: userId,
+        edit: edit
     }
     socket.emit(SOCKET.CHAT_EVENT.WRITE , body)
 }

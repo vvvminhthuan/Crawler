@@ -235,9 +235,49 @@
                 }
             }
             .card-footer{
+                position: relative;
                 padding: 12px 8px;
                 background-color: rgba(0,0,0,.03);
                 border-top: 0 solid rgba(0,0,0,.125);
+                .dot-typing{
+                    position: absolute;
+                    top: -10px;
+                    left: 30px;
+                    .dot{
+                        position: relative;
+                        left: -9999px;
+                        width: 5px;
+                        height: 5px;
+                        border-radius: 5px;
+                        background-color: #28a745;
+                        color: #28a745;
+                        box-shadow: 9984px 0 0 0 #28a745, 9994px 0 0 0 #28a745, 10004px 0 0 0 #28a745;
+                        animation: dotTyping 1.5s infinite linear;
+                    }
+                    @keyframes dotTyping {
+                        0% {
+                          box-shadow: 9984px 0 0 0 #28a745, 9994px 0 0 0 #28a745, 10004px 0 0 0 #28a745;
+                        }
+                        16.667% {
+                          box-shadow: 9984px -10px 0 0 #28a745, 9994px 0 0 0 #28a745, 10004px 0 0 0 #28a745;
+                        }
+                        33.333% {
+                          box-shadow: 9984px 0 0 0 #28a745, 9994px 0 0 0 #28a745, 10004px 0 0 0 #28a745;
+                        }
+                        50% {
+                          box-shadow: 9984px 0 0 0 #28a745, 9994px -10px 0 0 #28a745, 10004px 0 0 0 #28a745;
+                        }
+                        66.667% {
+                          box-shadow: 9984px 0 0 0 #28a745, 9994px 0 0 0 #28a745, 10004px 0 0 0 #28a745;
+                        }
+                        83.333% {
+                          box-shadow: 9984px 0 0 0 #28a745, 9994px 0 0 0 #28a745, 10004px -10px 0 0 #28a745;
+                        }
+                        100% {
+                          box-shadow: 9984px 0 0 0 #28a745, 9994px 0 0 0 #28a745, 10004px 0 0 0 #28a745;
+                        }
+                    }
+                }
                 .input-group{
                     position: relative;
                     width: 100%;

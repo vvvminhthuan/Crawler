@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import {useState, useEffect} from 'react';
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -12,6 +13,8 @@ import { updateUersNumMessage } from 'redux/actions/Users'
 import {emitMessage, emitRead, emitWriting} from 'lib/SocketEvents/Chats'
 
 const VerticalItem = ({socket, groupId, content, userInfo, action}) => {
+    const [writing, setWriting] = useState(false)
+
     const handleIcon = (e) => {
         let parentElenmet = getParent('input-group', e.target)
         let groupEmoji = parentElenmet.getElementsByClassName('group-emoji')[0]
@@ -42,25 +45,18 @@ const VerticalItem = ({socket, groupId, content, userInfo, action}) => {
                 userEmit: content.userId,
                 action: action
             }
+            emitWriting(socket, content.userId, content.groupId, false)
             emitMessage(socket, params)
-            action.edit({
-                groupId: content.groupId,
-                edit: false
-            })
+            setWriting(false)
             e.target.value = ''
         }else{
-            if (!content.edit) {
-                emitWriting(socket, content.userId, content.groupId)
-                action.edit({
-                    groupId: content.groupId,
-                    edit: true
-                })
+            if (!writing && e.target.value.length != 0) {
+                emitWriting(socket, content.userId, content.groupId, true)
+                setWriting(true)
             }
-            if (e.target.value.length == 0) {
-                action.edit({
-                    groupId: content.groupId,
-                    edit: false
-                })
+            if (e.target.value.length == 0 && writing) {
+                emitWriting(socket, content.userId, content.groupId, false)
+                setWriting(false)
             }
         }
     }
@@ -74,12 +70,10 @@ const VerticalItem = ({socket, groupId, content, userInfo, action}) => {
             userEmit: content.userId,
             action: action
         }
+        emitWriting(socket, content.userId, content.groupId, false)
         emitMessage(socket, params)
         inputText[0].value = null
-        action.edit({
-            groupId: content.groupId,
-            edit: false
-        })
+        setWriting(false)
     }
 
     const handleReaded = () => {
@@ -88,6 +82,7 @@ const VerticalItem = ({socket, groupId, content, userInfo, action}) => {
             emitRead(socket, content.userId, groupId, lastMessage.createdAt, action)
         }
     }
+
 
     return (
         <div className={`vertical-item ${!content.mini? 'active' : ''}`} id ={`vertical-item-${groupId}`}>
@@ -127,6 +122,9 @@ const VerticalItem = ({socket, groupId, content, userInfo, action}) => {
             </div>
             {/*  /.card-body */}
             <div className="card-footer">
+                {
+                    content.edit ? <div className="dot-typing"><div className="dot"></div></div> : null
+                }
                 <div className="input-group flex-r">
                     <Emojis />
                     <a className="btn-icon" onClick= {(e) => handleIcon(e)}>

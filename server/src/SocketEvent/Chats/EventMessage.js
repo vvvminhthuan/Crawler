@@ -74,28 +74,7 @@ const EventMessagers = () => {
             console.log('LOI read: ', err + '')
         })
     }
-    const _online = (_io, groupId, userId, _online, userEmit) => {
-        let condition = {
-            userId: userId
-        }
-        let param = {
-            online: _online
-        }
-        ModelUsers.update(param, {
-            where: condition
-        })
-        .then((result) => {
-            if (result) {
-                _io.of(`/${SOCKET_EVENT.CHAT}`).emit(`${SOCKET_EVENT.CHAT_EVENT.ONLINE}.${userEmit}`, {
-                    status: 'OK',
-                    userId: userId,
-                    online: _online
-                })
-            }
-        }).catch((err) => {
-            console.log('LOI _online: ', err + '')
-        })
-    }
+    
 
     return {
         /*
@@ -148,10 +127,32 @@ const EventMessagers = () => {
                 userId: 0,
             }
         */
-        handleOnline: (socket, _io) => {
-            socket.on(SOCKET_EVENT.CHAT_EVENT.ONLINE, (content) => {
-                let {groupId, userId, online} = content
-                _online(_io, groupId, userId, online)
+        emitOnline: (_io, userId, _online) => {
+            let condition = {
+                id: userId
+            }
+            let param = {
+                online: _online
+            }
+
+            console.log('da emit', {
+                status: 'OK',
+                userId: userId,
+                online: _online
+            })
+            ModelUsers.update(param, {
+                where: condition
+            })
+            .then((result) => {
+                if (result) {
+                    _io.of(`/${SOCKET_EVENT.CHAT}`).emit(`${SOCKET_EVENT.CHAT_EVENT.ONLINE}`, {
+                        status: 'OK',
+                        userId: userId,
+                        online: _online
+                    })
+                }
+            }).catch((err) => {
+                console.log('LOI _online: ', err + '')
             })
         },
         /**

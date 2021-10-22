@@ -3,6 +3,7 @@ import {
     USER_INFO_ADD_GROUP, 
     USER_INFO_EDIT_GROUP,
     USER_INFO_EDIT_NUM_MESS,
+    USER_INFO_ONLINE
 } from '../actions/ActionTypes'
 
 const initialState = null
@@ -40,6 +41,20 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state, 
                 groupChats: groups
+            }
+        case USER_INFO_ONLINE: 
+            let groupsOnline = state.groupChats.map(item => {
+                if (item.id == action.payload.userId) {
+                    return {
+                        ...item,
+                        online: action.payload.online
+                    }
+                }
+                return item
+            })
+            return {
+                ...state, 
+                groupChats: groupsOnline
             }
         default:
             return state

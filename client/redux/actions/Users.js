@@ -18,3 +18,9 @@ export const updateUersNumMessage = (info) => {
         payload: info
     }
 }
+export const updateUersOnline = (info) => {
+    return {
+        type: types.USER_INFO_ONLINE,
+        payload: info
+    }
+}

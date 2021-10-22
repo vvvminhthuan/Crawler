@@ -5,6 +5,7 @@ const JWT = require('../Auth/JWT')
 const BrcyptCode = require('../Auth/BrcyptCode')
 const { setRes } = require('../Helpers/Response')
 const { TOKEN_ACCESS, MODEL_DEV, OPTION_COKIE } = require('../Config')
+const { emitOnline } = require('../SocketEvent/Chats/EventMessage');
 
 module.exports = {
     login: async (req, res) => {
@@ -27,6 +28,7 @@ module.exports = {
                     name: userResult.firstName + ' ' + userResult.lastName,
                     email: userResult.email
                 }
+                emitOnline(res.io, userResult.id, 1)
                 let accessToken = JWT.signCode(dataJwt)
                 // let refreshToken = JWT.signCode(dataJwt, parseInt(EXPREFRESH))
                 res.cookie( TOKEN_ACCESS, accessToken, OPTION_COKIE)

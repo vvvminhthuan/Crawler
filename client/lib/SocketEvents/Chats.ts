@@ -102,23 +102,17 @@ export const emitRead = (socket, userId, groupId, createdAt, action) => {
         users: '1,2',
     },
 */ 
-export const handleOnline = (socket, userId, action) => {
-    socket.on(`${SOCKET.CHAT_EVENT.ONLINE}.${userId}`, body =>{
-        return body
+export const handleOnline = (socket, action) => {
+    socket.on(`${SOCKET.CHAT_EVENT.ONLINE}`, body =>{
+        action.updateUersOnline({
+            userId: body.userId,
+            online: body.online
+        })
+        console.log({
+            userId: body.userId,
+            online: body.online
+        })
     })
-}
-/*
-    body: {
-        groupId: 0, tn moi thi groupId = 0 || undefine
-        users: '1,2',
-    },
-*/ 
-export const emitOnline = (socket, userId, groupId) => {
-    let body = {
-        groupId: groupId,
-        users: userId,
-    }
-    socket.emit(SOCKET.CHAT_EVENT.SEND, body)
 }
 /**
  * socket dang lang nghe

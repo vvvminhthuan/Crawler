@@ -8,8 +8,8 @@ import Vertical from './Vertical'
 
 import {SOCKET} from 'config/Socket'
 
-import { handleAddGroup, handleSendMessage, handleRead, handleWriting, test } from 'lib/SocketEvents/Chats'
-import { updateUersGroupChats, updateUersNumMessage } from 'redux/actions/Users'
+import { handleAddGroup, handleSendMessage, handleRead, handleWriting, handleOnline, test } from 'lib/SocketEvents/Chats'
+import { updateUersGroupChats, updateUersNumMessage, updateUersOnline } from 'redux/actions/Users'
 import {addMessage, read, edit} from 'redux/actions/Chats'
 
 const Chats = ({signIn, userInfo, action}) => {
@@ -29,10 +29,12 @@ const Chats = ({signIn, userInfo, action}) => {
             chat.on(SOCKET.DISCONNECT, function (reason) {
                 console.log('khong ket noi duoc server chats!', reason)
             })
+            
             handleAddGroup(chat, userInfo.id, action)
             handleSendMessage(chat, userInfo.id, action)
             handleRead(chat, userInfo.id, action)
             handleWriting(chat, userInfo.id, action)
+            handleOnline(chat, action)
             // test(chat)
         }
     }, [signIn])
@@ -59,7 +61,8 @@ function mapDispatchToProps(dispatch) {
                     addMessage,
                     read,
                     edit,
-                    updateUersNumMessage
+                    updateUersNumMessage,
+                    updateUersOnline
                 }, dispatch)
     }
 }

@@ -65,7 +65,7 @@ const User : React.FC<UserProperty> = ({user, idSelf, chats, action}) => {
     }
     return (
         <div className="item flex-r" onClick={handleClick}>
-            <div className="item-avatar online">
+            <div className={`item-avatar ${user.online == 1 ? 'online': null}`}>
                 {/*  /.user-infos */}
                 <Image src="/stores/images/user1-128x128.jpg" alt="Message User Image" width="35px" height="35px" className="img-circle" />
                 {/*  /.user-infos */}

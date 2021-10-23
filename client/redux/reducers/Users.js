@@ -43,19 +43,22 @@ const userReducer = (state = initialState, action) => {
                 groupChats: groups
             }
         case USER_INFO_ONLINE: 
-            let groupsOnline = state.groupChats.map(item => {
-                if (item.id == action.payload.userId) {
-                    return {
-                        ...item,
-                        online: action.payload.online
+            if (state&&state.id) {
+                let groupsOnline = state.groupChats.map(item => {
+                    if (item.id == action.payload.userId) {
+                        return {
+                            ...item,
+                            online: action.payload.online
+                        }
                     }
+                    return item
+                })
+                return {
+                    ...state, 
+                    groupChats: groupsOnline
                 }
-                return item
-            })
-            return {
-                ...state, 
-                groupChats: groupsOnline
             }
+            
         default:
             return state
     }

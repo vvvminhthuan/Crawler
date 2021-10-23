@@ -47,13 +47,11 @@ export default function App({Component, pageProps}){
             getInfoUserByAuth()
             .then((result) => {
                 if (result.success&&result.results[0]) {
-                    store.dispatch(setUserInfo(result.results[0]))
+                    store.dispatch(setUserInfo(result.results[0])) 
                     store.dispatch(acSignIn())
                     router.push('/')
                 }else{
-                    store.dispatch(setUserInfo({
-                        success: false
-                    }))
+                    store.dispatch(setUserInfo(null))
                     store.dispatch(signOut())
                     if (noneRedirect.indexOf('/'+router.pathname.split('/')[1]) < 0) {
                         router.push('/login')
@@ -61,9 +59,7 @@ export default function App({Component, pageProps}){
                 }
             })
             .catch(e => {
-                store.dispatch(setUserInfo({
-                    success: false
-                }))
+                store.dispatch(setUserInfo(null))
                 store.dispatch(signOut())
                 if (noneRedirect.indexOf(router.pathname) < 0) {
                     router.push('/login')

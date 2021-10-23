@@ -1,5 +1,12 @@
 import Head from 'next/head'
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
+
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { signOut } from 'redux/actions/SignIn'
+import { setUserInfo } from 'redux/actions/Users'
+import { apiSignOut } from 'api/Auth'
+import { useRouter } from 'next/router'
 
 import Header from './header'
 import Footer from './footer'
@@ -8,20 +15,32 @@ import Chats from 'components/Chats'
 import config from 'config'
 import { getParent, getChildren } from 'helpers/common'
 
-import { useSelector} from 'react-redux'
+import SocketClient, {io} from 'socket.io-client'
+import {SOCKET} from 'config/Socket'
 
 type LayoutProps = {
     title?: string,
     description?: string
-    categoriesMenu?: any
+    categoriesMenu?: any,
+    signIn: any,
+    action: any
 }
 
-const Layout : React.FC<LayoutProps> = ({children, title, description, categoriesMenu}) =>{
-    const signIn = useSelector((state:any) => state.signIn)
-    
-    useEffect(()=>{
-        windownEvent()
+const Layout : React.FC<LayoutProps> = ({children, title, description, categoriesMenu, signIn, action}) =>{
+    const router = useRouter()
+    let chats = SocketClient(SOCKET.URL + '/' + SOCKET.CHAT, {
+        withCredentials: true,
+        auth:{
+            token: 'day la chuoi khoa bi mat'
+        }
     })
+    useEffect(()=>{
+        
+        windownEvent()
+        if(!signIn){
+            chats.disconnect()
+        }
+    }, [signIn])
 
     const windownEvent = () => {
         window.addEventListener('click', function(element) {
@@ -40,6 +59,20 @@ const Layout : React.FC<LayoutProps> = ({children, title, description, categorie
             item.classList.remove(strClass)
         })
     }
+
+    const logOut = () => {
+        apiSignOut()
+        .then((result) => {
+            if (result.success) {
+                action.signOut()
+                action.setUserInfo(null)
+                chats.disconnect()
+                router.push('/login')
+            }
+        }).catch((err) => {
+            console.log(err + '')
+        })
+    }
     
     if (signIn) {
         return(
@@ -54,11 +87,11 @@ const Layout : React.FC<LayoutProps> = ({children, title, description, categorie
                     <Header/>
                 </header>
                 {/* Main Sidebar Container */}
-                <Aside />
+                <Aside logOut={logOut}/>
                 <main>
                     <div className="content">
                         {children}
-                        <Chats />
+                        <Chats chats={chats}/>
                     </div>
                 </main>
                 <footer>
@@ -70,4 +103,16 @@ const Layout : React.FC<LayoutProps> = ({children, title, description, categorie
    return null
 }
 
-export default Layout
+function mapStateToProps(state) {
+    return {
+        signIn: state.signIn
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        action: bindActionCreators({signOut, setUserInfo}, dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Layout)

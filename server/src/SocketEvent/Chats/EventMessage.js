@@ -129,7 +129,8 @@ const EventMessagers = () => {
         */
         emitOnline: (_io, userId, _online) => {
             let condition = {
-                id: userId
+                id: userId,
+                online: _online == 0 ? 1 : 0
             }
             let param = {
                 online: _online

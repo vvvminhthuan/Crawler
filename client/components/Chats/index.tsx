@@ -12,36 +12,29 @@ import { handleAddGroup, handleSendMessage, handleRead, handleWriting, handleOnl
 import { updateUersGroupChats, updateUersNumMessage, updateUersOnline } from 'redux/actions/Users'
 import {addMessage, read, edit} from 'redux/actions/Chats'
 
-const Chats = ({signIn, userInfo, action}) => {
-    
-    let chat = SocketClient(SOCKET.URL + '/' + SOCKET.CHAT, {
-        withCredentials: true,
-        auth:{
-            token: 'day la chuoi khoa bi mat'
-        }
-    })
+const Chats = ({chats, signIn, userInfo, action}) => {
 
     useEffect(()=>{
         if (signIn) {
-            chat.on(SOCKET.CONNECT, function () {
+            chats.on(SOCKET.CONNECT, function () {
                 console.log('da ket noi duoc server chats!')
             })
-            chat.on(SOCKET.DISCONNECT, function (reason) {
+            chats.on(SOCKET.DISCONNECT, function (reason) {
                 console.log('khong ket noi duoc server chats!', reason)
             })
             
-            handleAddGroup(chat, userInfo.id, action)
-            handleSendMessage(chat, userInfo.id, action)
-            handleRead(chat, userInfo.id, action)
-            handleWriting(chat, userInfo.id, action)
-            handleOnline(chat, action)
+            handleAddGroup(chats, userInfo.id, action)
+            handleSendMessage(chats, userInfo.id, action)
+            handleRead(chats, userInfo.id, action)
+            handleWriting(chats, userInfo.id, action)
+            handleOnline(chats, action)
             // test(chat)
         }
     }, [signIn])
 
     return (
         <div className="chat flex-r">
-            <Vertical socket = {chat}/>
+            <Vertical socket = {chats}/>
             <Horizontal />
         </div>
     )

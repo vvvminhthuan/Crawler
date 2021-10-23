@@ -6,6 +6,7 @@ const { setRes } = require('../Helpers/Response')
 const { mailResetPassword } = require('../Helpers/Mailer')
 const { URL_CLIENT } = require('../Config')
 const JWT = require('../Auth/JWT')
+const { emitOnline } = require('../SocketEvent/Chats/EventMessage')
 
 module.exports = {
     getUsers: (req, res) => {
@@ -85,10 +86,11 @@ module.exports = {
             userId: infor.id,
             type: TYPE_MESSAGE.SEND
         })
-
+        
         return ModelUsers.findAllUsers(condition, true)
             .then(result => {
                 result[0].dataValues.groupChats = listGroup[0]
+                emitOnline(res.io, infor.id, 1)
                 setRes(res, 200, true, 'Get user complete!', result)
             })
             .catch (err => {

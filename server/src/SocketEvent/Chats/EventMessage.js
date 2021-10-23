@@ -130,17 +130,10 @@ const EventMessagers = () => {
         emitOnline: (_io, userId, _online) => {
             let condition = {
                 id: userId,
-                online: _online == 0 ? 1 : 0
             }
             let param = {
                 online: _online
             }
-
-            console.log('da emit', {
-                status: 'OK',
-                userId: userId,
-                online: _online
-            })
             ModelUsers.update(param, {
                 where: condition
             })

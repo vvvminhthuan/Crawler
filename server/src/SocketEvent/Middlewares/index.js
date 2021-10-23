@@ -11,7 +11,7 @@ module.exports = (io) => {
             next(new Error('The authorizing not correct!'))
         }else {
             console.log('The authorizing correct!')
-            io.userInfo = userInfo
+            socket.userInfo = userInfo
             next()
         }
     })

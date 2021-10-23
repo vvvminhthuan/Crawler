@@ -13,13 +13,13 @@ module.exports = (io) => {
         handleRead(socket, io)
         
         disconnect(socket, () =>{
-            emitOnline(io, io.userInfo.id, 0)
+            emitOnline(io, socket.userInfo.id, 0)
         })
         connectErrors(socket, () =>{
-            emitOnline(io, io.userInfo.id, 0)
+            emitOnline(io, socket.userInfo.id, 0)
         })
         disconnectErrors(socket, () =>{
-            emitOnline(io, io.userInfo.id, 0)
+            emitOnline(io, socket.userInfo.id, 0)
         })
     })
 }

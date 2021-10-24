@@ -1,19 +1,39 @@
 import User from './User'
 import {getParent} from 'helpers/common'
 
-import { useEffect } from 'react'
-import { useSelector} from 'react-redux'
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 const ListUsers = () => {
     const userInfo = useSelector((state:any) => state.userInfo)
+    const [textSearch, setTextSearch] = useState('')
+    const [groupChats, setGroupChats] = useState([])
+
     useEffect(() => {
-    }, [userInfo])
+        setGroupChats(userInfo.groupChats)
+        if (!textSearch) {
+            setGroupChats(userInfo.groupChats)
+        }
+    }, [userInfo, textSearch])
 
     const handleMini = (e) => {
         let parentElenmet = getParent('vertical-item', e.target)
         if (parentElenmet.classList.contains('active')) {
             parentElenmet.classList.remove('active')
         }
+    }
+
+    const handleSearch = (e) => {
+        setTextSearch(e.target.value)
+        // dispatch(groupUserFilter({
+        //     text: textSearch
+        // }))
+        setGroupChats(groupChats.filter(item => {
+            if ((item.firstName + item.lastName).indexOf(textSearch)>=0) {
+                return item
+            }
+        }))
+        console.log(groupChats)
     }
     return (
         <div className="vertical-item list-user flex-c">
@@ -32,14 +52,14 @@ const ListUsers = () => {
             <div className="card-body">
                 {/*  Conversations are loaded here */}
                 <div className="direct-chat-messages list-item">
-                    {userInfo.groupChats.map(item => <User key={item.id} user={item} idSelf={userInfo.id}/>)}
+                    {groupChats.map(item => <User key={item.id} user={item} idSelf={userInfo.id}/>)}
                 </div>
                 {/* /.direct-chat-messages*/}
             </div>
             {/*  /.card-body */}
             <div className="card-footer">
                 <div className="input-group flex-r">
-                    <input type="text" name="message" placeholder="Search User ..." className="form-control js-input-user" autoComplete="off"/>
+                    <input type="text" onChange={e=>handleSearch(e)} value={textSearch} name="message" placeholder="Search User ..." className="form-control js-input-user" autoComplete="off"/>
                 </div>
             </div>
             {/*  /.card-footer*/}

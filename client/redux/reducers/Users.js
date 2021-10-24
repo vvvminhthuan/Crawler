@@ -3,7 +3,8 @@ import {
     USER_INFO_ADD_GROUP, 
     USER_INFO_EDIT_GROUP,
     USER_INFO_EDIT_NUM_MESS,
-    USER_INFO_ONLINE
+    USER_INFO_ONLINE,
+    USER_GROUP_FILTER
 } from '../actions/ActionTypes'
 
 const initialState = null
@@ -58,7 +59,6 @@ const userReducer = (state = initialState, action) => {
                     groupChats: groupsOnline
                 }
             }
-            
         default:
             return state
     }

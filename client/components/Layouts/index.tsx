@@ -91,7 +91,7 @@ const Layout : React.FC<LayoutProps> = ({children, title, description, categorie
                 <main>
                     <div className="content">
                         {children}
-                        <Chats chats={chats}/>
+                        <Chats chats={ chats }/>
                     </div>
                 </main>
                 <footer>

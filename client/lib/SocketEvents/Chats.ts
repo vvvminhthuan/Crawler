@@ -108,10 +108,6 @@ export const handleOnline = (socket, action) => {
             userId: body.userId,
             online: body.online
         })
-        console.log({
-            userId: body.userId,
-            online: body.online
-        })
     })
 }
 /**

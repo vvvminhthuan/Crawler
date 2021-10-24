@@ -10,7 +10,7 @@ type MessageProperty = {
 
 const Messages : React.FC<MessageProperty> = ({dataContent, isRight}) => {
     return (
-        <div className={`chat-msg${isRight? ' right' : ''}`}>
+        <div className={`chat-msg${isRight? ' right'  : dataContent.type == 1 ? ' unread' : ''} `} >
             {/*  /.chat-text */}
             <div className="chat-content flex-r">
                 {/*  /.chat-infos */}

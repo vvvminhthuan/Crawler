@@ -14,6 +14,20 @@ import {emitMessage, emitRead, emitWriting} from 'lib/SocketEvents/Chats'
 
 const VerticalItem = ({socket, groupId, content, userInfo, action}) => {
     const [writing, setWriting] = useState(false)
+    const [textChats, setTextChats] = useState('')
+
+    useEffect(() => {
+        let element = document.getElementById(`vertical-item-${groupId}`)
+        let cardBody = element.getElementsByClassName('card-body')[0]
+        
+        // let messageUnread = element.getElementsByClassName('.unread')[0]
+        cardBody.scroll({
+            top: cardBody.scrollHeight,
+            left: 0,
+            // behavior: 'smooth'
+        })
+        // console.log(cardBody.scrollTop, messageUnread)
+    }, [content])
 
     const handleIcon = (e) => {
         let parentElenmet = getParent('input-group', e.target)
@@ -24,12 +38,14 @@ const VerticalItem = ({socket, groupId, content, userInfo, action}) => {
             groupEmoji.classList.add('active')
         }
     }
+
     const handleMini = () => {
         action.miniGroup({
             groupId: groupId,
             mini: true
         })
     }
+
     const handleClose = () => {
         action.removeGroup({
             groupId: groupId
@@ -39,7 +55,7 @@ const VerticalItem = ({socket, groupId, content, userInfo, action}) => {
     const handleInputEnter = (e) => {
         if (e.code == 'Enter') {
             let params = {
-                message: e.target.value, 
+                message: textChats, 
                 userId: userInfo.id, 
                 groupId: groupId, 
                 userEmit: content.userId,
@@ -48,7 +64,7 @@ const VerticalItem = ({socket, groupId, content, userInfo, action}) => {
             emitWriting(socket, content.userId, content.groupId, false)
             emitMessage(socket, params)
             setWriting(false)
-            e.target.value = ''
+            setTextChats('')
         }else{
             if (!writing && e.target.value.length != 0) {
                 emitWriting(socket, content.userId, content.groupId, true)
@@ -62,9 +78,8 @@ const VerticalItem = ({socket, groupId, content, userInfo, action}) => {
     }
 
     const handleSend = () => {
-        let inputText:any = document.getElementsByClassName('js-input-chat')
         let params = {
-            message: inputText[0].value, 
+            message: textChats, 
             userId: userInfo.id, 
             groupId: groupId, 
             userEmit: content.userId,
@@ -72,7 +87,7 @@ const VerticalItem = ({socket, groupId, content, userInfo, action}) => {
         }
         emitWriting(socket, content.userId, content.groupId, false)
         emitMessage(socket, params)
-        inputText[0].value = null
+        setTextChats('')
         setWriting(false)
     }
 
@@ -83,6 +98,9 @@ const VerticalItem = ({socket, groupId, content, userInfo, action}) => {
         }
     }
 
+    const handleChange = (e) => {
+        setTextChats(e.target.value)
+    }
 
     return (
         <div className={`vertical-item ${!content.mini? 'active' : ''}`} id ={`vertical-item-${groupId}`}>
@@ -116,7 +134,7 @@ const VerticalItem = ({socket, groupId, content, userInfo, action}) => {
                 {/*  Conversations are loaded here */}
                 <div className="direct-chat-messages">
                     {/*  Message. Default to the left */}
-                    { content.messages.map((item, index) => <Messages dataContent={item} isRight={item.userId == userInfo.id} key={index}/>) }
+                    { content.messages.map((item, index) => <Messages dataContent={item} isRight={item.userId == userInfo.id} key={index} />) }
                 </div>
                 {/* /.direct-chat-messages*/}
             </div>
@@ -133,7 +151,7 @@ const VerticalItem = ({socket, groupId, content, userInfo, action}) => {
                             <path d="M4.285 9.567a.5.5 0 0 1 .683.183A3.498 3.498 0 0 0 8 11.5a3.498 3.498 0 0 0 3.032-1.75.5.5 0 1 1 .866.5A4.498 4.498 0 0 1 8 12.5a4.498 4.498 0 0 1-3.898-2.25.5.5 0 0 1 .183-.683zM7 6.5C7 7.328 6.552 8 6 8s-1-.672-1-1.5S5.448 5 6 5s1 .672 1 1.5zm4 0c0 .828-.448 1.5-1 1.5s-1-.672-1-1.5S9.448 5 10 5s1 .672 1 1.5z"/>
                         </svg>
                     </a>
-                    <input type="text" name="message" placeholder="Type Message ..." className="form-control js-input-chat" autoComplete="off" onKeyUp={e => handleInputEnter(e)} onFocus={handleReaded}/>
+                    <input type="text" name="message" placeholder="Type Message ..." className="form-control js-input-chat" autoComplete="off" onChange={e => handleChange(e)} onKeyUp={e => handleInputEnter(e)} onFocus={handleReaded} value = {textChats}/>
                     <button type="submit" className="btn-success" onClick={handleSend}>
                         <svg enableBackground="new 0 0 24 24" height="22" viewBox="0 0 24 24" width="22" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                             <path d="m8.75 17.612v4.638c0 .324.208.611.516.713.077.025.156.037.234.037.234 0 .46-.11.604-.306l2.713-3.692z"/>

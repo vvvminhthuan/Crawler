@@ -91,7 +91,9 @@ const useCustomForm = ({initalValues, initalValidates, onEvent}) =>{
                 }
                 break;
         }
+
         setTouched({...touched, [name]: true})
+        
         if (initalValidates[name]) {
             let currentValidate = initalValidates[name]
             if (currentValidate) {

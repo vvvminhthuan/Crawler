@@ -59,6 +59,12 @@ const chatReducer = (state = initialState, action) => {
         case ADD_GROUP:
             let index = state.filter(item => item.groupId == action.payload.groupId)
             if (index.length == 0) { // khong ton tai thi them moi vao state
+                if (state.length >= 3) {
+                    return [
+                        ...state.filter((item, index) => index !== 0),
+                        action.payload
+                    ]
+                }
                 return [
                     ...state,
                     action.payload

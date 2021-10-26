@@ -7,14 +7,6 @@ import { useSelector } from 'react-redux'
 const ListUsers = () => {
     const userInfo = useSelector((state:any) => state.userInfo)
     const [textSearch, setTextSearch] = useState('')
-    const [groupChats, setGroupChats] = useState([])
-
-    useEffect(() => {
-        setGroupChats(userInfo.groupChats)
-        if (!textSearch) {
-            setGroupChats(userInfo.groupChats)
-        }
-    }, [userInfo, textSearch])
 
     const handleMini = (e) => {
         let parentElenmet = getParent('vertical-item', e.target)
@@ -25,16 +17,8 @@ const ListUsers = () => {
 
     const handleSearch = (e) => {
         setTextSearch(e.target.value)
-        // dispatch(groupUserFilter({
-        //     text: textSearch
-        // }))
-        setGroupChats(groupChats.filter(item => {
-            if ((item.firstName + item.lastName).indexOf(textSearch)>=0) {
-                return item
-            }
-        }))
-        console.log(groupChats)
     }
+
     return (
         <div className="vertical-item list-user flex-c">
             {/* .card-header */}
@@ -52,7 +36,11 @@ const ListUsers = () => {
             <div className="card-body">
                 {/*  Conversations are loaded here */}
                 <div className="direct-chat-messages list-item">
-                    {groupChats.map(item => <User key={item.id} user={item} idSelf={userInfo.id}/>)}
+                    {userInfo.groupChats.map(item => {
+                        if ((item.firstName + ' ' + item.lastName).toLowerCase().indexOf(textSearch.toLowerCase()) >= 0) {
+                            return <User key={item.id} user={item} idSelf={userInfo.id}/>
+                        }
+                    })}
                 </div>
                 {/* /.direct-chat-messages*/}
             </div>

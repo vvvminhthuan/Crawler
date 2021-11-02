@@ -73,6 +73,20 @@ CREATE TABLE "refreshTokens" (
   "createdBy" int
 );
 
+CREATE TABLE "files" (
+  "id" SERIAL PRIMARY KEY,
+  "userId" int,
+  "name" varchar,
+  "extension" varchar, -- .jpg , .jpeg , .jfif , .pjpeg , .pjp, .doc, .docx, .xls, .xlsx, .pdf ....
+  "type" varchar, -- avatar, chats . .. . .
+  "status" int, --0 default, 1 active
+  "path" varchar,
+  "isDelete" int,
+  "createdAt" timestamp,
+  "updatedAt" timestamp,
+  "createdBy" int
+);
+
 ALTER TABLE "users" ADD FOREIGN KEY ("roleId") REFERENCES "roles" ("id");
 
 ALTER TABLE "roles" ADD FOREIGN KEY ("id") REFERENCES "roles" ("parentId");

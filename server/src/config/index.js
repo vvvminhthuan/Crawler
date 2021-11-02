@@ -60,4 +60,17 @@ module.exports= {
         PASSWORD: process.env.PASSWORD || 'z q c n b t m x z k y g y i q h'
     },
     URL_CLIENT: process.env.URL_CLIENT || 'http://localhost:8088/',
+    STORAGE: {
+        SUB_PATH: '/Storage',
+        MAX_SIZE: 1024*1024*5,
+        TYPE: {
+            AVATAR: '/Avatar',
+            CHAT: '/Chat',
+            ORTHER: '/Orther',
+        },
+        PATH: {
+            IMAGE: '/Image',
+            DOC: '/Doc',
+        }
+    }
 }

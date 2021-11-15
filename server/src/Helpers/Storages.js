@@ -18,5 +18,5 @@ let storageFile = multer({
 
 module.exports = {
     storage: fieldName => util.promisify(storageFile.single(fieldName)),
-    storages: fieldName => util.promisify(storageFile.array(fieldName)),
+    storages: fieldNames => util.promisify(storageFile.array(fieldNames)),
 }

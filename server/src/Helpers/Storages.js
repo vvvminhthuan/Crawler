@@ -21,6 +21,9 @@ let storage = multer.diskStorage({
         cb(null, __basedir + STORAGE.SUB_PATH_TMP + pathFile)
 
         setStorage(req, {filePath: pathFile})
+
+        callbackFiles(req, commitFiles())
+        callbackFiles(req, rollbackFiles())
     },
     filename: (req, file, cb) => {
         let name = Date.now() + Math.random()*10000
@@ -30,8 +33,21 @@ let storage = multer.diskStorage({
     },
 })
 
-const uploadCompelete = () => {
+const callbackFiles = (req, callback) => {
+    if (req.storages) {
+        let storage = Object.assign(req.storages, callback)
+        req.storages = storage
+    } else {
+        req.storages = callback
+    }
+}
 
+const commitFiles = () => {
+    return req.storage.fileName??''
+}
+
+const rollbackFiles = () => {
+    return req.storage.fileName??''
 }
 
 const setStorage = (req, obj) => {

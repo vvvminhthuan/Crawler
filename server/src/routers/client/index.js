@@ -1,7 +1,7 @@
 "use strict"
 
 var routes = require('express').Router()
-const　{ Auth } = require('../../Middlewares/MiddlewareAuth')
+const { Auth } = require('../../Middlewares/MiddlewareAuth')
 
 routes.use('/users',require('./Users'))
 routes.use('/roles', Auth, require('./Roles'))

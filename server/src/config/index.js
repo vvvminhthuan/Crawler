@@ -61,7 +61,6 @@ module.exports= {
     },
     URL_CLIENT: process.env.URL_CLIENT || 'http://localhost:8088/',
     STORAGE: {
-        SUB_PATH_TMP: '/Storage/tmp',
         SUB_PATH: '/Storage',
         MAX_SIZE: 1024*1024*15,
         TYPE: {

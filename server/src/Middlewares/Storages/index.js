@@ -5,34 +5,22 @@ const { STORAGE } = require('../../Config')
 
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        console.log(file)
-        // let fileType = req.body.fileType ?? ''
-
-        // let pathFile = file.mimetype.indexOf('image') >= 0 ? STORAGE.PATH.IMAGE : STORAGE.PATH.DOC
-        // switch (fileType) {
-        //     case STORAGE.TYPE.AVATAR:
-        //         pathFile = pathFile + STORAGE.TYPE.AVATAR
-        //         break
-        //     case STORAGE.TYPE.CHAT:
-        //         pathFile = pathFile + STORAGE.TYPE.CHAT
-        //         break
-        //     default:
-        //         pathFile = pathFile + STORAGE.TYPE.ORTHER
-        //         break
-        // }
-        cb(null, __basedir + STORAGE.SUB_PATH + STORAGE.PATH.IMAGE)
-    },
+        cb(null, 'Storage') 
+    }, 
     filename: (req, file, cb) => {
-        let name = Date.now() + Math.random()*10000
-        cb(null, name)
+        let name = Date.now() + parseInt(Math.random()*10000)
+        let pathFile = file.mimetype.indexOf('image') >= 0 ? STORAGE.PATH.IMAGE : STORAGE.PATH.DOC
+        let arrType = file.originalname.split('.')
+        let extents = arrType[arrType.length - 1]
+
+        cb(null, `${pathFile}/${name}.${extents}`)
     },
 })
-
-const storageFile = multer({
+const storageMulter = multer({
     storage: storage,
     limits: { fileSize: STORAGE.MAX_SIZE },
 })
-
 module.exports = {
-    STORAGE_FILE: storageFile
+    STORAGE_FILE: fileName => storageMulter.single(fileName),
+    STORAGE_FILES: fileNames => storageMulter.array(fileNames)
 }

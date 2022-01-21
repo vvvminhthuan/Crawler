@@ -63,11 +63,6 @@ module.exports= {
     STORAGE: {
         SUB_PATH: '/Storage',
         MAX_SIZE: 1024*1024*15,
-        TYPE: {
-            AVATAR: '/Avatar',
-            CHAT: '/Chat',
-            ORTHER: '/Orther',
-        },
         PATH: {
             IMAGE: '/Image',
             DOC: '/Doc',

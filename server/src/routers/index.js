@@ -19,10 +19,9 @@ routes.post('/signin', USER_SIGNIN, (req, res, next) => {
 routes.get('/signout', (req, res) => {
     logout(req, res)
 })
-routes.get('/test-file', STORAGE_FILE.single('file'),(req, res) => {
-    res.end(req.file) 
+routes.post('/test-file', STORAGE_FILE('file'), (req, res) => {
+    res.send(req.file) 
 })
-
 routes.use(function (req, res) {
     res.status(404).json({status: false, error: 'Not found 404' }) 
 })

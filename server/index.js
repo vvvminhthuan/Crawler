@@ -3,8 +3,6 @@ const config = require('./src/Config')
 const express =  require('express')
 const app =  express()
 const bodyParser = require('body-parser')
-const multer = require('multer')
-const upload = multer()
 
 const socket = require('socket.io')
 const SocketEvent = require('./src/SocketEvent')
@@ -62,7 +60,7 @@ app.disable('x-powered-by')
 app.use(express.static('stores'))
 app.use(bodyParser.json({limit: '1mb'}))
 app.use(bodyParser.urlencoded({ extended: false }))// for parsing application/x-www-form-urlencoded
-app.use(upload.array()) // for parsing multipart/form-data
+
 app.use(function (req, res, next) {
     res.io = _io
     next()

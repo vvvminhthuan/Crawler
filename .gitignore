@@ -50,3 +50,7 @@
 # vercel
 /server/.vercel
 /server/package-lock.json
+
+#upload file
+/server/Storage/Doc/*
+/server/Storage/Image/*

@@ -102,14 +102,6 @@ const ModelUsers = sequelize.define('users', {
     }
 })
 
-ModelUsers.belongsTo(ModelRoles, {
-    foreignKey: 'roleId',
-})
-
-ModelUsers.hasMany(ModelGroupUsers, {
-    foreignKey: 'userId',
-}) 
-
 ModelUsers.findAllUsers = async (condition = {}, isIncludeAdmin = false) => {
     let include = {
         model: ModelRoles,

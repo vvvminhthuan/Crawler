@@ -18,5 +18,7 @@ Model.ModelRoles = ModelRoles,
 Model.ModelUsers = ModelUsers,
 // Association
 Model.ModelUsers.belongsTo(ModelRoles, {foreignKey: 'roleId'})
+Model.ModelUsers.hasMany(ModelFiles, {foreignKey: 'userId'})
+Model.ModelUsers.hasMany(ModelGroupUsers, {foreignKey: 'userId'}) 
 
 module.exports = {...Model} 

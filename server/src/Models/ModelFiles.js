@@ -2,7 +2,7 @@
 
 const { sequelize, DataTypes, Model, Sequelize } = require('./ModelBase')
 
-const ModelFiles = sequelize.define('groups', {
+const ModelFiles = sequelize.define('files', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,

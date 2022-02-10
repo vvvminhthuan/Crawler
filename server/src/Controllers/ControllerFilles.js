@@ -1,16 +1,27 @@
 "use strict"
-const {ModelUsers} = require('../Models')
+const {ModelFiles, sequelize} = require('../Models')
 const { setRes } = require('../Helpers/Response')
 
 module.exports = {
-	test: (req, res) => {
-		ModelUsers.findAll()
-		.then((result) => {
-			console.log(result)
-			setRes(res, 200, true, 'get all', result)
-		}).catch((err) => {
-			console.log(err)
-		})
+	test: async (req, res) => {
+		const t = await sequelize.transaction()
+		try {
+			let rs = await ModelFiles.create({
+				userId: 1, 
+				name: 'HOANG MINH THUAN', 
+				extension: 'jpeg', 
+				type: 'AVATAR', 
+				status: 1, 
+				path: 'DUONG DAN NAY DEN TIM EM',
+				createdBy: 1
+			}, t)
+			console.log(rs)
+			throw new Error('Test transaction')
+			t.commit()
+		} catch (error) {
+			console.log(error)
+			t.rollback()
+		}
 	},
     upLoad: (req, res) => {
         try {

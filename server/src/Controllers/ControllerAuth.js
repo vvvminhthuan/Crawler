@@ -1,6 +1,6 @@
 "use strict"
 
-const ModelUsers = require('../Models/ModelUsers')
+const {ModelUsers} = require('../Models')
 const JWT = require('../Auth/JWT')
 const BrcyptCode = require('../Auth/BrcyptCode')
 const { setRes } = require('../Helpers/Response')

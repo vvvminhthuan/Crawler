@@ -1,7 +1,5 @@
 "use strict"
-const ModelGroups = require('../Models/ModelGroups')
-const ModelMessages = require('../Models/ModelMessages')
-const ModelGroupUsers = require('../Models/ModelGroupUsers')
+const {ModelGroups, ModelMessages, ModelGroupUsers} = require('../Models')
 const {ROW_DELETE, TYPE_MESSAGE} = require('../Config')
 const { setRes } = require('../Helpers/Response')
 const {emitAddGroup} = require('../SocketEvent/Chats/EventMessage')

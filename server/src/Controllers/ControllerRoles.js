@@ -1,5 +1,5 @@
 "use strict"
-const ModelRoles = require('../Models/ModelRoles')
+const {ModelRoles} = require('../Models')
 const { signRole, signRoleChild, renderRole } = require('../Auth/Roles')
 const {ROW_DELETE} = require('../Config')
 const { setRes } = require('../Helpers/Response')

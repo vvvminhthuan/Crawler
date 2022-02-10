@@ -1,5 +1,5 @@
 "use strict"
-const ModelUsers = require('../Models/ModelUsers')
+const {ModelUsers} = require('../Models')
 const BrcyptCode = require('../Auth/BrcyptCode')
 const {ROW_DELETE, TYPE_MESSAGE} = require('../Config')
 const { setRes } = require('../Helpers/Response')

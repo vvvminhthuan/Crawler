@@ -10,8 +10,11 @@ module.exports = {
         })
         return validate.check()
         .then(matched =>{
-            // console.log(validate.errors)
-            return matched // false neu valid sai
+            return {
+                matched: matched,
+                errors: validate.errors
+            } // false neu valid sai
+            
         })
         .catch(err => {
             console.log('Validate message erros ' + err + '')

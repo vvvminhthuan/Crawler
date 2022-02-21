@@ -89,8 +89,21 @@ const EventMessagers = () => {
                 let {groupId, userId, content, userEmit} = body
                 CREATE_UPDATE_MESSAGE(body)
                 .then((valid) => {
-                    if (valid) {
+                    if (valid.matched) {
                         send(_io, groupId, userId, content, userEmit, callback)
+                    } else {
+                        _io.of(`/${SOCKET_EVENT.CHAT}`).emit(`${SOCKET_EVENT.CHAT_EVENT.SEND}.${userEmit}`, {
+                            status: 'FAILS',
+                            content: {
+                                id: 'id_null',
+                                groupId: 'groupId_null',
+                                userId: 'userId_null',
+                                content: 'content_null',
+                                type: 'type_null',
+                                createdAt: 'createdAt_null'
+                            },
+                            message: valid.errors
+                        })
                     }
                 })
                 .catch((err) => {

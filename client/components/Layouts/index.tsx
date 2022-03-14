@@ -19,6 +19,7 @@ import SocketClient, {io} from 'socket.io-client'
 import {SOCKET} from 'config/Socket'
 
 type LayoutProps = {
+    children?: any,
     title?: string,
     description?: string
     categoriesMenu?: any,

@@ -1,0 +1,26 @@
+.overview-item{
+    box-sizing: border-box;
+    justify-content: space-between;
+    min-width: 100px;
+    .item-content{
+        padding: 10px;
+        min-height: 200px;
+        background: linear-gradient(0deg, #3f5efb 0%, #fc466b 100%);
+        color: #fff;
+        border-radius: 5px;
+        .title{
+            .title-icon{
+                margin: auto 0;
+                width: 46px;
+                height: 46px;
+            }
+            .title-text{
+                margin: auto 10px;
+                line-height: 1;
+                span{
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+}

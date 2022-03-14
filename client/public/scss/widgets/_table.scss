@@ -1,0 +1,14 @@
+.table-widget{
+    width: 100%;
+    .table-header{
+        justify-content: space-between;
+        .title-widget{
+
+        }
+        .search-widget{
+            input{
+                min-width: 250px;
+            }
+        }
+    }
+}

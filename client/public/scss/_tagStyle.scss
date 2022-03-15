@@ -21,6 +21,12 @@ input{
 button{
     margin: 0;
 }
+//select
+select{
+    &:focus-visible{
+        outline: unset;
+    }
+}
 // p
 p{
     padding: 0;

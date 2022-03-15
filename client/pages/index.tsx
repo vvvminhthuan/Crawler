@@ -2,7 +2,7 @@ import Layout from 'components/Layouts'
 import Overview from 'components/Widgets/Overview'
 import TableWidgets from 'components/Widgets/TableWidgets'
 const HomePage = () => {
-    const rowEdit = (e) =>{
+    const rowShow = (e) =>{
         console.log('rowEdit ',e)
     }
     const rowUpdate = (e) =>{
@@ -15,7 +15,32 @@ const HomePage = () => {
     let init={
         title: 'Earnings By Items',
         description: 'Day la mot doan mo ta ve bang du lieu',
-        columnName: ['Date', 'Order ID', 'Name', 'Price', 'Quantity', 'Total'],
+        columns: [
+            {
+                name: 'Date',
+                key: 'date'
+            },
+            {
+                name: 'Order ID',
+                key: 'id'
+            },
+            {
+                name: 'Name', 
+                key: 'name'
+            },
+            {
+                name: 'Price',
+                key: 'price'
+            },
+            {
+                name: 'Quantity', 
+                key: 'quantity'
+            },
+            {
+                name: 'Total',
+                key: 'amount'
+            }
+        ],
         data: [
             {
                 date:' 2018-09-29 05:57',
@@ -96,7 +121,7 @@ const HomePage = () => {
         hasPagination: true,
         pagSize: 12,
         rowEdit: {
-            actionEdit: rowEdit,
+            actionShow: rowShow,
             actionUpdate: rowUpdate,
             actionDelete: rowDelete
         }

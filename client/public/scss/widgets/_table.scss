@@ -1,13 +1,211 @@
 .table-widget{
     width: 100%;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: -2px -2px 5px 1px rgba(163, 163, 163, 0.75);
     .table-header{
+        padding: 4px 10px;
         justify-content: space-between;
+        background: #e4e4e4;
         .title-widget{
-
+            span{
+                font-size: 14px;
+                font-style: italic;
+            }
         }
         .search-widget{
-            input{
-                min-width: 250px;
+            margin: auto 0;
+            .filter-property{
+                position: relative;
+                .lb-filter{
+                    margin: auto 5px;
+                    padding: 10px 2px;
+                    border-radius: 5px;
+                    font-weight: 500;
+                    cursor: pointer;
+                    svg{
+                        margin: auto 0;
+                        width: 24px;
+                        height: 24px;
+                        path{
+                            margin-top: 5px;
+                        }
+                    }
+                    &:hover{
+                        background-color: #d7d8d8;
+                    }
+                }
+                .list-filter{
+                    display: none;
+                    position: absolute;
+                    right: 0;
+                    top: 40px;
+                    padding: 10px;
+                    max-height: 100px;
+                    overflow-x: auto;
+                    border-radius: 3px;
+                    background-color: #f2f4f6;
+                    box-shadow: -2px -2px 5px 1px rgba(163, 163, 163, 0.75);
+                    li{
+                        border-bottom: 1px solid #e4e4e4;
+                        white-space: nowrap;
+                        input{
+                            margin: auto 5px;
+                        }
+                    }
+                }
+            }
+            .input-group{
+                border-radius: 5px;
+                overflow: hidden;
+                input{
+                    min-width: 250px;
+                    padding: 12px 8px;
+                    border: none;
+                    background-color: #f2f4f6;
+                }
+                button{
+                    background-color: #f2f4f6;
+                    border: unset;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    .table-content{
+        border-collapse: collapse;
+        thead{
+            tr{
+                background-color: #f5f5f5;
+                th{
+                    padding: 10px;
+                }
+            }
+        }
+        tbody{
+            tr{
+                &:nth-child(2n){
+                    background-color: #f5f5f5;
+                }
+                &:hover{
+                    background-color: #007bff;
+                    color: #fff;
+                }
+                &.action{
+                    background-color: #007bff;
+                    color: #fff;
+                }
+                td{
+                    padding: 5px 10px;
+                    .input-group{
+                        width: 100%;
+                        input{
+                            width: 100%;
+                            border: unset;
+                            padding: 4px 5px;
+                            border-radius: 5px;
+                        }
+                    }
+                }
+
+            }
+            .widget-tr{
+                position: relative;
+                .row-action{
+                    display: none;
+                    position: absolute;
+                    right: 0;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    button{
+                        padding: 5px;
+                        border: unset;
+                        margin-left: 5px;
+                        border-radius: 5px;
+                        color: #fff;
+                        &.action-edit{
+                            background-color: #6979f5;
+                            &:hover{
+                                background-color: #5061e1;
+                            }
+                        }
+                        &.action-update{
+                            background-color: #facf42;
+                            &:hover{
+                                background-color: #f0c22a;
+                            }
+                        }
+                        &.action-delete{
+                            background-color: #ff5d4a;
+                            &:hover{
+                                background-color: #fa422e;
+                            }
+                        }
+                    }
+                }
+                &:hover{
+                    .row-action{
+                        display: block;
+                    }
+                }
+                &.action{
+                    .row-action{
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+    .table-footer{
+        padding: 10px;
+        background-color: #f5f5f5;
+        justify-content: space-between;
+        .footer-info{
+            .info-status, .show-quality{
+                margin: auto 0;
+                font-weight: 500;
+                font-style: italic;
+                font-size: 14px;
+            }
+            .show-quality{
+                select{
+                    margin: 0 5px;
+                    padding: 5px;
+                    border: unset;
+                    border-radius: 5px;
+                    background-color: #fbfbfb;
+                }
+            }
+            // .info-status{
+            //     padding-left: 10px;
+            // }
+        }
+        .table-pagination{
+            list-style: none;
+            .page-item{
+                padding: 0.5rem 0.75rem;
+                margin-left: -1px;
+                line-height: 1.25;
+                color: #3c3e41;
+                // border: 1px solid #dee2e6;
+                background-color: #fbfbfb;
+                &:first-child{
+                    border-top-left-radius: 5px;
+                    border-bottom-left-radius: 5px;
+                }
+                &:last-child{
+                    border-top-right-radius: 5px;
+                    border-bottom-right-radius: 5px;
+                }
+                &.active{
+                    text-decoration: underline;
+                    background-color: #007bff;
+                    color: #fff;
+                }
+                &:hover{
+                    background-color: #007bff;
+                    color: #fff;
+                }
             }
         }
     }

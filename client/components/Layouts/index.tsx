@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -84,20 +84,21 @@ const Layout : React.FC<LayoutProps> = ({children, title, description, categorie
                     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                     <meta name="description" content={description || ''} />
                 </Head>
-                <header>
-                    <Header/>
-                </header>
+                
                 {/* Main Sidebar Container */}
                 <Aside logOut={logOut}/>
                 <main>
+                    <header>
+                        <Header/>
+                    </header>
                     <div className="content">
                         {children}
                         <Chats chats={ chats }/>
                     </div>
+                    <footer>
+                        <Footer />
+                    </footer>
                 </main>
-                <footer>
-                    <Footer />
-                </footer>
             </>
         )
     }

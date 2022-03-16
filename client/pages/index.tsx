@@ -121,9 +121,9 @@ const HomePage = () => {
         hasPagination: true,
         pagSize: 12,
         rowEdit: {
-            actionShow: rowShow,
-            actionUpdate: rowUpdate,
-            actionDelete: rowDelete
+            show: rowShow,
+            update: rowUpdate,
+            delete: rowDelete
         }
     }
     return (

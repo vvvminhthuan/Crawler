@@ -1,3 +1,6 @@
+import exp from 'constants'
+import React, { useEffect } from 'react'
+
 export const setMessageErros = (result: any): any =>{
     let err = {}
     if (result.results) {
@@ -47,4 +50,52 @@ export const timeToJSONLocal = (date) => {
     var local = new Date(date);
     local.setMinutes(local.getMinutes() - local.getTimezoneOffset())
     return local.toJSON().slice(0, 19).replace('T', ' ')
+}
+
+export const forcusOutside = (ref: React.MutableRefObject<any>, setState: any) => {
+    useEffect(()=>{
+        function handleClickOutside(event) {
+            if (ref.current && ref.current.contains(event.target)) {
+                setState(true)
+            }else{
+                setState(false)
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside)
+        return ()=> {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [ref])
+}
+
+export const aciteElement = (ref: React.MutableRefObject<any>, setState: any) => {
+    let acitve = false
+    useEffect(()=>{
+        function handleClickOutside(event) {
+            if (ref.current && ref.current.contains(event.target)) {
+                setState(!acitve)
+                acitve = !acitve
+            }else{
+                setState(false)
+                acitve = false
+            }
+        }
+        document.addEventListener('click', handleClickOutside)
+        return ()=> {
+            document.removeEventListener('click', handleClickOutside)
+        }
+    }, [ref])
+}
+
+export const filterDataTableWidgets = (data: object[], colName: any[], colFilter: string[], strSearch: string) => {
+    if (colFilter.length) {
+        colFilter.forEach(col => {
+
+        })
+
+        return data.filter(row => {
+            
+        })
+    }
+    return data
 }

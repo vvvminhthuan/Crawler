@@ -1,4 +1,3 @@
-import { type } from 'os'
 import React, {useEffect, useRef, useState} from 'react'
 import Validator from './validates/ValidatorBasic'
 

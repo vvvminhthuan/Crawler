@@ -38,8 +38,8 @@
                 .list-filter{
                     display: none;
                     position: absolute;
-                    right: 0;
-                    top: 40px;
+                    right: 5px;
+                    top: 45px;
                     padding: 10px;
                     max-height: 100px;
                     overflow-x: auto;
@@ -54,12 +54,17 @@
                         }
                     }
                 }
+                &.active{
+                    .list-filter{
+                        display: block;
+                    }
+                }
             }
             .input-group{
                 border-radius: 5px;
                 overflow: hidden;
                 input{
-                    min-width: 250px;
+                    width: 100%;
                     padding: 12px 8px;
                     border: none;
                     background-color: #f2f4f6;
@@ -80,6 +85,9 @@
                 th{
                     padding: 10px;
                 }
+                .col-action{
+                    width: 95px;
+                }
             }
         }
         tbody{
@@ -99,6 +107,7 @@
                     padding: 5px 10px;
                     .input-group{
                         width: 100%;
+                        margin: -1px;
                         input{
                             width: 100%;
                             border: unset;
@@ -110,13 +119,9 @@
 
             }
             .widget-tr{
-                position: relative;
                 .row-action{
                     display: none;
-                    position: absolute;
-                    right: 0;
-                    top: 50%;
-                    transform: translateY(-50%);
+                    margin: -5px;
                     button{
                         padding: 5px;
                         border: unset;

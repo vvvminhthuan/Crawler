@@ -30,17 +30,19 @@ type Props = {
 }
 
 const TableWidgets: React.FC<Props> = ({init, option}) => {
+    let { title ,description, data, className, columns } = init
+    let { hasFilter, hasPagination, pagSize, rowEdit } = option??{}
+
     const [filter, setFilter] = useState([]),
           [activeFilter, setactiveFilter] = useState(false),
-          [pageSize, setPageSize] = useState([10,20,30,40,50,100,200]),
-          [currentPageSize, setCurrentPageSize] = useState(50),
+          [pageSize, setPageSize] = useState([10, 20, 30, 40, 50, 100, 200]),
+          [currentPageSize, setCurrentPageSize] = useState(pagSize),
           [currentPage, setCurrentPage] = useState(1)
 
     const refFilter = useRef(null)
     aciteElement(refFilter, setactiveFilter)
 
-    let { title ,description, data, className, columns } = init
-    let { hasFilter, hasPagination, pagSize, rowEdit } = option??{}
+    
     hasFilter = hasFilter??false
     hasPagination = hasPagination??false
     pagSize = pagSize??10

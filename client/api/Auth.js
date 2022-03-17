@@ -1,5 +1,5 @@
 import api from './ApiBase'
-import { SIGN_IN, SIGN_OUT } from './RouteBase'
+import { SIGN_IN, SIGN_OUT } from './Router'
 
 const {POST, GET} = api()
 

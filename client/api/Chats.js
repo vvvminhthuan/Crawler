@@ -1,5 +1,5 @@
 import api from './ApiBase'
-import { CHAT_GROUP, CHAT_MESSAGES } from './RouteBase'
+import { CHAT_GROUP, CHAT_MESSAGES } from './Router'
 
 const {POST, GET, PUT, DELETE} = api()
 

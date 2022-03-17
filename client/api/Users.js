@@ -1,6 +1,5 @@
 import api from './ApiBase'
-import { USERS, USERS_INFO, USERS_RESET_PASSWORD } from './RouteBase'
-
+import { USERS, USERS_INFO, USERS_RESET_PASSWORD } from './Router'
 const {POST, GET, PUT, DELETE} = api()
 
 export const getUserById = (params) => {

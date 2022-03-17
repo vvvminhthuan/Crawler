@@ -1,8 +1,8 @@
 import NavTop from '../NavTop';
-const Header = () => {
+const Header = ({showAside, setShowAside}) => {
     return (
         <>  
-            <NavTop />
+            <NavTop showAside={showAside} setShowAside={setShowAside}/>
         </>
     )
 }

@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -15,7 +15,7 @@ import Chats from 'components/Chats'
 import config from 'config'
 import { getParent, getChildren } from 'helpers/common'
 
-import SocketClient, {io} from 'socket.io-client'
+import SocketClient from 'socket.io-client'
 import {SOCKET} from 'config/Socket'
 
 type LayoutProps = {
@@ -28,7 +28,8 @@ type LayoutProps = {
 }
 
 const Layout : React.FC<LayoutProps> = ({children, title, description, categoriesMenu, signIn, action}) =>{
-    const router = useRouter()
+    const router = useRouter(),
+          [showAside, setShowAside] = useState(true)
     let chats = SocketClient(SOCKET.URL + '/' + SOCKET.CHAT, {
         withCredentials: true,
         auth:{
@@ -86,10 +87,10 @@ const Layout : React.FC<LayoutProps> = ({children, title, description, categorie
                 </Head>
                 
                 {/* Main Sidebar Container */}
-                <Aside logOut={logOut}/>
+                {showAside&&<Aside logOut={logOut}/>}
                 <main>
                     <header>
-                        <Header/>
+                        <Header setShowAside={setShowAside} showAside={showAside}/>
                     </header>
                     <div className="content">
                         {children}

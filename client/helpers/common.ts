@@ -87,15 +87,27 @@ export const aciteElement = (ref: React.MutableRefObject<any>, setState: any) =>
     }, [ref])
 }
 
-export const filterDataTableWidgets = (data: object[], colName: any[], colFilter: string[], strSearch: string) => {
+export const filterDataTableWidgets = (data: object[], colName: any[], colFilter: string[], strSearch: string):object[] => {
+    return data.filter(row => rulesFilters(row, colName, colFilter, strSearch))
+}
+
+const rulesFilters = (item: object, colName: any[], colFilter: string[], strSearch: any): boolean => {
+    let isFilter = false
     if (colFilter.length) {
-        colFilter.forEach(col => {
-
-        })
-
-        return data.filter(row => {
-            
-        })
+        for (let i of colName) {
+            let isHas = colFilter.some(s=> s == i.key)
+            if (isHas && item[i.key] && item[i.key].toString().toLowerCase().indexOf(strSearch.trim())>=0) {
+                isFilter = true
+                break
+            }
+        }
+    }else{
+        for (let i of colName) {
+            if (item[i.key] && item[i.key].toString().toLowerCase().indexOf(strSearch.trim())>=0) {
+                isFilter = true
+                break
+            }
+        }
     }
-    return data
+    return isFilter
 }

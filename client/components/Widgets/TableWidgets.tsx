@@ -1,6 +1,5 @@
-import { checked } from 'lib/Validate/BaseMessagers'
 import React, {useState, useRef} from 'react'
-import {aciteElement} from '../../helpers/common'
+import {aciteElement, filterDataTableWidgets} from '../../helpers/common'
 import _rowTableWidget from './partials/_rowTableWidget'
 interface field {
     name: string,
@@ -32,7 +31,10 @@ type Props = {
 
 const TableWidgets: React.FC<Props> = ({init, option}) => {
     const [filter, setFilter] = useState([]),
-          [activeFilter, setactiveFilter] = useState(false)
+          [activeFilter, setactiveFilter] = useState(false),
+          [pageSize, setPageSize] = useState([10,20,30,40,50,100,200]),
+          [currentPageSize, setCurrentPageSize] = useState(50),
+          [currentPage, setCurrentPage] = useState(1)
 
     const refFilter = useRef(null)
     aciteElement(refFilter, setactiveFilter)
@@ -43,6 +45,8 @@ const TableWidgets: React.FC<Props> = ({init, option}) => {
     hasPagination = hasPagination??false
     pagSize = pagSize??10
     rowEdit = rowEdit??null
+
+    const [rows, setRows] = useState(data)
 
     const handleFilterClick = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.checked) {
@@ -58,7 +62,19 @@ const TableWidgets: React.FC<Props> = ({init, option}) => {
     }
 
     const handlSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(filter)
+        if (e.target.value) {
+            let result = filterDataTableWidgets(data, columns, filter, e.target.value)
+            setRows(result)
+        }else{
+            // set lai mat dinh
+            setRows(data)
+        }
+        
+    }
+
+    const handlePageSize = (e:React.ChangeEvent<HTMLSelectElement>) => {
+        setCurrentPageSize(parseInt(e.target.value))
+        setCurrentPage(1)
     }
 
     const rawFilter = () => {
@@ -81,6 +97,21 @@ const TableWidgets: React.FC<Props> = ({init, option}) => {
         )
     }
 
+    const rawPagination = () => {
+        let maxPage = rows.length > currentPageSize ? (rows.length%currentPageSize == 0 ? rows.length/currentPageSize : Math.floor(rows.length/currentPageSize) + 1) : 1
+        let elePage = []
+        for (let page = 1; page <= maxPage; page++) {
+            elePage.push(<li key={page} className={`page-item ${page==currentPage? 'active': ''}`} onClick={()=>setCurrentPage(page)}>{page}</li>)
+        }
+        return (
+            <ul className="table-pagination flex-r">
+                <li className="page-item previous" onClick={()=>setCurrentPage(currentPage>1 ? currentPage-1 : 1)}>&laquo;</li>
+                { elePage }
+                <li className="page-item next" onClick={()=>setCurrentPage(currentPage<maxPage ? currentPage+1 : maxPage)}>&raquo;</li>
+            </ul>
+        )
+    }
+
     return (
         <div className={`table-widget flex-c ${className??''}`}>
             <div className="table-header flex-r">
@@ -92,7 +123,7 @@ const TableWidgets: React.FC<Props> = ({init, option}) => {
                     hasFilter&&(
                         <div className="search-widget flex-r">
                             {
-                                data&&(<div className={`filter-property flex-c ${activeFilter? 'active' : ''}`} ref={refFilter}>
+                                rows&&(<div className={`filter-property flex-c ${activeFilter? 'active' : ''}`} ref={refFilter}>
                                     <div className="lb-filter flex-r">
                                         <span>Filter By</span>   
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -127,7 +158,8 @@ const TableWidgets: React.FC<Props> = ({init, option}) => {
                 </thead>)}
                 <tbody>
                     {
-                        data&&data.map((item, index) => {
+                        rows&&rows.filter((e, i) => i >= ((currentPage-1)*currentPageSize + 1) && i<= ( currentPage*currentPageSize < rows.length?currentPage*currentPageSize:rows.length))
+                            .map((item, index) => {
                             return <_rowTableWidget rowData={item} key={index} columns={columns} action={rowEdit}/>
                         })
                     }
@@ -139,27 +171,19 @@ const TableWidgets: React.FC<Props> = ({init, option}) => {
                         <div className="footer-info flex-r">
                             <div className="show-quality">
                                 <span>Show</span>
-                                <select name="show-quality">
-                                    <option value="10">10</option>    
-                                    <option value="20">20</option>    
-                                    <option value="30">30</option>    
-                                    <option value="40">40</option>    
-                                    <option value="50">50</option>    
+                                <select name="show-quality" defaultValue={currentPageSize} onChange={e=>handlePageSize(e)}>
+                                    {
+                                        pageSize.map((rand, index)=>{
+                                            return <option key={index} value={rand}>{rand}</option>
+                                        })
+                                    }    
                                 </select>
                             </div>
                             <div className="info-status">
-                                <span>Showing 1 to 10 of 57 entries</span>
+                                <span>Showing {(currentPage -1 ) * currentPageSize + 1} to {currentPage*currentPageSize > rows.length ? rows.length : currentPage*currentPageSize } of {rows.length} entries</span>
                             </div>
                         </div>
-                        <ul className="table-pagination flex-r">
-                            <li className="page-item previous">&laquo;</li>
-                            <li className="page-item active">1</li>
-                            <li className="page-item">2</li>
-                            <li className="page-item">3</li>
-                            <li className="page-item">4</li>
-                            <li className="page-item">5</li>
-                            <li className="page-item next">&raquo;</li>
-                        </ul>
+                        { rawPagination() }
                     </div>
                 )
             }

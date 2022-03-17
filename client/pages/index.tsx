@@ -113,6 +113,126 @@ const HomePage = () => {
                 price: '$999.00',
                 quantity:	1,
                 amount: '$999.00'
+            },
+            {
+                date:' 2018-09-29 05:57',
+                id:	'100398',
+                name: 'iPhone X 64Gb Grey',
+                price: '$999.00',
+                quantity:	1,
+                amount: '$999.00'
+            },
+            {
+                date:' 2018-09-29 05:57',
+                id:	'100398',
+                name: 'iPhone X 64Gb Grey',
+                price: '$999.00',
+                quantity:	1,
+                amount: '$999.00'
+            },
+            {
+                date:' 2018-09-29 05:57',
+                id:	'100398',
+                name: 'iPhone X 64Gb Grey',
+                price: '$999.00',
+                quantity:	1,
+                amount: '$999.00'
+            },
+            {
+                date:' 2018-09-29 05:57',
+                id:	'100398',
+                name: 'iPhone X 64Gb Grey',
+                price: '$999.00',
+                quantity:	1,
+                amount: '$999.00'
+            },
+            {
+                date:' 2018-09-29 05:57',
+                id:	'100398',
+                name: 'iPhone X 64Gb Grey',
+                price: '$999.00',
+                quantity:	1,
+                amount: '$999.00'
+            },
+            {
+                date:' 2018-09-29 05:57',
+                id:	'100398',
+                name: 'iPhone X 64Gb Grey',
+                price: '$999.00',
+                quantity:	1,
+                amount: '$999.00'
+            },
+            {
+                date:' 2018-09-29 05:57',
+                id:	'100398',
+                name: 'iPhone X 64Gb Grey',
+                price: '$999.00',
+                quantity:	1,
+                amount: '$999.00'
+            },
+            {
+                date:' 2018-09-29 05:57',
+                id:	'100398',
+                name: 'iPhone X 64Gb Grey',
+                price: '$999.00',
+                quantity:	1,
+                amount: '$999.00'
+            },
+            {
+                date:' 2018-09-29 05:57',
+                id:	'100398',
+                name: 'iPhone X 64Gb Grey',
+                price: '$999.00',
+                quantity:	1,
+                amount: '$999.00'
+            },
+            {
+                date:' 2018-09-29 05:57',
+                id:	'100398',
+                name: 'iPhone X 64Gb Grey',
+                price: '$999.00',
+                quantity:	1,
+                amount: '$999.00'
+            },
+            {
+                date:' 2018-09-29 05:57',
+                id:	'100398',
+                name: 'iPhone X 64Gb Grey',
+                price: '$999.00',
+                quantity:	1,
+                amount: '$999.00'
+            },
+            {
+                date:' 2018-09-29 05:57',
+                id:	'100398',
+                name: 'iPhone X 64Gb Grey',
+                price: '$999.00',
+                quantity:	1,
+                amount: '$999.00'
+            },
+            {
+                date:' 2018-09-29 05:57',
+                id:	'100398',
+                name: 'iPhone X 64Gb Grey',
+                price: '$999.00',
+                quantity:	1,
+                amount: '$999.00'
+            },
+            {
+                date:' 2018-09-29 05:57',
+                id:	'100398',
+                name: 'iPhone X 64Gb Grey',
+                price: '$999.00',
+                quantity:	1,
+                amount: '$999.00'
+            },
+            {
+                date:' 2018-09-29 05:57',
+                id:	'100398',
+                name: 'iPhone X 64Gb Grey',
+                price: '$999.00',
+                quantity:	1,
+                amount: '$999.00'
             }
         ]
     }

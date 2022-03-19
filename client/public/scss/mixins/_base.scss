@@ -5,11 +5,18 @@
     -ms-transition: $value;
     transition: $value;
 }
-@mixin render-button($bgColor, $hoverBgColor, $color) {
+@mixin xda-button($bgColor, $color) {
+    padding: 10px 5px;
     border: unset;
+    border-radius: 5px;
     color: $color;
-    background-color: darken($bgColor, 10%);
+    background-color: $bgColor;
+    font-weight: 400;
+    font-size: 1rem;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
     &:hover{
-        background-color: $hoverBgColor;
+        background-color: darken($bgColor, 10%);
     }
 }

@@ -13,10 +13,10 @@ type Props = {
     init?: {
         title?: string,
         description?: string,
-        data?: any,
         className?: string,
         columns?: field[]
     },
+    data?: any,
     option?: {
         hasFilter?: boolean
         hasPagination?:boolean,
@@ -29,11 +29,12 @@ type Props = {
     }
 }
 
-const TableWidgets: React.FC<Props> = ({init, option}) => {
-    let { title ,description, data, className, columns } = init
+const TableWidgets: React.FC<Props> = ({init, option, data}) => {
+    let { title ,description, className, columns } = init
     let { hasFilter, hasPagination, pagSize, rowEdit } = option??{}
 
-    const [filter, setFilter] = useState([]),
+    const [rows, setRows] = useState(data),
+          [filter, setFilter] = useState([]),
           [activeFilter, setactiveFilter] = useState(false),
           [pageSize, setPageSize] = useState([10, 20, 30, 40, 50, 100, 200]),
           [currentPageSize, setCurrentPageSize] = useState(pagSize),
@@ -47,8 +48,6 @@ const TableWidgets: React.FC<Props> = ({init, option}) => {
     hasPagination = hasPagination??false
     pagSize = pagSize??10
     rowEdit = rowEdit??null
-
-    const [rows, setRows] = useState(data)
 
     const handleFilterClick = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.checked) {
@@ -113,7 +112,7 @@ const TableWidgets: React.FC<Props> = ({init, option}) => {
             </ul>
         )
     }
-
+console.log(rows, rows.filter((e, i) => i >= ((currentPage-1)*currentPageSize) && i<= (( currentPage*currentPageSize < rows.length?currentPage*currentPageSize:rows.length) - 1)))
     return (
         <div className={`table-widget flex-c ${className??''}`}>
             <div className="table-header flex-r">
@@ -160,7 +159,7 @@ const TableWidgets: React.FC<Props> = ({init, option}) => {
                 </thead>)}
                 <tbody>
                     {
-                        rows&&rows.filter((e, i) => i >= ((currentPage-1)*currentPageSize + 1) && i<= ( currentPage*currentPageSize < rows.length?currentPage*currentPageSize:rows.length))
+                        rows&&rows.filter((e, i) => i >= ((currentPage-1)*currentPageSize) && i<= (( currentPage*currentPageSize < rows.length?currentPage*currentPageSize:rows.length) - 1))
                             .map((item, index) => {
                             return <_rowTableWidget rowData={item} key={index} columns={columns} action={rowEdit}/>
                         })

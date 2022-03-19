@@ -8,4 +8,5 @@ export const USERS_RESET_PASSWORD = '/users/reset-password'
 // Chats
 export const CHAT_GROUP = '/chats/group'
 export const CHAT_MESSAGES = '/chats/messages'
-// 
+// Roles
+export const ROLES = '/roles'

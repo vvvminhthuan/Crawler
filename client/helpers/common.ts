@@ -88,7 +88,12 @@ export const aciteElement = (ref: React.MutableRefObject<any>, setState: any) =>
 }
 
 export const filterDataTableWidgets = (data: object[], colName: any[], colFilter: string[], strSearch: string):object[] => {
-    return data.filter(row => rulesFilters(row, colName, colFilter, strSearch))
+    return data.filter(row =>{
+        if (rulesFilters(row, colName, colFilter, strSearch.toLowerCase())==true) {
+            console.log(row)
+            return row
+        }
+    })
 }
 
 const rulesFilters = (item: object, colName: any[], colFilter: string[], strSearch: any): boolean => {
@@ -96,14 +101,14 @@ const rulesFilters = (item: object, colName: any[], colFilter: string[], strSear
     if (colFilter.length) {
         for (let i of colName) {
             let isHas = colFilter.some(s=> s == i.key)
-            if (isHas && item[i.key] && item[i.key].toString().toLowerCase().indexOf(strSearch.trim())>=0) {
+            if (!isFilter&&isHas && item[i.key] && item[i.key].toString().toLowerCase().indexOf(strSearch.trim())!=-1) {
                 isFilter = true
                 break
             }
         }
     }else{
         for (let i of colName) {
-            if (item[i.key] && item[i.key].toString().toLowerCase().indexOf(strSearch.trim())>=0) {
+            if (!isFilter&&item[i.key] && item[i.key].toString().toLowerCase().indexOf(strSearch.trim())!=-1) {
                 isFilter = true
                 break
             }

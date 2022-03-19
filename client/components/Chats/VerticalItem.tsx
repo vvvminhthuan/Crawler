@@ -144,7 +144,7 @@ const VerticalItem = ({socket, groupId, content, userInfo, action}) => {
                     content.edit ? <div className="dot-typing"><div className="dot"></div></div> : null
                 }
                 <div className="input-group flex-r">
-                    <Emojis />
+                    <Emojis handleMessage={setTextChats} message={textChats}/>
                     <a className="btn-icon" onClick= {(e) => handleIcon(e)}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" className="bi bi-emoji-smile" viewBox="0 0 16 16">
                             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -152,7 +152,7 @@ const VerticalItem = ({socket, groupId, content, userInfo, action}) => {
                         </svg>
                     </a>
                     <input type="text" name="message" placeholder="Type Message ..." className="form-control js-input-chat" autoComplete="off" onChange={e => handleChange(e)} onKeyUp={e => handleInputEnter(e)} onFocus={handleReaded} value = {textChats}/>
-                    <button type="submit" className="btn-success" onClick={handleSend}>
+                    <button type="submit" className="btn-success" onClick={()=>handleSend()}>
                         <svg enableBackground="new 0 0 24 24" height="22" viewBox="0 0 24 24" width="22" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                             <path d="m8.75 17.612v4.638c0 .324.208.611.516.713.077.025.156.037.234.037.234 0 .46-.11.604-.306l2.713-3.692z"/>
                             <path d="m23.685.139c-.23-.163-.532-.185-.782-.054l-22.5 11.75c-.266.139-.423.423-.401.722.023.3.222.556.505.653l6.255 2.138 13.321-11.39-10.308 12.419 10.483 3.583c.078.026.16.04.242.04.136 0 .271-.037.39-.109.19-.116.319-.311.352-.53l2.75-18.5c.041-.28-.077-.558-.307-.722z"/>

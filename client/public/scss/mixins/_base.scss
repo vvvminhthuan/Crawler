@@ -5,3 +5,11 @@
     -ms-transition: $value;
     transition: $value;
 }
+@mixin render-button($bgColor, $hoverBgColor, $color) {
+    border: unset;
+    color: $color;
+    background-color: darken($bgColor, 10%);
+    &:hover{
+        background-color: $hoverBgColor;
+    }
+}

@@ -3,13 +3,16 @@ import Icon from './Icon'
 
 type GroupProperty = {
     icons: Array<object>,
-    index: number
+    index: number,
+    handleMessage?: any, 
+    message?: any,
+    tabActive: number
 }
 
-const GroupIcons : React.FC<GroupProperty> = ({icons, index}) => {
+const GroupIcons : React.FC<GroupProperty> = ({icons, index, handleMessage, message, tabActive}) => {
     return (
-        <ul className={`group js-tab-${index} ${index==0? 'active': ''}`}>
-            { icons.map((item:any, index) => <Icon key={index} emoji = {item.key} />) }
+        <ul className={`group ${index==tabActive? 'active': ''}`}>
+            { icons.map((item:any, index) => <Icon key={index} emoji = {item.key} handleMessage={handleMessage} message={message}/>) }
         </ul>
     )
 }

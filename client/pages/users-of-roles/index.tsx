@@ -4,10 +4,10 @@ import TableWidgets from 'components/Widgets/TableWidgets'
 const UsersOfRoles = () => {
     return (
         <Layout title='Users of roles' description='Trang phan quyen nguoi dung'>
-			<div className="page-role">
+			<div className="page-role flex-c">
                 <div className="role-header flex-r">
                     <div className="title">
-                        Roles System
+                        <h1>Roles</h1>
                     </div>
                     <div className="action">
                         <button>Create New</button>

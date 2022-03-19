@@ -20,7 +20,7 @@ body{
             width: 100%;
             .content{
                 box-sizing: border-box;
-                height: calc(100vh - #{$height-header} - #{$height-footer});
+                height: calc(100vh - #{$height-header} - #{$height-footer} - 1px);
                 overflow-y: auto;
             }
         }

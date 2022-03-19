@@ -1,0 +1,10 @@
+.page-role{
+    .role-header{
+        justify-content: space-between;
+        .action{
+            button{
+                @include render-button(#e3e3e3,red, #fff)
+            }
+        }
+    }
+}

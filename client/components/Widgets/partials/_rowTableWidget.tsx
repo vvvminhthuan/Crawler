@@ -1,13 +1,13 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 
 const _rowTableWidget = ({rowData, columns, action, hasAction}) => {
     const [isEdit, setIsEdit] = useState(false),
-        [isDelete, setIsDelete] = useState(false),
-        [rowTb, setRow] = useState(rowData)
+         [isDelete, setIsDelete] = useState(false),
+         [row, setRow] = useState(rowData)
             
     const actionEdit = () => {
         setIsEdit(!isEdit)
-        action.delete(rowTb)
+        action.delete(row)
     }
 
     const actionDelete = (isDelete) => {
@@ -15,15 +15,19 @@ const _rowTableWidget = ({rowData, columns, action, hasAction}) => {
     }
 
     const actionUpdate = () => {
-        action.update(rowTb)
+        action.update(row)
         setIsEdit(!isEdit)
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.value != rowTb[e.target.name]) {
-            setRow({...rowTb, [e.target.name]: e.target.value})
+        if (e.target.value != row[e.target.name]) {
+            setRow({...row, [e.target.name]: e.target.value})
         }
     }
+
+    useEffect(()=>{
+        setRow(rowData)
+    }, [rowData])
 
     return !isDelete&&(
         <tr className={`widget-tr ${isEdit? 'action' : ''}`}>
@@ -33,13 +37,13 @@ const _rowTableWidget = ({rowData, columns, action, hasAction}) => {
                         return(
                             <td key={index}>
                                 <div className="input-group flex-c">
-                                    <input type="text" defaultValue={rowTb[item.key]} name={item.key} onChange={e => handleChange(e)}/>
+                                    <input type="text" defaultValue={row[item.key]} name={item.key} onChange={e => handleChange(e)}/>
                                 </div>
                             </td>
                         )
                     } else {
                         return (
-                            <td key={index}>{rowTb[item.key]}</td>
+                            <td key={index}>{row[item.key]}</td>
                         )
                     }
                 })

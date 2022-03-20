@@ -11,7 +11,7 @@ import { useRouter } from 'next/router'
 import { apiSignIn } from 'api/Auth'
 import useCustomForm from 'helpers/useCustomForm'
 import {setMessageErros} from 'helpers/common'
-import LoginValidate from 'helpers/validates/Login'
+import LoginValidate from 'helpers/validates/LoginValidate'
 
 const Login = ({signIn, userInfo, action}) => {
     const router = useRouter()
@@ -53,7 +53,7 @@ const Login = ({signIn, userInfo, action}) => {
     if (!isRendering) {
         return null
     }
-    return (
+    return !signIn&&(
         <div className="login-page">
             <div className="card-login">
                 <div className="card-header">

@@ -30,6 +30,9 @@ export default function App({Component, pageProps}){
     // });
     useEffect(() =>{
         router.events.on('routeChangeStart', (url)=>{
+            // if (noneRedirect.indexOf(url) != -1 && store.getState().signIn) {
+            //     router.back()
+            // }
             nProgresStart()
         })
         router.events.on('routeChangeComplete', (url) => {
@@ -43,27 +46,27 @@ export default function App({Component, pageProps}){
             }, 100)
         })
 
-        if (!signIn&&userInfo==null) {
+        if (!store.getState().signIn) {
             getInfoUserByAuth()
             .then((result) => {
                 if (result.success&&result.results[0]) {
                     store.dispatch(setUserInfo(result.results[0])) 
                     store.dispatch(acSignIn())
-                    router.push('/')
+                    router.push(router.pathname)
                 }else{
                     store.dispatch(setUserInfo(null))
                     store.dispatch(signOut())
-                    if (noneRedirect.indexOf('/'+router.pathname.split('/')[1]) < 0) {
-                        router.push('/login')
-                    }
+                    // if (noneRedirect.indexOf('/'+router.pathname.split('/')[1]) < 0) {
+                    // }
+                    router.push('/login')
                 }
             })
             .catch(e => {
                 store.dispatch(setUserInfo(null))
                 store.dispatch(signOut())
-                if (noneRedirect.indexOf(router.pathname) < 0) {
-                    router.push('/login')
-                }
+                // if (noneRedirect.indexOf(router.pathname) < 0) {
+                // }
+                router.push('/login')
             })
         }
        
@@ -78,7 +81,7 @@ export default function App({Component, pageProps}){
                 nProgresDone()
             })
         }
-    },[signIn, userInfo])
+    },[store.getState().signIn])
 
     return (
         <Provider store = { store }>

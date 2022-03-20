@@ -20,6 +20,7 @@ type Props = {
     option?: {
         hasFilter?: boolean
         hasPagination?:boolean,
+        hasAction?: boolean,
         pagSize?: number,
         rowEdit?: {
             show: any,
@@ -31,7 +32,7 @@ type Props = {
 
 const TableWidgets: React.FC<Props> = ({init, option, data}) => {
     let { title ,description, className, columns } = init
-    let { hasFilter, hasPagination, pagSize, rowEdit } = option??{}
+    let { hasFilter, hasPagination, pagSize, rowEdit, hasAction } = option??{}
 
     const [rows, setRows] = useState(data),
           [filter, setFilter] = useState([]),
@@ -44,6 +45,7 @@ const TableWidgets: React.FC<Props> = ({init, option, data}) => {
     aciteElement(refFilter, setactiveFilter)
 
     hasFilter = hasFilter??false
+    hasAction = hasAction??false
     hasPagination = hasPagination??false
     pagSize = pagSize??10
     rowEdit = rowEdit??null
@@ -158,7 +160,7 @@ const TableWidgets: React.FC<Props> = ({init, option, data}) => {
                     {
                         rows.filter((e, i) => i >= ((currentPage-1)*currentPageSize) && i<= (( currentPage*currentPageSize < rows.length?currentPage*currentPageSize:rows.length) - 1))
                         .map((item, index) => {
-                            return <_rowTableWidget rowData={item} key={index} columns={columns} action={rowEdit}/>
+                            return <_rowTableWidget rowData={item} key={index} columns={columns} action={rowEdit} hasAction={hasAction}/>
                         })
                     }
                 </tbody>

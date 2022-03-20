@@ -37,6 +37,7 @@ const UsersOfRoles = () => {
     }
     let option = {
         hasFilter: true,
+        hasAction: true,
         hasPagination: true,
         pagSize: 12,
         rowEdit: {

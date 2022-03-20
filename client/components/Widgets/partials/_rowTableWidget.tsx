@@ -1,6 +1,6 @@
 import {useState} from 'react'
 
-const _rowTableWidget = ({rowData, columns, action}) => {
+const _rowTableWidget = ({rowData, columns, action, hasAction}) => {
     const [isEdit, setIsEdit] = useState(false),
         [isDelete, setIsDelete] = useState(false),
         [rowTb, setRow] = useState(rowData)
@@ -45,11 +45,11 @@ const _rowTableWidget = ({rowData, columns, action}) => {
                 })
             }
             <td>
-                <div className="row-action">
+                {hasAction&&<div className="row-action">
                     {!isEdit&&<button className="action-edit" onClick={() => actionEdit()}>Edit</button>}
                     {isEdit&&<button className="action-update" onClick={() => actionUpdate()}>Update</button>}
                     {!isEdit&&<button className="action-delete" onClick={() => actionDelete(isDelete)}>Delete</button>}
-                </div>
+                </div>}
             </td>
         </tr>
     )

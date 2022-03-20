@@ -90,7 +90,6 @@ export const aciteElement = (ref: React.MutableRefObject<any>, setState: any) =>
 export const filterDataTableWidgets = (data: object[], colName: any[], colFilter: string[], strSearch: string):object[] => {
     return data.filter(row =>{
         if (rulesFilters(row, colName, colFilter, strSearch.toLowerCase())==true) {
-            console.log(row)
             return row
         }
     })

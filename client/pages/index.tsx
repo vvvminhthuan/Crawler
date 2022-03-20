@@ -47,7 +47,7 @@ const HomePage = () => {
         {
             date:' 2018-09-29 05:57',
             id:	'100398',
-            name: 'iPhone X 64Gb Grey',
+            name: 'iPhone X 64Gb Grey1',
             price: '$999.00',
             quantity:	1,
             amount: '$999.00'
@@ -55,7 +55,7 @@ const HomePage = () => {
         {
             date:' 2018-09-29 05:57',
             id:	'100398',
-            name: 'iPhone X 64Gb Grey',
+            name: 'iPhone X 64Gb Grey2',
             price: '$999.00',
             quantity:	1,
             amount: '$999.00'
@@ -63,7 +63,7 @@ const HomePage = () => {
         {
             date:' 2018-09-29 05:57',
             id:	'100398',
-            name: 'iPhone X 64Gb Grey',
+            name: 'iPhone X 64Gb Grey3',
             price: '$999.00',
             quantity:	1,
             amount: '$999.00'
@@ -71,7 +71,7 @@ const HomePage = () => {
         {
             date:' 2018-09-29 05:57',
             id:	'100398',
-            name: 'iPhone X 64Gb Grey',
+            name: 'iPhone X 64Gb Grey4',
             price: '$999.00',
             quantity:	1,
             amount: '$999.00'
@@ -79,7 +79,7 @@ const HomePage = () => {
         {
             date:' 2018-09-29 05:57',
             id:	'100398',
-            name: 'iPhone X 64Gb Grey',
+            name: 'iPhone X 64Gb Grey5',
             price: '$999.00',
             quantity:	1,
             amount: '$999.00'
@@ -87,7 +87,7 @@ const HomePage = () => {
         {
             date:' 2018-09-29 05:57',
             id:	'100398',
-            name: 'iPhone X 64Gb Grey',
+            name: 'iPhone X 64Gb Grey6',
             price: '$999.00',
             quantity:	1,
             amount: '$999.00'
@@ -95,7 +95,7 @@ const HomePage = () => {
         {
             date:' 2018-09-29 05:57',
             id:	'100398',
-            name: 'iPhone X 64Gb Grey',
+            name: 'iPhone X 64Gb Grey7',
             price: '$999.00',
             quantity:	1,
             amount: '$999.00'
@@ -103,7 +103,7 @@ const HomePage = () => {
         {
             date:' 2018-09-29 05:57',
             id:	'100398',
-            name: 'iPhone X 64Gb Grey',
+            name: 'iPhone X 64Gb Grey8',
             price: '$999.00',
             quantity:	1,
             amount: '$999.00'
@@ -111,7 +111,7 @@ const HomePage = () => {
         {
             date:' 2018-09-29 05:57',
             id:	'100398',
-            name: 'iPhone X 64Gb Grey',
+            name: 'iPhone X 64Gb Grey9',
             price: '$999.00',
             quantity:	1,
             amount: '$999.00'
@@ -119,7 +119,7 @@ const HomePage = () => {
         {
             date:' 2018-09-29 05:57',
             id:	'100398',
-            name: 'iPhone X 64Gb Grey',
+            name: 'iPhone X 64Gb Grey10',
             price: '$999.00',
             quantity:	1,
             amount: '$999.00'
@@ -127,7 +127,7 @@ const HomePage = () => {
         {
             date:' 2018-09-29 05:57',
             id:	'100398',
-            name: 'iPhone X 64Gb Grey',
+            name: 'iPhone X 64Gb Grey11',
             price: '$999.00',
             quantity:	1,
             amount: '$999.00'
@@ -135,7 +135,7 @@ const HomePage = () => {
         {
             date:' 2018-09-29 05:57',
             id:	'100398',
-            name: 'iPhone X 64Gb Grey',
+            name: 'iPhone X 64Gb Grey12',
             price: '$999.00',
             quantity:	1,
             amount: '$999.00'
@@ -143,7 +143,7 @@ const HomePage = () => {
         {
             date:' 2018-09-29 05:57',
             id:	'100398',
-            name: 'iPhone X 64Gb Grey',
+            name: 'iPhone X 64Gb Grey13',
             price: '$999.00',
             quantity:	1,
             amount: '$999.00'
@@ -151,7 +151,7 @@ const HomePage = () => {
         {
             date:' 2018-09-29 05:57',
             id:	'100398',
-            name: 'iPhone X 64Gb Grey',
+            name: 'iPhone X 64Gb Grey14',
             price: '$999.00',
             quantity:	1,
             amount: '$999.00'
@@ -159,7 +159,7 @@ const HomePage = () => {
         {
             date:' 2018-09-29 05:57',
             id:	'100398',
-            name: 'iPhone X 64Gb Grey',
+            name: 'iPhone X 64Gb Grey15',
             price: '$999.00',
             quantity:	1,
             amount: '$999.00'
@@ -167,7 +167,7 @@ const HomePage = () => {
         {
             date:' 2018-09-29 05:57',
             id:	'100398',
-            name: 'iPhone X 64Gb Grey',
+            name: 'iPhone X 64Gb Grey16',
             price: '$999.00',
             quantity:	1,
             amount: '$999.00'
@@ -175,7 +175,7 @@ const HomePage = () => {
         {
             date:' 2018-09-29 05:57',
             id:	'100398',
-            name: 'iPhone X 64Gb Grey',
+            name: 'iPhone X 64Gb Grey17',
             price: '$999.00',
             quantity:	1,
             amount: '$999.00'
@@ -183,7 +183,7 @@ const HomePage = () => {
         {
             date:' 2018-09-29 05:57',
             id:	'100398',
-            name: 'iPhone X 64Gb Grey',
+            name: 'iPhone X 64Gb Grey18',
             price: '$999.00',
             quantity:	1,
             amount: '$999.00'
@@ -191,7 +191,7 @@ const HomePage = () => {
         {
             date:' 2018-09-29 05:57',
             id:	'100398',
-            name: 'iPhone X 64Gb Grey',
+            name: 'iPhone X 64Gb Grey19',
             price: '$999.00',
             quantity:	1,
             amount: '$999.00'
@@ -199,7 +199,7 @@ const HomePage = () => {
         {
             date:' 2018-09-29 05:57',
             id:	'100398',
-            name: 'iPhone X 64Gb Grey',
+            name: 'iPhone X 64Gb Grey20',
             price: '$999.00',
             quantity:	1,
             amount: '$999.00'
@@ -207,7 +207,7 @@ const HomePage = () => {
         {
             date:' 2018-09-29 05:57',
             id:	'100398',
-            name: 'iPhone X 64Gb Grey',
+            name: 'iPhone X 64Gb Grey21',
             price: '$999.00',
             quantity:	1,
             amount: '$999.00'
@@ -215,7 +215,7 @@ const HomePage = () => {
         {
             date:' 2018-09-29 05:57',
             id:	'100398',
-            name: 'iPhone X 64Gb Grey',
+            name: 'iPhone X 64Gb Grey22',
             price: '$999.00',
             quantity:	1,
             amount: '$999.00'
@@ -223,7 +223,7 @@ const HomePage = () => {
         {
             date:' 2018-09-29 05:57',
             id:	'100398',
-            name: 'iPhone X 64Gb Grey',
+            name: 'iPhone X 64Gb Grey23',
             price: '$999.00',
             quantity:	1,
             amount: '$999.00'
@@ -231,7 +231,7 @@ const HomePage = () => {
         {
             date:' 2018-09-29 05:57',
             id:	'100398',
-            name: 'iPhone X 64Gb Grey',
+            name: 'iPhone X 64Gb Grey24',
             price: '$999.00',
             quantity:	1,
             amount: '$999.00'

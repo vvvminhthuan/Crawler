@@ -43,7 +43,6 @@ const TableWidgets: React.FC<Props> = ({init, option, data}) => {
     const refFilter = useRef(null)
     aciteElement(refFilter, setactiveFilter)
 
-    
     hasFilter = hasFilter??false
     hasPagination = hasPagination??false
     pagSize = pagSize??10
@@ -70,7 +69,6 @@ const TableWidgets: React.FC<Props> = ({init, option, data}) => {
             // set lai mat dinh
             setRows(data)
         }
-        
     }
 
     const handlePageSize = (e:React.ChangeEvent<HTMLSelectElement>) => {
@@ -112,7 +110,6 @@ const TableWidgets: React.FC<Props> = ({init, option, data}) => {
             </ul>
         )
     }
-console.log(rows, rows.filter((e, i) => i >= ((currentPage-1)*currentPageSize) && i<= (( currentPage*currentPageSize < rows.length?currentPage*currentPageSize:rows.length) - 1)))
     return (
         <div className={`table-widget flex-c ${className??''}`}>
             <div className="table-header flex-r">
@@ -159,8 +156,8 @@ console.log(rows, rows.filter((e, i) => i >= ((currentPage-1)*currentPageSize) &
                 </thead>)}
                 <tbody>
                     {
-                        rows&&rows.filter((e, i) => i >= ((currentPage-1)*currentPageSize) && i<= (( currentPage*currentPageSize < rows.length?currentPage*currentPageSize:rows.length) - 1))
-                            .map((item, index) => {
+                        rows.filter((e, i) => i >= ((currentPage-1)*currentPageSize) && i<= (( currentPage*currentPageSize < rows.length?currentPage*currentPageSize:rows.length) - 1))
+                        .map((item, index) => {
                             return <_rowTableWidget rowData={item} key={index} columns={columns} action={rowEdit}/>
                         })
                     }

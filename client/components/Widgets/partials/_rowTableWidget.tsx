@@ -2,12 +2,12 @@ import {useState} from 'react'
 
 const _rowTableWidget = ({rowData, columns, action}) => {
     const [isEdit, setIsEdit] = useState(false),
-          [isDelete, setIsDelete] = useState(false),
-          [row, setRow] = useState(rowData)
-
+        [isDelete, setIsDelete] = useState(false),
+        [rowTb, setRow] = useState(rowData)
+            
     const actionEdit = () => {
         setIsEdit(!isEdit)
-        action.delete(row)
+        action.delete(rowTb)
     }
 
     const actionDelete = (isDelete) => {
@@ -15,13 +15,13 @@ const _rowTableWidget = ({rowData, columns, action}) => {
     }
 
     const actionUpdate = () => {
-        action.update(row)
+        action.update(rowTb)
         setIsEdit(!isEdit)
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.value != row[e.target.name]) {
-            setRow({...row, [e.target.name]: e.target.value})
+        if (e.target.value != rowTb[e.target.name]) {
+            setRow({...rowTb, [e.target.name]: e.target.value})
         }
     }
 
@@ -33,13 +33,13 @@ const _rowTableWidget = ({rowData, columns, action}) => {
                         return(
                             <td key={index}>
                                 <div className="input-group flex-c">
-                                    <input type="text" defaultValue={row[item.key]} name={item.key} onChange={e => handleChange(e)}/>
+                                    <input type="text" defaultValue={rowTb[item.key]} name={item.key} onChange={e => handleChange(e)}/>
                                 </div>
                             </td>
                         )
                     } else {
                         return (
-                            <td key={index}>{row[item.key]}</td>
+                            <td key={index}>{rowTb[item.key]}</td>
                         )
                     }
                 })

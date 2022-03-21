@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react'
 import Layout from 'components/Layouts'
 import TableWidgets from 'components/Widgets/TableWidgets'
 import {getRoles} from 'api/Roles'
+import Link from 'next/link'
 
 const UsersOfRoles = () => {
     const [rolers, setRoles] = useState(null)
@@ -60,7 +61,7 @@ const UsersOfRoles = () => {
                         <h1>Roles</h1>
                     </div>
                     <div className="action">
-                        <button>Create New</button>
+                        <Link href='/users-of-roles/create'>Create New</Link>
                     </div>
                 </div>
                 <div className="role-containers flex-c">

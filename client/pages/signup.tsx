@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { useEffect } from 'react'
 import { createUser } from 'api/Users'
 import useCustomForm from 'helpers/useCustomForm'
 import {setMessageErros} from 'helpers/common'
@@ -35,8 +34,6 @@ const SignUp = () => {
         register
     } = useCustomForm({initalValues, initalValidates, onEvent: value => onSignIn(value)}) 
     
-    useEffect(()=>{
-    },[])
     const onSignIn = (value) =>{
         return true
     }
@@ -45,13 +42,11 @@ const SignUp = () => {
         let value:any= {}
         Object.assign(value, values)
         delete value.privacyPolicy
-        console.log(value)
         let result = await createUser(value)
         if (result.success) {
             return true
         } else {
             let err = setMessageErros(result)
-            console.log(err)
             setErrorsByAttach(err)
             return false
         }

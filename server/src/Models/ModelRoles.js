@@ -66,8 +66,7 @@ ModelRoles.findAllRoles = async (condition = {}) => {
     let unShowAdmin = {
         roleChild: {
             [Op.ne]: sequelize.col('role')
-        },
-        isDelete: ROW_DELETE.NOT_DELETE
+        }
     }
     condition.order = [
         ['role', 'DESC']
@@ -113,6 +112,43 @@ ModelRoles.updateRoles = async (condition, newRole, roleChange = 0) => {
     } catch (error) {
         console.log(error)
         return false
+    }
+}
+/**
+ * Tra ve danh role sap sep theo dang tree, loc theo role
+ * Hien thi nhung role theo role cua dang nhap, va nhung cap con cua role
+ * @param {*} role quyent luc nguoi dung dang nhap
+ */
+ModelRoles.getRolesByTree = async (role = 0) => {
+    let condition = {
+        where: {
+            isDelete: ROW_DELETE.NOT_DELETE
+        }
+    }
+    condition.order = [
+        ['role', 'DESC']
+    ]
+    if (condition.where) {
+        Object.assign(condition.where, unShowAdmin)
+    }
+    let data = await ModelRoles.findAll(condition)
+    let roleDefault = data.map(item => item.parentId == -1)
+}
+
+const roleTree = (data) => {
+    let result = []
+    if (data.length > 0) {
+        let item = data[0]
+        if (item.parentId == 0) {
+            result.push(item)
+        }
+        let checkChild = data.filter(i => i.parentId == item.id)
+        if (checkChild.length > 0) {
+            re
+            checkChild.forEach(element => {
+                
+            })
+        }
     }
 }
 

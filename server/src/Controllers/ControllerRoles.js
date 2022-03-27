@@ -15,13 +15,23 @@ module.exports = {
         if (params) {
             Object.assign(condition.where, params)
         }
-        return ModelRoles.findAllRoles(condition)
-            .then(result => {
-                setRes(res, 200, true, 'Get role complete!', result)
-            })
-            .catch (err => {
-                setRes(res, 500, false, 'Get role fail!')
-            })
+        if (params.isTree) {
+            return ModelRoles.getRolesByTree(params.role)
+                .then(result => {
+                    setRes(res, 200, true, 'Get role complete!', result)
+                })
+                .catch (err => {
+                    setRes(res, 500, false, 'Get role fail!')
+                })
+        } else {
+            return ModelRoles.findAllRoles(condition)
+                .then(result => {
+                    setRes(res, 200, true, 'Get role complete!', result)
+                })
+                .catch (err => {
+                    setRes(res, 500, false, 'Get role fail!')
+                })
+        }        
     },
     updateRoles: async (req, res) => {
         let params = req.body

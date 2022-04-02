@@ -5,6 +5,10 @@ const { CREATE_ROLES, UPDATE_ROLES } = require('../../Middlewares/Validates/Vali
 const { detectParams, validateParams } = require('../../Middlewares/MiddlewareRouters')
 const { Auth } = require('../../Middlewares/MiddlewareAuth')
 
+routes.get('/role-tree/', [detectParams, Auth], (req, res) => {
+    req.params.isTree = true
+    getRoles(req, res)
+})
 routes.get('/:id?', [detectParams, Auth], (req, res) => {
     getRoles(req, res)
 })

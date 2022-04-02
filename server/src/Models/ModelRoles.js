@@ -117,39 +117,47 @@ ModelRoles.updateRoles = async (condition, newRole, roleChange = 0) => {
 /**
  * Tra ve danh role sap sep theo dang tree, loc theo role
  * Hien thi nhung role theo role cua dang nhap, va nhung cap con cua role
- * @param {*} role quyent luc nguoi dung dang nhap
+ * @param {string} role role value cua nguoi dung dang nhap
  */
 ModelRoles.getRolesByTree = async (role = 0) => {
     let condition = {
         where: {
-            isDelete: ROW_DELETE.NOT_DELETE
-        }
+            isDelete: ROW_DELETE.NOT_DELETE,
+            roleChild: {
+                [Op.ne]: sequelize.col('role')
+            }
+        },
+        raw: true
     }
     condition.order = [
         ['role', 'DESC']
     ]
-    if (condition.where) {
-        Object.assign(condition.where, unShowAdmin)
-    }
+    
     let data = await ModelRoles.findAll(condition)
-    let roleDefault = data.map(item => item.parentId == -1)
+    let roleDefault = data.filter(item => item.parentId == -1)
+    let maxRole = data.filter(i=>i.role == role && i.role !== i.roleChild)
+    let maxId = maxRole[0] ? maxRole[0].id : 0
+    let roles = roleTreeReCursion(data.filter(item => item.parentId !== -1), maxId)
+    return {
+        roles,
+        roleDefault
+    }
 }
-
-const roleTree = (data) => {
+/**
+ * Tra ve mang object, trong do object con long vao object cha
+ * @param {object[]} data 
+ * @param {string} parentId
+ */
+const roleTreeReCursion = (data, parentId = 0) => {
     let result = []
     if (data.length > 0) {
-        let item = data[0]
-        if (item.parentId == 0) {
-            result.push(item)
-        }
-        let checkChild = data.filter(i => i.parentId == item.id)
-        if (checkChild.length > 0) {
-            re
-            checkChild.forEach(element => {
-                
-            })
-        }
+        let list = data.filter(i => i.parentId == parentId)
+        list.forEach(e => {
+            let child =     
+            result.push({...e, child})
+        })
     }
+    return result
 }
 
 module.exports = ModelRoles

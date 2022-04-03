@@ -23,7 +23,6 @@ module.exports = {
                     setRes(res, 200, true, 'Get role complete!', result)
                 })
                 .catch (err => {
-                    console.log(err)
                     setRes(res, 500, false, 'Get role fail!')
                 })
         } else {

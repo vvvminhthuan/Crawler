@@ -10,3 +10,4 @@ export const CHAT_GROUP = '/chats/group'
 export const CHAT_MESSAGES = '/chats/messages'
 // Roles
 export const ROLES = '/roles'
+export const ROLES_TREE = '/roles/role-tree'

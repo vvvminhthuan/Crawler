@@ -1,9 +1,8 @@
 import {useEffect, useState} from 'react'
 
 import Layout from 'components/Layouts'
-import TableWidgets from 'components/Widgets/TableWidgets'
-import {getRoles} from 'api/Roles'
-import Link from 'next/link'
+import ListTree from 'components/ListTree'
+import {getRolesTree} from 'api/Roles'
 
 const UsersOfRoles = () => {
     const [rolers, setRoles] = useState(null)
@@ -37,18 +36,15 @@ const UsersOfRoles = () => {
         ],
     }
     let option = {
-        hasFilter: true,
-        hasAction: true,
-        hasPagination: true,
-        pagSize: 12,
+        isView: false,
         rowEdit: {
-            show: rowShow,
+            addNew: rowShow,
             update: rowUpdate,
             delete: rowDelete
         }
     }
     useEffect(() => {
-        getRoles('')
+        getRolesTree()
         .then((result) => {
             setRoles(result)
         })
@@ -60,13 +56,10 @@ const UsersOfRoles = () => {
                     <div className="title">
                         <h1>Roles</h1>
                     </div>
-                    <div className="action">
-                        <Link href='/users-of-roles/create'>Create New</Link>
-                    </div>
                 </div>
                 <div className="role-containers flex-c">
                     <div className="list-role">
-                        {rolers&&<TableWidgets init={init} option={option} data={rolers}/>}   
+                        {rolers&&<ListTree init={init} option={option} data={rolers}/>}   
                     </div>
                 </div>
             </div>

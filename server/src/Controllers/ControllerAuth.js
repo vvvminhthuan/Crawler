@@ -25,9 +25,9 @@ module.exports = {
                 let dataJwt = {
                     id: userResult.id,
                     name: userResult.firstName + ' ' + userResult.lastName,
-                    email: userResult.email
+                    email: userResult.email,
+                    roleId: userResult.roleId
                 }
-                
                 let accessToken = JWT.signCode(dataJwt)
                 // let refreshToken = JWT.signCode(dataJwt, parseInt(EXPREFRESH))
                 res.cookie( TOKEN_ACCESS, accessToken, OPTION_COKIE)

@@ -14,9 +14,9 @@ type prop = {
         title?: string,
         description?: string,
         className?: string,
-        colNames: field[],
+        columns: field[],
     },
-    data?: any[],
+    data?: any,
     option?: {
         isView?: boolean,
         rowEdit?: {
@@ -29,15 +29,14 @@ type prop = {
 
 const ListTree: React.FC<prop> = ({init, data, option}) => {
     let {isView, rowEdit} = option
-    let {title,description, className, colNames} = init
-
-    const [dataTree, setDataTree] = useState(data)
-
+    let {title,description, className, columns} = init
+    const [dataTree, setDataTree] = useState(data.roles)
+    const [roleDefault, setRoleDefault] = useState(data.roleDefault)
     return (
         <div className="list-tree">
             {
-                dataTree.map(item=> {
-                    return <RowItem />
+                dataTree.map((item, index)=> {
+                    return <RowItem key={index} dataRow={item}/>
                 })
             }
         </div>

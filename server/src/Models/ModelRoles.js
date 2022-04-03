@@ -132,7 +132,7 @@ ModelRoles.getRolesByTree = async (role = 0) => {
     condition.order = [
         ['role', 'DESC']
     ]
-    
+
     let data = await ModelRoles.findAll(condition)
     let roleDefault = data.filter(item => item.parentId == -1)
     let maxRole = data.filter(i=>i.role == role && i.role !== i.roleChild)
@@ -153,7 +153,7 @@ const roleTreeReCursion = (data, parentId = 0) => {
     if (data.length > 0) {
         let list = data.filter(i => i.parentId == parentId)
         list.forEach(e => {
-            let child =     
+            let child = roleTreeReCursion(data.filter(i => i !== e.id), e.id)
             result.push({...e, child})
         })
     }

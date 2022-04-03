@@ -7,6 +7,8 @@ const { setRes } = require('../Helpers/Response')
 module.exports = {
     getRoles: (req, res) => {
         let params = req.params
+        let infor = req.infor
+        console.log(infor)
         let condition = {
             where: {
                 isDelete: ROW_DELETE.NOT_DELETE
@@ -16,11 +18,12 @@ module.exports = {
             Object.assign(condition.where, params)
         }
         if (params.isTree) {
-            return ModelRoles.getRolesByTree(params.role)
+            return ModelRoles.getRolesByTree(infor.roleId)
                 .then(result => {
                     setRes(res, 200, true, 'Get role complete!', result)
                 })
                 .catch (err => {
+                    console.log(err)
                     setRes(res, 500, false, 'Get role fail!')
                 })
         } else {

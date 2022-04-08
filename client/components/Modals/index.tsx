@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 
 type initProps = {
     title: string,
@@ -17,12 +17,11 @@ const Modals : React.FC<initProps> = ({children, title, modalsID, option={}, onO
     option.width = option ? option.width ?? 600 : 600
     option.heigth = option ? option.heigth ?? 400 : 400
     option.isClose = option ? option.isClose ?? true : true
-
     const [status, setStatus] = useState('hidden')
-
+   
     useEffect(()=>{
         const element = document.querySelectorAll(`[data-modals="${modalsID}"]`)
-        element[0].addEventListener('click', function () {
+        element[0]?.addEventListener('click', function () {
             setTimeout(()=>{
                 if (onOpen) {
                     onOpen()
@@ -36,7 +35,23 @@ const Modals : React.FC<initProps> = ({children, title, modalsID, option={}, onO
                 close()
             }
         })
-    },[status])
+        return ()=>{
+            element[0]?.removeEventListener('click', function () {
+                setTimeout(()=>{
+                    if (onOpen) {
+                        onOpen()
+                    }
+                    show()
+                },300)
+            })
+            window.addEventListener('click', function (event) {
+                const element = document.elementFromPoint(event.clientX, event.clientY)
+                if (element.id == modalsID) {
+                    close()
+                }
+            })
+        }
+    },[])
 
     const show = () => {
         setStatus('show')

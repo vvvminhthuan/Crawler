@@ -8,7 +8,6 @@ module.exports = {
     getRoles: (req, res) => {
         let params = req.params
         let infor = req.infor
-        console.log(infor)
         let condition = {
             where: {
                 isDelete: ROW_DELETE.NOT_DELETE

@@ -1,11 +1,8 @@
 .page-role{
     .role-header{
+        padding-bottom: 5px;
         justify-content: space-between;
-        .action{
-            a{
-                @include xda-button($create, #fff)
-            }
-        }
+        border-bottom: 1px solid $create;
     }
     .role-containers{
         margin-top: 15px;

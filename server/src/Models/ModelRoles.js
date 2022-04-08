@@ -119,7 +119,7 @@ ModelRoles.updateRoles = async (condition, newRole, roleChange = 0) => {
  * Hien thi nhung role theo role cua dang nhap, va nhung cap con cua role
  * @param {string} role role value cua nguoi dung dang nhap
  */
-ModelRoles.getRolesByTree = async (role = 0) => {
+ModelRoles.getRolesByTree = async (roleId = 0) => {
     let condition = {
         where: {
             isDelete: ROW_DELETE.NOT_DELETE,
@@ -135,7 +135,7 @@ ModelRoles.getRolesByTree = async (role = 0) => {
 
     let data = await ModelRoles.findAll(condition)
     let roleDefault = data.filter(item => item.parentId == -1)
-    let maxRole = data.filter(i=>i.role == role && i.role !== i.roleChild)
+    let maxRole = data.filter(i=>i.id == roleId && i.role !== i.roleChild)
     let maxId = maxRole[0] ? maxRole[0].id : 0
     let roles = roleTreeReCursion(data.filter(item => item.parentId !== -1), maxId)
     return {

@@ -5,7 +5,7 @@
     -ms-transition: $value;
     transition: $value;
 }
-@mixin xda-button($bgColor, $color) {
+@mixin render-button($bgColor, $color) {
     padding: 10px 5px;
     border: unset;
     border-radius: 5px;

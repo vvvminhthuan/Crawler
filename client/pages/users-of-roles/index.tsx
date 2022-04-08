@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react'
 import Layout from 'components/Layouts'
 import ListTree from 'components/ListTree'
 import {getRolesTree} from 'api/Roles'
+import Modals from 'components/Modals'
 
 const UsersOfRoles = () => {
     const [rolers, setRoles] = useState(null)
@@ -18,22 +19,9 @@ const UsersOfRoles = () => {
     }
 
     let init={
-        title: 'Earnings By Items',
-        description: 'Day la mot doan mo ta ve bang du lieu',
-        columns: [
-            {
-                name: 'Id',
-                key: 'id'
-            },
-            {
-                name: 'Role Name',
-                key: 'name'
-            },
-            {
-                name: 'Create by',
-                key: 'createdBy'
-            }
-        ],
+        titleName: 'name',
+        childName: 'child',
+        descName: 'description'
     }
     let option = {
         isView: false,
@@ -54,7 +42,7 @@ const UsersOfRoles = () => {
 			<div className="page-role flex-c">
                 <div className="role-header flex-r">
                     <div className="title">
-                        <h1>Roles</h1>
+                        <h2>Roles</h2>
                     </div>
                 </div>
                 <div className="role-containers flex-c">
@@ -63,6 +51,9 @@ const UsersOfRoles = () => {
                     </div>
                 </div>
             </div>
+            <Modals title='Create New Role' modalsID='create_role'>
+
+            </Modals>
 		</Layout>
     )
 }

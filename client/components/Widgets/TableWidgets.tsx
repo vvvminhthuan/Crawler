@@ -1,5 +1,5 @@
 import React, {useState, useRef} from 'react'
-import {aciteElement, filterDataTableWidgets} from '../../helpers/common'
+import {activeElement, filterDataTableWidgets} from '../../helpers/common'
 import _rowTableWidget from './partials/_rowTableWidget'
 interface field {
     name: string,
@@ -42,7 +42,7 @@ const TableWidgets: React.FC<Props> = ({init, option, data}) => {
           [currentPage, setCurrentPage] = useState(1)
 
     const refFilter = useRef(null)
-    aciteElement(refFilter, setactiveFilter)
+    activeElement(refFilter, setactiveFilter)
 
     hasFilter = hasFilter??false
     hasAction = hasAction??false

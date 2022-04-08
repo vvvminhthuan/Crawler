@@ -1,4 +1,3 @@
-import exp from 'constants'
 import React, { useEffect } from 'react'
 
 export const setMessageErros = (result: any): any =>{
@@ -68,18 +67,18 @@ export const forcusOutside = (ref: React.MutableRefObject<any>, setState: any) =
     }, [ref])
 }
 
-export const aciteElement = (ref: React.MutableRefObject<any>, setState: any) => {
+export const activeElement = (ref: React.MutableRefObject<any>, setState: any) => {
     let acitve = false
-    useEffect(()=>{
-        function handleClickOutside(event) {
-            if (ref.current && ref.current.contains(event.target)) {
-                setState(!acitve)
-                acitve = !acitve
-            }else{
-                setState(false)
-                acitve = false
-            }
+    const handleClickOutside = (event) => {
+        if (ref.current && ref.current.contains(event.target)) {
+            setState(!acitve)
+            acitve = !acitve
+        }else{
+            setState(false)
+            acitve = false
         }
+    }
+    useEffect(()=>{
         document.addEventListener('click', handleClickOutside)
         return ()=> {
             document.removeEventListener('click', handleClickOutside)

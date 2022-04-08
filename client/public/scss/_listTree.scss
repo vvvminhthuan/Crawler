@@ -1,0 +1,50 @@
+.list-tree{
+    .item-tree{
+        
+        .item-content{
+            padding: 2px 15px;
+            justify-content: space-between;
+            border-bottom: 1px solid #d1d1d1;
+            min-height: 45px;
+            .item-name{
+                .label{
+                    font-weight: 600;
+                }
+                .description{
+                    font-size: 12px;
+                    font-style: italic;
+                }
+            }
+            .item-action{
+                display: none;
+                align-items: center;
+                .action-add-child{
+                    margin-right: 5px;
+                    @include render-button($create, #fff);
+                }
+                .action-update{
+                    margin-right: 5px;
+                    @include render-button($update, #fff);
+                }
+                .action-delete{
+                    @include render-button($delete, #fff);
+                }
+            }
+            &:hover{
+                background-color: $info;
+                color: #fff;
+                .item-action{
+                    display: flex;
+                }
+            }
+        }
+    }
+    .default-action{
+        padding: 2px 15px;
+        justify-content: end;
+        .action-add{
+            margin-left: auto;
+            @include render-button($create, #fff)
+        }
+    }
+}

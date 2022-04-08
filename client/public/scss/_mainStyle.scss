@@ -18,6 +18,20 @@
 .mr-auto{
     margin-right: auto;
 }
+@for $i from 1 to 100 {
+    .ml-#{$i}{
+        margin-left: $i*1%;
+    }
+    .mr-#{$i}{
+        margin-right: $i*1%;
+    }
+    .pl-#{$i}{
+        padding-left: $i*1%;
+    }
+    .pr-#{$i}{
+        padding-right: $i*1%;
+    }
+}
 // dropdown
 .dropdown{
     position: relative;

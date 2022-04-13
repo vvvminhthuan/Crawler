@@ -23,7 +23,7 @@ type prop = {
 const ListTree: React.FC<prop> = ({init, data, option}) => {
     let {isView, rowEdit} = option
     let {className, titleName, childName, descName, dataModal} = init
-    const [dataTree, setDataTree] = useState(data.roles)
+    const [dataTree, setDataTree] = useState(data)
     const [roleDefault, setRoleDefault] = useState(data.roleDefault)
     return (
         <>
@@ -33,9 +33,13 @@ const ListTree: React.FC<prop> = ({init, data, option}) => {
                         return <RowItem key={index} dataRow={item} titleName={titleName} childName={childName} descName={descName} isView={isView} rowEdit={rowEdit} lever={0}/>
                     })
                 }
-                <div className="default-action flex-r">
-                    <button className="action-add" onClick={(e) => rowEdit.addNew(e)}>Add New Role</button>
-                </div>
+                {
+                    !isView&&(
+                        <div className="default-action flex-r">
+                            <button className="action-add" onClick={(e) => rowEdit.addNew(e)}>Add New Role</button>
+                        </div>
+                    )
+                }
             </div>
         </>
     )

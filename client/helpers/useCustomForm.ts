@@ -20,7 +20,7 @@ const useCustomForm = ({initalValues, initalValidates, onEvent}) =>{
             setOnBlur(false)
         }
         formRendered.current = false
-    }, [initalValues])
+    }, [])
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { target } = event
@@ -30,7 +30,19 @@ const useCustomForm = ({initalValues, initalValidates, onEvent}) =>{
                 if (!value|| value == 'true'|| value == 'false') {
                     setValues({...values, [name]: target.checked})
                 }else{
-                    setValues({...values, [name]: value})
+                    let listName = formRef.current.filter(i => i&&i?.name == name&&i.checked )
+                    
+                    let listValue = []
+                    formRef.current.forEach(i => {
+                        if (i&&i?.name == name&&i.checked) {
+                            listValue.push(i.value) 
+                        }
+                    })
+                    if (listName.length == 1) {
+                        setValues({...values, [name]: value})
+                    } else {
+                        setValues({...values, [name]: listValue})
+                    }
                 }
                 break;
             case 'radio':
@@ -154,24 +166,29 @@ const useCustomForm = ({initalValues, initalValidates, onEvent}) =>{
         }
     }
     const createRef = (inputName: any):void => {
-        if (formRef.current.length == 0) {
+        let checkExists = formRef.current.some(i=>(i?.name==inputName||i==inputName))
+        if (!checkExists) {
             formRef.current.push(inputName)
-        }else {
-            let isPush = true
-            for (let index = 0; index < formRef.current.length; index++) {
-                let element = formRef.current[index];
-                if (!element) {
-                    continue
-                }
-                if (element.name == inputName) {
-                    isPush = false
-                    break
-                }
-            }
-            if (isPush) {
-                formRef.current.push(inputName)
-            }
         }
+        // if (formRef.current.length == 0) {
+        //     formRef.current.push(inputName)
+        // }else {
+        //     let isPush = true
+        //     for (let index = 0; index < formRef.current.length; index++) {
+        //         let element = formRef.current[index];
+        //         if (!element) {
+        //             continue
+        //         }
+        //         if (element.name == inputName) {
+        //             isPush = false
+        //             break
+        //         }
+        //     }
+        //     if (isPush) {
+        //         formRef.current.push(inputName)
+        //         console.log('NO GOI LIEN TUC THANG NAYS', formRef.current)
+        //     }
+        // }
     }
     const register = (inputName: string) => {
         return {

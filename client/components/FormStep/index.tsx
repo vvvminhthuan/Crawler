@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from 'react'
-import config from 'config'
+import React, {useState} from 'react'
 
 type initProps = {
     title: string,
@@ -60,9 +59,13 @@ const FormStep : React.FC<initProps> = ({children, title, initFooter, initStep, 
         <div className={`form-step-page ${classBody}`}>
             <div className="card-form-step">
                 {/* /.card-header */}
-                <div className="card-header">
-                    <h3 className="card-title">{title}</h3>
-                </div>
+                {
+                    title&&(
+                        <div className="card-header">
+                            <h3 className="card-title">{title}</h3>
+                        </div>
+                    )
+                }
                 {/* /.card-header */}
                 {/* /.stepper-header */}
                 <div className="stepper-header flex-r">
@@ -72,24 +75,32 @@ const FormStep : React.FC<initProps> = ({children, title, initFooter, initStep, 
                 {/* form start */}
                 <div className="form">
                     <div className={`card-body ${step > 1 ? 'control-disable': ''}`}>
-                        {/* step sign up */}
-                        <div className={`step step-signup ${step > 2 ? 'hidden' : ''}`}>
-                            {children}    
-                            <div className={`form-action flex-r ${step != 1 ? 'hidden' : ''}`}>
-                                <button onClick={onStep1}>{initFooter.step1}</button>
-                            </div>
-                            {/* step confirm */}
-                            <div className={`form-action flex-r ${step != 2 ? 'hidden' : ''}`}>
-                                <div className="group">
-                                    <button className="btn-privice" onClick={onBack}>{initFooter.turnBack}</button>
-                                    <button onClick={onStep2}>{initFooter.step2}</button>
+                        {/* step create */}
+                        {
+                            (step<3)&&(
+                                <div className={`step ${step > 2 ? 'hidden' : ''}`}>
+                                    {children}    
+                                    <div className={`form-action flex-r ${step != 1 ? 'hidden' : ''}`}>
+                                        <button onClick={onStep1}>{initFooter.step1}</button>
+                                    </div>
+                                    {/* step confirm */}
+                                    <div className={`form-action flex-r ${step != 2 ? 'hidden' : ''}`}>
+                                        <div className="group">
+                                            <button className="btn-privice" onClick={onBack}>{initFooter.turnBack}</button>
+                                            <button onClick={onStep2}>{initFooter.step2}</button>
+                                        </div>
+                                    </div>                   
                                 </div>
-                            </div>                   
-                        </div>
+                            )
+                        }
                         {/* step complete */}
-                        <div id="complete" className={`step step-complete ${step != 3 ? 'hidden' : ''}`} >
-                            {initFooter.complete}
-                        </div>
+                        {
+                            (step==3)&&(
+                                <div className={`step step-complete ${step != 3 ? 'hidden' : ''}`} >
+                                    {initFooter.complete}
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
             </div>

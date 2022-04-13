@@ -36,6 +36,7 @@ module.exports = {
     },
     updateRoles: async (req, res) => {
         let params = req.body
+        params.createBy = req.infor.id
         let condition = {
             where: {
                 isDelete: ROW_DELETE.NOT_DELETE
@@ -62,6 +63,7 @@ module.exports = {
     },
     createRoles: async (req, res) => {
         let params = req.body
+        params.createBy = req.infor.id
         let listRoles = await ModelRoles.findAll({
             where: {
                 isDelete: ROW_DELETE.NOT_DELETE

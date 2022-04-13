@@ -26,6 +26,7 @@
                 width: 30px;
                 height: 30px;
                 box-sizing: border-box;
+                cursor: pointer;
                 @include render-transition(all 0.3s ease-in-out);
                 &:hover{
                     transform: rotate(180deg);
@@ -35,6 +36,7 @@
         }
         .modal-body{
             padding: 10px;
+            overflow-y: auto;
         }
     }
     &.show{

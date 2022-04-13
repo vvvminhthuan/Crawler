@@ -1,7 +1,4 @@
-const RolesValidate = {
-    parentId: 'required|number',
+export const initalValidates = {
     name: 'required|string',
-    createdBy: 'required|string',
+    parentId: 'required|number',
 }
-
-export default RolesValidate

@@ -8,79 +8,14 @@
         margin-top: 15px;
     }
 }
-.roler-create{
-    background: #fff;
-    padding: 0;
-    .card-form-step{
-        width: 100%;
-        .form{
-            padding: 0 16px;
-            .card-body{
-                .step{
-                    padding: 20px 0;
-                    .form-group{
-                        margin-bottom: 20px;
-                        label{
-                            font-weight: 700;
-                            margin-bottom: 3px;
-                        }
-                        input{
-                            box-sizing: border-box;
-                            width: 100%;
-                            height: 32px;
-                            padding: 4px 10px;
-                            background-clip: padding-box;
-                            border: none;
-                            border-bottom: 1px solid #ced4da;
-                            &:focus{
-                                border-bottom: 1px solid #007bff;
-                            }
-                            &.i-error{
-                                border-bottom: 1px solid #d81d10;
-                            }
-                        }
-                        .group{
-                            align-items: center;
-                            padding: 0 10px;
-                            input[type=radio]{
-                                width: 20px;
-                                height: 20px;
-                                border-radius: 50%;
-                            }
-                            label{
-                                margin: 0 5px;
-                                font-weight: 400;
-                            }
-                        }
-                        .privacy-policy{
-                            width: 22px;
-                        }
-                        .lb-privacy-policy{
-                            margin: auto 5px;
-                            font-weight: 300;
-                            .modal-service{
-                                cursor: pointer;
-                                font-weight: 600;
-                                margin: 0 5px;
-                            }
-                        }
-                    }
-                    .form-action{
-                        .link{
-                            display: block;
-                            margin: 10px auto;
-                            color: #007bff;
-                            font-weight: 500;
-                            -webkit-text-decoration: revert;
-                            text-decoration: revert;
-                        }
-                    }
-                    .form-infomation{
-                        margin: auto;
-                        p{
-                            text-align: center;
-                        }
-                    }
+.form-role{
+    .form-group{
+        .group{
+            .checkbox{
+                cursor: pointer;
+                align-items: center;
+                input{
+                    margin-right: 5px;
                 }
             }
         }

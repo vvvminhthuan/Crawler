@@ -1,3 +1,4 @@
+import {useState} from 'react'
 import Link from 'next/link'
 import { createUser } from 'api/Users'
 import useCustomForm from 'helpers/useCustomForm'
@@ -8,7 +9,8 @@ import FormStep from 'components/FormStep'
 import Modals from 'components/Modals'
 
 const SignUp = () => {
-
+    const [showService, setShowService] = useState(false)
+    const [showPolicy, setShowPolicy] = useState(false)
     const initalValues = {
         firstName: '',
         lastName: '',
@@ -139,22 +141,22 @@ const SignUp = () => {
                 {errors.address ? <span className="error">{errors.address}</span> : null}
             </div>
             <div className="form-group flex-c">
-                <div className="flex-r">
-                    <input type="checkbox" {...register('privacyPolicy')} id='privacy-policy'className="privacy-policy" name="privacyPolicy"/>
+                <div className="privacy-policy flex-r">
+                    <input type="checkbox" {...register('privacyPolicy')} id='privacy-policy' name="privacyPolicy"/>
                     <div className="lb-privacy-policy flex-r">
                         I agree to the Crawle
-                        <a className="modal-service" data-modals="service">Terms Of Service</a>
+                        <a className="modal-service" onClick={()=>setShowService(true)}>Terms Of Service</a>
                         and
-                        <a className="modal-service" data-modals="policy">Privacy Policy</a>
+                        <a className="modal-service" onClick={()=>setShowPolicy(true)}>Privacy Policy</a>
                     </div>
                 </div>
                 {errors.privacyPolicy ? <span className="error">{errors.privacyPolicy}</span> : null}
             </div>
         </FormStep>
-        <Modals title = 'Terms Of Service' modalsID = 'service'>
+        <Modals title = 'Terms Of Service' show={showService} onHide={setShowService}>
             <div>Terms Of Service</div>
         </Modals>
-        <Modals title = 'Privacy Policy' modalsID = 'policy'>
+        <Modals title = 'Privacy Policy' show={showPolicy} onHide={setShowPolicy}>
             <div>Privacy Policy</div>
         </Modals>
         </>

@@ -49,7 +49,7 @@ const UsersOfRoles = () => {
     const initalValues = {
         name: '',
         parentId: '',
-        roleDefault: null
+        roleDefault: []
     }
     /**
      * Submit va kiem tra validate
@@ -70,7 +70,8 @@ const UsersOfRoles = () => {
         touched, 
         handleSubmit,
         setErrorsByAttach,
-        register
+        register,
+        setValuesForm
     } = useCustomForm({initalValues, initalValidates, onEvent: value => onSubmit(value)})
 
     const signInStep = [stepName, 'Confirm', 'Complete']
@@ -97,6 +98,19 @@ const UsersOfRoles = () => {
         })
     },[])
 
+    const modalClose = () =>{
+        setValuesForm({
+            name: '',
+            parentId: '',
+            roleDefault: []
+        })
+    }
+
+    const modalOption = {
+        isClose: true,
+        heigth: 450,
+    }
+
     return (
         <Layout title="Roles for system" description='Roles for system'>
 			<div className="page-role flex-c">
@@ -111,7 +125,7 @@ const UsersOfRoles = () => {
                     </div>
                 </div>
             </div>
-            <Modals title={titleForm} show={modalShow} onHide={setModalShow}>
+            <Modals title={titleForm} show={modalShow} onHide={setModalShow} option={modalOption} beforeClose={modalClose}>
                 <FormStep title='' initStep={signInStep} initFooter={signInFooter} classBody='form-role'>
                     <div className="form-group flex-c">
                         <label htmlFor="roleName">Role Name</label>
@@ -129,8 +143,8 @@ const UsersOfRoles = () => {
                             {
                                 rolers&&rolers.roleDefault.map((i, e )=> {
                                     return (
-                                        <label className='checkbox flex-r' htmlFor={i.id}  key={e}>
-                                            <input type="checkbox" {...register('roleDefault')} value={i.id} id={i.id}/>
+                                        <label className='checkbox flex-r' htmlFor={`role-id-${i.id}`}  key={e}>
+                                            <input type="checkbox" {...register('roleDefault')} value={i.id} id={`role-id-${i.id}`}/>
                                             {i.name}
                                         </label>
                                     )

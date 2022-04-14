@@ -27,10 +27,10 @@ const Modals : React.FC<initProps> = ({children, title, classBody, option={}, be
             }
             setStatus('show')
         }else{
-            if (beforeClose) {
+            if (beforeClose && status != 'hidden') {
                 beforeClose()
+                setStatus('hidden')
             }
-            setStatus('hidden')
         }
     },[show])
 

@@ -12,9 +12,10 @@ type Prop = {
         fieldValue?: string,
         className?: string,
         placeholder?: string,
-    }
+    },
+    onRemoveItem?: any
 }
-const SelectWidgets: React.FC<Prop> = ({name, value, data, createAttr, option}) => {
+const SelectWidgets: React.FC<Prop> = ({name, value, data, createAttr, option, onRemoveItem}) => {
     option.multi = option?.multi?? false
     option.fieldName = option?.fieldName?? ''
     option.fieldValue = option?.fieldValue?? ''
@@ -27,10 +28,10 @@ const SelectWidgets: React.FC<Prop> = ({name, value, data, createAttr, option}) 
     const listOption = useRef(null)
 
     const handRemove = (e) => {
-        console.log('handRemove', e)
+        onRemoveItem(e)
     }
     const handleClickOutside = (event) => {
-        if (listOption.current && !listOption.current.contains(event.target) && active == true) {
+        if (listOption.current && !listOption.current.contains(event.target)) {
             setActive(false)
         }
     }
@@ -56,6 +57,10 @@ const SelectWidgets: React.FC<Prop> = ({name, value, data, createAttr, option}) 
     const handShowOption = () => {
         setActive(!active)
     }
+
+    const handRemoveAll = () => {
+        onRemoveItem('')
+    }
     return (
         <div className={`select-widget ${option.className} ${active? 'active': ''}`} ref={listOption}>
             <div className="select-field flex-r">
@@ -70,7 +75,7 @@ const SelectWidgets: React.FC<Prop> = ({name, value, data, createAttr, option}) 
                     </div>
                 </div>
                 <div className="aciton flex-r">
-                    <div className="icon icon-close">
+                    <div className="icon icon-remove" onClick={()=>handRemoveAll()}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
                             <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                         </svg>

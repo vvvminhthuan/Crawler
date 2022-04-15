@@ -49,7 +49,7 @@ const UsersOfRoles = () => {
     const initalValues = {
         name: '',
         parentId: '',
-        parent: '',
+        parent: [],
         roleDefault: []
     }
     /**
@@ -103,7 +103,7 @@ const UsersOfRoles = () => {
         setValuesForm({
             name: '',
             parentId: '',
-            parent: '',
+            parent: [],
             roleDefault: []
         })
     }
@@ -113,11 +113,26 @@ const UsersOfRoles = () => {
         heigth: 450,
     }
     const parentOption = {
-        multi: true,
+        multi: false,
         fieldName: 'name',
         fieldValue: 'id',
         className: 'field-parent',
         placeholder: 'Select the parent'
+    }
+    const handRemoveItem = (item) => {
+        let parent = []
+        if (typeof item == 'object') {
+            if (typeof values.parent == 'string') {
+                parent =values.parent == item.id ? [] :values.parent
+            }else{
+                parent = values.parent.filter(f=>f!=item.id)
+            }
+        }
+        let value = {
+            ...values,
+            parent: parent
+        }
+        setValuesForm(value)
     }
     return (
         <Layout title="Roles for system" description='Roles for system'>
@@ -151,7 +166,8 @@ const UsersOfRoles = () => {
                                         name='parent' 
                                         data={rolers?.roles}
                                         value={values.parent??[]}
-                                        option={parentOption}/>
+                                        option={parentOption}
+                                        onRemoveItem={handRemoveItem}/>
                         {errors.parent ? <span className="error">{errors.parent}</span> : null}
                     </div>
                     <div className="form-group flex-c">

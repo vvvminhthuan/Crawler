@@ -33,24 +33,23 @@ const useCustomForm = ({initalValues, initalValidates, onEvent}) =>{
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { target } = event
         const { name, value } = target
-       
         switch (target.type) {
             case 'checkbox':
                 if (!value|| value == 'true'|| value == 'false') {
                     setValuesForm({...values, [name]: target.checked})
                 }else{
-                    setValuesForm({...values, [name]: getMultiValue(name, value)})
+                    setValuesForm({...values, [name]: getMultiValue(target)})
                 }
                 break;
             case 'radio':
                 if (!value|| value == 'true'|| value == 'false') {
                     setValuesForm({...values, [name]: target.checked})
                 }else{
-                    setValuesForm({...values, [name]: getMultiValue(name, value)})
+                    setValuesForm({...values, [name]: getMultiValue(target)})
                 }
                 break;
             default:
-                setValuesForm({...values, [name]: getMultiValue(name, value)})
+                setValuesForm({...values, [name]: getMultiValue(target)})
                 break;
         }
     }
@@ -71,7 +70,7 @@ const useCustomForm = ({initalValues, initalValidates, onEvent}) =>{
                 }else{
                     if (target.checked) {
                         valueCurrent = {
-                            [name]: getMultiValue(name, value)
+                            [name]: getMultiValue(target)
                         }
                     }else{
                         valueCurrent = {
@@ -88,7 +87,7 @@ const useCustomForm = ({initalValues, initalValidates, onEvent}) =>{
                 }else{
                     if (target.checked) {
                         valueCurrent = {
-                            [name]: getMultiValue(name, value)
+                            [name]: getMultiValue(target)
                         }
                     }else{
                         valueCurrent = {
@@ -99,7 +98,7 @@ const useCustomForm = ({initalValues, initalValidates, onEvent}) =>{
                 break;
             default:
                 valueCurrent = {
-                    [name]: getMultiValue(name, value)
+                    [name]: getMultiValue(target)
                 }
                 break;
         }
@@ -240,14 +239,28 @@ const useCustomForm = ({initalValues, initalValidates, onEvent}) =>{
      * @param value gia tri hien tai cua input dang thay doi
      * @returns neu input[name="{name}"] la 1 or 0 thi tra ve chinh value do nguoc lai tra ve mang gia tri cua input[name="name"]
      */
-    const getMultiValue = (name, value) => {
+    const getMultiValue = (target) => {
+        const { name, value, type } = target
         let listValue = []
         formRef.current.forEach(i => {
-            if (i&&i?.name==name&&i.checked) {
-                listValue.push(i.value)
+            if (i&&i?.name==name) {
+                if (i.type == 'checkbox' || i.type == 'radio') {
+                    if (i.checked) {
+                        listValue.push(i.value)
+                    }
+                } else {
+                    listValue.push(i.value)
+                }
             }
         })
-        return listValue.length <= 1 ? value: listValue
+        if (listValue.length <= 1) {
+            if (type == 'checkbox' || type == 'radio') {
+                return listValue[0]??initalValues[name]
+            }else{
+                return value
+            }
+        } 
+        return listValue
     }
 
     return {

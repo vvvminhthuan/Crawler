@@ -1,0 +1,99 @@
+.select-widget{
+    position: relative;
+    width: 100%;
+    .select-field{
+        border-bottom: 1px solid #ced4da;
+        cursor: text;
+        .label-option{
+            flex-wrap: wrap;
+            width: 100%;
+            .label-item{
+                margin: 3px;
+                height: 28px;
+                border: 1px solid $gray-light;
+                border-radius: 5px;
+                align-items: center;
+                overflow: hidden;
+                .item-name{
+                    padding: 2px 5px;
+                    border-right: 1px solid $gray-light;
+                }
+                .item-btn{
+                    padding: 2px 0;
+                    svg{
+                        transform: translateY(17%);
+                    }
+                    &:hover{
+                        background-color: $orange_red;
+                        color: #fff;
+                    }
+                }
+            }
+            .select-input{
+                flex: 1 0;
+                input{
+                    padding: unset !important;
+                    border-bottom: unset !important;
+                }
+            }
+        }
+        .aciton{
+            margin-left: auto;
+            .icon{
+                display: flex;
+                margin: auto;
+                width: 30px;
+                align-items: center;
+                justify-content: center;
+                color: #605e5e;
+                &.icon-close{
+                    font-size: 22px;
+                    font-weight: 600;
+                    border-right: 1px solid $gray-light;
+                    &:hover{
+                        color: $orange_red;
+                        cursor: pointer;
+                    }
+                }
+                &.icon-down{
+                    &:hover{
+                        color: rgb(31, 31, 31);
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+    }
+    .list-option{
+        position: absolute;
+        top: 105%;
+        left: 0;
+        width: 100%;
+        height: 0;
+        box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
+        background-color: #fff;
+        border-radius: 5px;
+        overflow: hidden;
+        .option{
+            margin-bottom: unset !important;
+            padding: 5px 15px;
+            font-weight: 400 !important;
+            border-bottom: 1px solid $gray-light;
+            vertical-align: middle;
+            &:hover{
+                background-color: #effdff;
+            }
+            input{
+                width: 0 !important;
+            }
+        }
+    }
+    &.active{
+        .select-field{
+            border-bottom: 1px solid #007bff;
+        }
+        .list-option{
+            height: unset;
+        }
+    }
+}

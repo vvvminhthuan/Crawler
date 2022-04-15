@@ -1,5 +1,4 @@
 import {useEffect, useState} from 'react'
-import Link from 'next/link'
 import Layout from 'components/Layouts'
 import ListTree from 'components/ListTree'
 import {getRolesTree} from 'api/Roles'
@@ -8,6 +7,7 @@ import FormStep from 'components/FormStep'
 import useCustomForm from 'helpers/useCustomForm'
 import {setMessageErros} from 'helpers/common'
 import {initalValidates} from 'helpers/validates/RolesValidate'
+import SelectWidgets from 'components/Widgets/SelectWidgets'
 
 const UsersOfRoles = () => {
     const [rolers, setRoles] = useState(null)
@@ -49,6 +49,7 @@ const UsersOfRoles = () => {
     const initalValues = {
         name: '',
         parentId: '',
+        parent: '',
         roleDefault: []
     }
     /**
@@ -102,6 +103,7 @@ const UsersOfRoles = () => {
         setValuesForm({
             name: '',
             parentId: '',
+            parent: '',
             roleDefault: []
         })
     }
@@ -110,7 +112,13 @@ const UsersOfRoles = () => {
         isClose: true,
         heigth: 450,
     }
-
+    const parentOption = {
+        multi: true,
+        fieldName: 'name',
+        fieldValue: 'id',
+        className: 'field-parent',
+        placeholder: 'Select the parent'
+    }
     return (
         <Layout title="Roles for system" description='Roles for system'>
 			<div className="page-role flex-c">
@@ -136,6 +144,15 @@ const UsersOfRoles = () => {
                         <label htmlFor="roleParent">Role Parent</label>
                         <input type="text" {...register('parentId')} id="roleParent" className={`form-control ${errors.parentId ? 'i-error' : ''}`} placeholder="Enter parent name"/>
                         {errors.parentId ? <span className="error">{errors.parentId}</span> : null}
+                    </div>
+                    <div className="form-group flex-c">
+                        <label htmlFor="roleParent">Select Parent</label>
+                        <SelectWidgets createAttr={register} 
+                                        name='parent' 
+                                        data={rolers?.roles}
+                                        value={values.parent??[]}
+                                        option={parentOption}/>
+                        {errors.parent ? <span className="error">{errors.parent}</span> : null}
                     </div>
                     <div className="form-group flex-c">
                         <label htmlFor="roleParent">Roles basic</label>

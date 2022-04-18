@@ -1,6 +1,15 @@
 import React from 'react'
 
 const RowItem = ({dataRow, titleName, childName, descName, isView, rowEdit, lever}) => {
+    const handAdd = () =>{
+        rowEdit.addNew(dataRow)
+    }
+    const handUpdate = () =>{
+        rowEdit.update(dataRow)
+    }
+    const handDelete = () => {
+        rowEdit.delete(dataRow)
+    }
     return (
         <>
             <div className="item-tree">
@@ -12,9 +21,9 @@ const RowItem = ({dataRow, titleName, childName, descName, isView, rowEdit, leve
                     {
                         !isView &&(
                             <div className="item-action flex-r">
-                                <button className="action-add-child" onClick={(e) => rowEdit.addNew(e)}>Add children</button>
-                                <button className="action-update" onClick={(e) => rowEdit.update(e)}>Edit</button>
-                                <button className="action-delete" onClick={(e) => rowEdit.delete(e)}>Delete</button>
+                                <button className="action-add-child" onClick={() => handAdd()}>Add children</button>
+                                <button className="action-update" onClick={() => handUpdate()}>Edit</button>
+                                <button className="action-delete" onClick={() => handDelete()}>Delete</button>
                             </div>
                         )
                     }

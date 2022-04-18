@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import RowItem from './RowItem'
 
 type prop = {
@@ -7,7 +7,6 @@ type prop = {
         titleName: string,
         childName: string,
         descName?: string,
-        dataModal?: string
     },
     data?: any,
     option?: {
@@ -22,26 +21,32 @@ type prop = {
 
 const ListTree: React.FC<prop> = ({init, data, option}) => {
     let {isView, rowEdit} = option
-    let {className, titleName, childName, descName, dataModal} = init
+    let {className, titleName, childName, descName} = init
     const [dataTree, setDataTree] = useState(data)
-    const [roleDefault, setRoleDefault] = useState(data.roleDefault)
+
+    const handAdd = () => {
+        rowEdit.addNew({})
+    }
+
+    useEffect(()=>{
+        setDataTree(data)
+    }, [data])
+
     return (
-        <>
-            <div className={`list-tree ${className??''}`}>
-                {
-                    dataTree.map((item, index)=> {
-                        return <RowItem key={index} dataRow={item} titleName={titleName} childName={childName} descName={descName} isView={isView} rowEdit={rowEdit} lever={0}/>
-                    })
-                }
-                {
-                    !isView&&(
-                        <div className="default-action flex-r">
-                            <button className="action-add" onClick={(e) => rowEdit.addNew(e)}>Add New Role</button>
-                        </div>
-                    )
-                }
-            </div>
-        </>
+        <div className={`list-tree ${className??''}`}>
+            {
+                dataTree&&dataTree.map((item, index)=> {
+                    return <RowItem key={index} dataRow={item} titleName={titleName} childName={childName} descName={descName} isView={isView} rowEdit={rowEdit} lever={0}/>
+                })
+            }
+            {
+                !isView&&(
+                    <div className="default-action flex-r">
+                        <button className="action-add" onClick={() => handAdd()}>Add New Role</button>
+                    </div>
+                )
+            }
+        </div>
     )
 }
 

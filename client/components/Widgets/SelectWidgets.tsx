@@ -2,6 +2,7 @@ import React, {useState, useEffect, useRef} from 'react'
 import _selectOptionWidget from './partials/_selectOptionWidget'
 import LabelOptionWidget from './partials/LabelOptionWidget'
 type Prop = {
+    className: string,
     name: string,
     value?: any,
     data: any[],
@@ -15,7 +16,7 @@ type Prop = {
     },
     onRemoveItem?: any
 }
-const SelectWidgets: React.FC<Prop> = ({name, value, data, createAttr, option, onRemoveItem}) => {
+const SelectWidgets: React.FC<Prop> = ({className, name, value, data, createAttr, option, onRemoveItem}) => {
     option.multi = option?.multi?? false
     option.fieldName = option?.fieldName?? ''
     option.fieldValue = option?.fieldValue?? ''
@@ -49,11 +50,6 @@ const SelectWidgets: React.FC<Prop> = ({name, value, data, createAttr, option, o
         }
     }, [value])
     
-    const handClickSearch = () =>{
-        inputSearch.current.focus()
-        setActive(true)
-    }
-
     const handShowOption = () => {
         setActive(!active)
     }
@@ -62,16 +58,16 @@ const SelectWidgets: React.FC<Prop> = ({name, value, data, createAttr, option, o
         onRemoveItem('')
     }
     return (
-        <div className={`select-widget ${option.className} ${active? 'active': ''}`} ref={listOption}>
+        <div className={`select-widget ${className} ${active? 'active': ''}`} ref={listOption}>
             <div className="select-field flex-r">
-                <div className="label-option flex-r" onClick={()=>handClickSearch()}>
+                <div className="label-option flex-r">
                     {
                         optionSelect&&optionSelect.map((i, e)=>{
                             return <LabelOptionWidget fieldName={i[option.fieldName]} item={i} onHand={handRemove} key={e}/>
                         })
                     }
                     <div className="select-input">
-                        <input type="text" name='selectSearch' ref={inputSearch} placeholder={optionSelect?.length == 0 ? option.placeholder: ''} />
+                        <input type="text" name='selectSearch' ref={inputSearch} placeholder={optionSelect?.length == 0 ? option.placeholder: ''} onFocus={()=>setActive(true)}/>
                     </div>
                 </div>
                 <div className="aciton flex-r">

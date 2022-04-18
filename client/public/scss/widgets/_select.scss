@@ -1,6 +1,7 @@
 .select-widget{
     position: relative;
     width: 100%;
+    
     .select-field{
         border-bottom: 1px solid #ced4da;
         cursor: text;
@@ -94,6 +95,11 @@
         }
         .list-option{
             height: unset;
+        }
+    }
+    &.i-error{
+        .select-field{
+            border-bottom: 1px solid #d81d10;
         }
     }
 }

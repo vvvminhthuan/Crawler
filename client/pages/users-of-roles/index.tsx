@@ -7,7 +7,7 @@ import FormStep from 'components/FormStep'
 import useCustomForm from 'helpers/useCustomForm'
 import {setMessageErros} from 'helpers/common'
 import {initalValidates} from 'helpers/validates/RolesValidate'
-import SelectWidgets from 'components/Widgets/SelectWidgets'
+// import SelectWidgets from 'components/Widgets/SelectWidgets'
 
 const UsersOfRoles = () => {
     const [rolers, setRoles] = useState(null)
@@ -19,13 +19,24 @@ const UsersOfRoles = () => {
         setTitleForm('Create New Role')
         setStepName('Create')
         setModalShow(true)
-        console.log('rowEdit ',e)
+        setValuesForm({
+            name: '',
+            parentId: e.id??0,
+            parentName: e.name?? ' ',
+            roleDefault: []
+        })
     }
     const rowUpdate = (e) =>{
         setTitleForm('Edit Role')
         setStepName('Edit')
         setModalShow(true)
-        console.log('rowUpdate ', e)
+        setValuesForm({
+            name: e.name,
+            parentId: e.id,
+            parentName: e.name,
+            roleDefault: []
+        })
+        
     }
     const rowDelete = (e) =>{
         console.log('rowDelete ', e)
@@ -49,7 +60,7 @@ const UsersOfRoles = () => {
     const initalValues = {
         name: '',
         parentId: '',
-        parent: [],
+        parentName: ' ',
         roleDefault: []
     }
     /**
@@ -103,37 +114,38 @@ const UsersOfRoles = () => {
         setValuesForm({
             name: '',
             parentId: '',
-            parent: [],
+            parentName: '',
             roleDefault: []
         })
+        setErrorsByAttach({})
     }
 
     const modalOption = {
         isClose: true,
         heigth: 450,
     }
-    const parentOption = {
-        multi: false,
-        fieldName: 'name',
-        fieldValue: 'id',
-        className: 'field-parent',
-        placeholder: 'Select the parent'
-    }
-    const handRemoveItem = (item) => {
-        let parent = []
-        if (typeof item == 'object') {
-            if (typeof values.parent == 'string') {
-                parent =values.parent == item.id ? [] :values.parent
-            }else{
-                parent = values.parent.filter(f=>f!=item.id)
-            }
-        }
-        let value = {
-            ...values,
-            parent: parent
-        }
-        setValuesForm(value)
-    }
+    // const parentOption = {
+    //     multi: true,
+    //     fieldName: 'name',
+    //     fieldValue: 'id',
+    //     className: 'field-parent',
+    //     placeholder: 'Select the parent'
+    // }
+    // const handRemoveItem = (item) => {
+    //     let parent = []
+    //     if (typeof item == 'object') {
+    //         if (typeof values.parent == 'string') {
+    //             parent =values.parent == item.id ? [] :values.parent
+    //         }else{
+    //             parent = values.parent.filter(f=>f!=item.id)
+    //         }
+    //     }
+    //     let value = {
+    //         ...values,
+    //         parent: parent
+    //     }
+    //     setValuesForm(value)
+    // }
     return (
         <Layout title="Roles for system" description='Roles for system'>
 			<div className="page-role flex-c">
@@ -157,24 +169,26 @@ const UsersOfRoles = () => {
                     </div>
                     <div className="form-group flex-c">
                         <label htmlFor="roleParent">Role Parent</label>
-                        <input type="text" {...register('parentId')} id="roleParent" className={`form-control ${errors.parentId ? 'i-error' : ''}`} placeholder="Enter parent name"/>
+                        <input type="text" {...register('parentName')} id="roleParent" className={`form-control ${errors.parentId ? 'i-error' : ''}`} placeholder="Enter parent name"/>
+                        <input type="hidden" {...register('parentId')} />
                         {errors.parentId ? <span className="error">{errors.parentId}</span> : null}
                     </div>
-                    <div className="form-group flex-c">
+                    {/* <div className="form-group flex-c">
                         <label htmlFor="roleParent">Select Parent</label>
                         <SelectWidgets createAttr={register} 
                                         name='parent' 
                                         data={rolers?.roles}
                                         value={values.parent??[]}
                                         option={parentOption}
+                                        className={errors.parent ? 'i-error' : ''}
                                         onRemoveItem={handRemoveItem}/>
                         {errors.parent ? <span className="error">{errors.parent}</span> : null}
-                    </div>
+                    </div> */}
                     <div className="form-group flex-c">
                         <label htmlFor="roleParent">Roles basic</label>
                         <div className="group flex-r">
                             {
-                                rolers&&rolers.roleDefault.map((i, e )=> {
+                                rolers&&rolers.roleDefault&&rolers.roleDefault.map((i, e )=> {
                                     return (
                                         <label className='checkbox flex-r' htmlFor={`role-id-${i.id}`}  key={e}>
                                             <input type="checkbox" {...register('roleDefault')} value={i.id} id={`role-id-${i.id}`}/>

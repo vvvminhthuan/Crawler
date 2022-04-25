@@ -7,8 +7,58 @@ const { setRes } = require('../Helpers/Response')
 const { TOKEN_ACCESS, MODEL_DEV, OPTION_COKIE } = require('../Config')
 
 module.exports = {
+    /**
+     * @swagger
+     * /api/signin:
+     *   post:
+     *     summary: Người dùng đăng nhập vào hệ thống
+     *     description: 
+     *     tags: [ Auth ]
+     *     parameters:
+     *              - in: body
+     *                name: email
+     *                schema:
+     *                  type: string
+     *                  example: abc@gmail.com
+     *                required: true
+     *                description: email người dùng
+     *              - in: body
+     *                name: password
+     *                schema:
+     *                  type: string
+     *                  example: admin123
+     *                required: true
+     *     responses:
+     *       200:
+     *         description: Đăng nhập thành công
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                  success:
+     *                       type: boolean
+     *                       description: Trạng thái đăng nhập
+     *                       example: true
+     *                  message:
+     *                       type: string
+     *                       description: Tin nhắn thông báo
+     *                       example: Login complete!
+     *                  results: 
+     *                      type: object
+     *                      properties:
+     *                          accessToken: 
+     *                              type: string
+     *                              description: Server trả về một chuỗi token để client sử dụng
+     *                              example: eyJhbGciOiJIUzM4NCIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6ImFkbWluIFRodWFuIiwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlSWQiOjEsImlhdCI6MTY1MDg2OTAxOSwiZXhwIjoxNjUwOTU1NDE5fQ.aNV3GG8_pSe9GE1bBrkiSct14ry8JWQv2R6nkZGGWFjIiWLcTlG50J-OeopuEx-L
+     *       400:
+     *          description: Đăng nhập thất bại password sai
+     *       404: 
+     *          description: Email không tồn tại trong hệ thống
+     *                  
+    */
     login: async (req, res) => {
-        let userData = req.body
+        let userData = req.body 
         let condition = {
             where: {
                 email: userData.email
@@ -16,7 +66,7 @@ module.exports = {
         }
         let userResult = await ModelUsers.findOne(condition)
         if (!userResult) {
-            return setRes(res, 400, false, 'The email not exits!')
+            return setRes(res, 404, false, 'The email not exits!')
         }
         
         return BrcyptCode.compareCode(userData.password, userResult.password) 

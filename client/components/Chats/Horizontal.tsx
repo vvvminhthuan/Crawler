@@ -6,9 +6,9 @@ import {useEffect} from 'react'
 const Horizontal = () => {
     const chats = useSelector((state:any) => state.chats)
     const userInfo = useSelector((state:any) => state.userInfo)
-    let numMessage = userInfo.groupChats.reduce((previousValue, currentValue) => {
+    let numMessage = userInfo.groupChats.lenght> 0 ? userInfo.groupChats.reduce((previousValue, currentValue) => {
         return Number.parseInt(previousValue.numMessage?? 0) + Number.parseInt(currentValue.numMessage??0)
-    })
+    }) : 0
 
     // useEffect(() => {
     // }, [userInfo])

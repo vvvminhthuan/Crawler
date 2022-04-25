@@ -8,6 +8,24 @@ const socket = require('socket.io')
 const SocketEvent = require('./src/SocketEvent')
 var server = null
 
+const swaggerUi = require('swagger-ui-express')
+const swaggerJsdoc = require('swagger-jsdoc')
+
+// Docs inital with swagger
+const swaggerDosOptions = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Api V1',
+            version: '1.0.0',
+        },
+    },
+    apis: [ "../src/Routers/*.js", "./src/Routers/Client/*.js", "./src/Controllers/*.js", "./src/Models/*.js" ] // files containing annotations as above
+};
+
+const swaggerDocs = swaggerJsdoc(swaggerDosOptions)
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
+
 process.env.TZ = 'Asia/Tokyo'
 
 if (config.MODEL_DEV) {
@@ -38,6 +56,7 @@ app.use((req, res, next)=>{
     // res.setHeader('Access-Control-Allow-Origin', "http://localhost:8087") 
     
     res.setHeader('Content-Type', 'application/json')
+    // res.setHeader('Content-Type', 'text/html; charset=utf-8')
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
     res.setHeader('Access-Control-Allow-Credentials', true)
@@ -56,7 +75,6 @@ app.use((req, res, next)=>{
 
 // disable nguon cung cap api
 app.disable('x-powered-by') 
-
 app.use(express.static('stores'))
 app.use(bodyParser.json({limit: '1mb'}))
 app.use(bodyParser.urlencoded({ extended: false }))// for parsing application/x-www-form-urlencoded

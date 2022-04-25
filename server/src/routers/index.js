@@ -14,9 +14,11 @@ routes.use('/test', function (req, res, next) {
     res.io.emit('socketToMe', 'test')
     res.send('respond with a resource.')
 })
+
 routes.post('/signin', USER_SIGNIN, (req, res, next) => {
     login(req, res)
-})
+}) 
+
 routes.get('/signout', (req, res) => {
     logout(req, res)
 })

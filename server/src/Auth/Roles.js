@@ -7,7 +7,7 @@ module.exports = {
         if (roleChild.length > 0) {
             role = role + roleChild.reduce((accumulator, currentValue) => accumulator + currentValue)
         }
-        return role
+        return role 
     },
     signRoleChild: (roleChild = []) =>{
         let role = 0
